@@ -1,0 +1,266 @@
+.header {
+
+    .nav-active {
+
+         @include breakpoint(phone) {
+            display: block;
+        }
+
+    }
+
+    @include linearGradient(#3a3a3a, #000);
+
+    .toggle-nav {
+        display: none;
+
+        @include background-image(/images/v2/hamb-menu, png, 100%, center, no-repeat, false);
+        cursor: pointer;
+        float: right;
+        margin-top: 13px;
+        margin-right: 20px;
+        height: 36px;
+        width: 44px;
+
+        @include breakpoint(tablet) {
+            display: block;
+            margin-top: 30px;
+        }
+
+        @include breakpoint(phone) {
+            margin-top: 13px;
+        }
+    }
+
+    .mobile-add-credits {
+        display: none;
+        float: right;
+        margin-top: 31px;
+        margin-right: 10px;
+        padding: 8px 20px;
+
+        @include breakpoint(tablet) {
+            display: inline-block;
+        }
+
+        @include breakpoint(phone) {
+            display: inline-block;
+            margin-top: 14px;
+        }
+    }
+
+    // logo
+    &-logo {
+        margin: 20px 0 20px 20px;
+    }
+
+    // content-holder
+    &-content-holder {
+        margin-top: 25px;
+
+        @include breakpoint(tablet) {
+            display: none;
+            clear: both;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+    }
+
+    // navigation
+    &-navigation {
+        display: inline-block;
+
+        & ul {
+            @include list-reset;
+
+            & li {
+                display: inline-block;
+                line-height: 1.7;
+                margin-right: 18px;
+            }
+        }
+    }
+
+    // search-form
+    &-profile-options,
+    &-user-options {
+        display: inline-block;
+        margin-right: 10px;
+
+        a {
+            margin-right: 10px;
+        }
+    }
+
+    &-user-options {
+        @include breakpoint(tablet) {
+            float: right;
+            margin-top: -15px;
+            position: absolute;
+            top: 40px;
+            right: 0;
+        }
+    }
+
+    &-profile-options {
+        @include breakpoint(tablet) {
+            float: right;
+            margin-top: -15px;
+            position: absolute;
+            top: 40px;
+            right: 0;
+        }
+        p {
+            @include border-radius(5px);
+            background-color: #1f1f1f;
+            border: 1px solid #fff;
+            color: $color-text;
+            display: inline-block;
+            height: 47px;
+            line-height: 47px;
+            margin-top: 0;
+            padding: 0 10px;
+            text-align: left;
+            width: 130px;
+        }
+
+        .search-options {
+            @include background-image(/images/v2/search-option, png, 100%, center, no-repeat, false);
+            background-color: transparent;
+            border: none;
+            display: inline-block;
+            float: right;
+            height: 20px;
+            margin-right: 0;
+            margin-top: 13px;
+            width: 20px;
+        }
+    }
+}
+
+// volume controls
+.player{
+    display: inline-block;
+    float: right;
+    margin-right: 15px;
+    text-align:right;
+    padding-top: 38px;
+    position:relative;
+
+    @include breakpoint(tablet) {
+        display: none;
+    }
+
+    &-controls {
+        display: inline-block;
+    }
+
+    .audio-icon {
+        @include background-image(/images/v2/audio-icon, png, 100%, center, no-repeat, false);
+        display: inline-block;
+        height: 30px;
+        margin-left: 15px;
+        width: 18px;
+
+        &.active {
+            @include background-image(/images/v2/audio-icon-off, png, 100%, center, no-repeat, false);
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .volume-icon {
+        @include background-image(/images/v2/volume-icon, png, 100%, center, no-repeat, false);
+        display: inline-block;
+        height: 25px;
+        margin-left: 15px;
+        width: 25px;
+
+        &.active {
+            @include background-image(/images/v2/volume-icon-off, png, 100%, center, no-repeat, false);
+            height: 26px;
+            width: 26px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .playpause-holder {
+        display: inline-block;
+
+        p {
+            display: inline-block;
+            font-weight: bold;
+            margin: 0 5px;
+            vertical-align: super;
+
+            &.mute {
+                color: #757575;
+            }
+        }
+
+        .playpause {
+            background-color: black;
+            border: 3px solid #fff;
+            border-radius: 20px;
+            display: inline-block;
+            height: 17px;
+            width: 40px;
+
+            .playpause-button {
+                border-radius: 50%;
+                cursor: pointer;
+                background-color: #fff;
+                margin-top: -1px;
+                margin-left: 21px;
+                height: 19px;
+                transition: .4s all;
+                width: 19px;
+
+                &.active {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+.volume, #progressbar{
+    border:none;
+    height:100px;
+}
+
+.volume{
+    background: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    height: 4px !important;
+    width: 45px;
+}
+
+#progressbar{
+    background:#fff;
+}
+
+.ui-slider-handle{
+    cursor: pointer !important;
+    top: -7px !important;
+    width: 3px !important;
+    height: 15px !important;
+    margin-left:-5px !important;
+}

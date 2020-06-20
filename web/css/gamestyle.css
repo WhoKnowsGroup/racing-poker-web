@@ -1,0 +1,309 @@
+/* 
+    Document   : gamestyle
+    Created on : Aug 21, 2012, 11:35:36 AM
+    Author     : Nikita Dandekar
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+html{
+    padding: 0;
+    margin: 0;
+}
+body {
+    height: 100%;
+    width: 100%;
+    padding : 0;
+    margin : 0;
+    font : 12px/16px 'Arial', Helvetica, sans-serif;
+    color : #8F8F8F;
+    background:#070707 url(../images/main-bg.gif) top left repeat-x;
+}
+td{font : 12px/16px 'Arial', Helvetica, sans-serif;
+   color : #8F8F8F;}
+div, h1, h2, h3, h4, p, img, ul, ol, li, form, input, textarea {
+    padding : 0;
+    margin : 0;
+}
+p {
+    padding : 0 0 8px 0;
+    margin : 0;
+}
+ul {
+    list-style : none;
+}
+img {
+    outline : none;
+    border : none;
+}
+a {
+    outline : none;
+    text-decoration : none;
+}
+
+/*-------------------x----------------*/
+
+/*-------------------x----------------*/
+
+/*----------------start header---------------*/
+#header{
+    height:182px;
+   margin: 0 auto;
+    width: 100%;
+    background:url(../images/poker.png) top left no-repeat;}
+#logo{ padding:26px 0 0 12px; font-size:11px; color:#705F38; font-style:italic;}	
+/*----------------end header---------------*/
+/*----------------start menu---------------*/
+.examples{
+
+/*    background: url(bbappworldx-web.jpg);*/
+}
+#menu{
+    border-top:#913E3E 1px solid;
+    border-bottom:#1E0D0D 1px solid; 
+    background:url(../images/menu-bg.gif) top left repeat-x;}
+#menuBg2{ background:url(../images/menu-bg2.gif) top left no-repeat; padding:9px 0 9px 0;}
+#menu a{
+    color:#E2DCDC;
+    padding:0 17px 0 17px;
+}
+#menu a:hover{ color:#E98145;}		
+/*----------------end menu---------------*/
+/*----------------start meinContant---------------*/
+
+#meinContantInner{
+    
+    padding:0px 0 0 0;
+    width:1160px;
+    margin: 0px;
+    text-align:center;
+    background:url(../images/maincontant-bg2.gif) top right no-repeat;
+}
+/*----------------end meinContant---------------*/
+/*----------------start leftPanel---------------*/
+.leftPanelbox{ 
+    width:254px;
+    background:url(../images/left-hading-bg.gif) top left no-repeat;
+    padding:0 0 15px 0;}
+.leftHading{
+    padding:19px 0 0 20px;
+}
+.leftHading td{ 
+    font-size:18px;
+    color:#fff;
+
+}
+.leftMid{ 
+    padding:10px 22px 0 25px;}
+.leftMid li{
+    padding-left:5px;
+    background:url(../images/dot1.gif) bottom left repeat-x;
+}	
+.leftMid a{ 
+    background:url(../images/arrow2.gif) top left no-repeat;
+    padding:5px 15px 7px 15px;
+    display:block;
+    color:#9D1111;
+    height:1%;
+}
+.leftMid a:hover{ color:#999999; text-decoration:underline;}
+.poker{ 
+    padding:10px 22px 0 25px;}
+.poker li{ 
+    padding-left:5px;
+    background:url(../images/dot1.gif) bottom left repeat-x;}	
+.poker a{ 
+    background:url(../images/arrow2.gif) top left no-repeat;
+    padding:5px 0px 12px 15px;
+    display:block;
+    color:#8F8F8F;
+    height:1%;
+}
+.poker a:hover{ color:#fff; text-decoration:underline;}
+.border{ border:#000 1px solid;}
+.grayBorder{ border:#434B4C 1px solid;}
+
+/*.addbox{ padding:20px 0 20px 0 ; text-align:center;}*/
+.addbox{ 
+    padding:10px 22px 0 25px;
+    text-justify: auto;
+    }
+.addbox li{ 
+    padding-left:10px;
+    list-style-type:inline;
+
+}
+.addbox{
+    /*     padding:10px 22px 0 25px;*/
+    padding:5px 0px 12px 15px;
+    display:block;
+    color:#8F8F8F;
+    height:1%;
+    text-align: match-parent;
+}
+/*#welcomeOuter{  width:680px;top: 0;}*/ 
+/*#welcomeInner{ width:680px; min-height:400px;top: 0;}*/ 
+/*#welcome{ margin:0 0 10px 30px; width:680px;}*/
+.pageHeading{ font-size:20px; font-weight:normal; color:#791010; padding:8px 0 12px 0;}
+.whiteLink{ color:#D7D7D7; text-decoration:underline; font-weight:bold;}
+.whiteLink:hover{ color:#B80D0D; text-decoration:none;}
+.whiteText{ color:#fff;}
+.redText{ color:#AF1E1E;}
+.redLink{ color:#AF1E1E; }
+.redLink:hover{ color:#fff; text-decoration:underline;}
+
+.fontSize14{ font-size:14px; color:#DFDFDF; line-height:20px;}
+.fontSize18{ font-size:18px; color:#fff; line-height:30px;}
+.fontSize20{ font-size:20px; color:#fff; line-height:30px;}
+.fontSize24{ font-size:24px; color:#fff; line-height:30px;}
+.fontSize36{ font-size:36px;  line-height:40px;}
+
+
+.chartBox{ 
+    background:#130E0E url(../images/bg1.gif) top center no-repeat; 
+    border-right:#070707 0px solid;
+    text-align: left;
+}
+
+.chartBoxHeading {
+    
+   
+
+}
+.chartBoxContent td{
+    color:#DFDFDF;
+    padding:12px 0 12px 12px;
+    border-bottom:#070707 1px solid;  
+    border-left:#070707 1px solid;
+    background:#0F0F0F;
+
+}
+/*----------------start footer---------------*/
+#footer_bg{
+    padding:20px 0 0 0;
+    line-height:18px; 
+    background:url(../images/footer-bg.gif) top center no-repeat;}
+#footer{ color:#E7E7E7;}
+#footer a{ 
+    color:#E7E7E7;
+}
+#footer a:hover{ color:#FF9900;}
+#footer .footerRedLink{ color:#AF1E1E; text-decoration:underline;}
+#footer .footerRedLink:hover{ color:#fff; }
+.copyright{ color:#B43131; font-size:11px;}		
+/*----------------end footer---------------*/
+
+#contactForm input{ border:0px; padding:2px;}
+
+
+/*-------------------textfiled--------------*/
+.textFiled{
+    font-size: small;
+    border: #8B0000 1px  solid;
+}
+.profile{
+    font-family:verdana; font-size: medium;
+    color: #B80D0D;
+}
+
+
+
+.otherbutton {
+	clear: both;
+	position:relative;
+	display:block;
+	height: 64px;
+	width: 570px;
+	background:url(../images/contact.png) no-repeat;
+	background-position:0 0;
+	cursor: pointer;
+}	
+.otherbutton span.hover {
+	position: absolute;
+	display: block;
+	height: 64px;
+	width: 570px;
+	background: url(../images/contact.png) no-repeat;
+	background-position: bottom;
+}
+
+/* Right Section */
+.rightPanelbox{ 
+    width:254px;
+    background:url(../images/left-hading-bg.gif) top right no-repeat;
+    padding:0 0 15px 0;}
+.rightHading{
+    padding:0 19px 0 20px;
+}
+
+/* calc button style */
+
+.btnstyle{
+    width: 70px;
+    height: 30px;
+}
+
+#leftpic {
+    background:url(../images/bg-pokerace.png) top left no-repeat; 
+    background-size: cover;
+}
+
+.exitover:hover {
+    color : #B80D0D;
+}
+
+.exitover {
+    color: wheat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

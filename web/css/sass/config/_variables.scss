@@ -1,0 +1,46 @@
+// font
+$font-family: 'Open Sans', sans-serif;
+$font-size: 14px;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$line-height: 1.4;
+
+// colors
+$color-background: #202020;
+$color-primary: #29b9e3;
+$color-text: #fff;
+$color-link-default: #fff;
+$color-link-hover: #bbbbbb;
+$color-hr: #ccc;
+$color-heading: #fff;
+$color-line: #ccc;
+
+// margins
+$margin-default: 20px;
+$padding-default: 20px;
+
+// responsive mode
+$responsive-mode: 'fluid'; // options: 'fluid' or 'fluid-fixed'
+
+// break points
+$tinyphone: 400px;
+$phone: 575px;
+$phablet: 767px;
+$tablet: 991px;
+$desktop: 1199px;
+
+// grid
+$column-number: 12;
+$column-gap: 30px;
+$width-grid: 1170px;
+
+// image path
+$image-path: '/images/v2/';
+
+// retina image suffix
+$image-suffix: '-2x';
+
+// font path
+$font-path: '/fonts/';

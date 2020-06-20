@@ -1,0 +1,238 @@
+<html lang="en">
+<head>
+ <title>Kentucky Tournament</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+ <link rel="stylesheet" href="" />
+ <style>
+    
+     @media (min-width:1200px)
+     {
+        .container {
+               
+                   }
+         
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+   .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: grey;  /*Sets the text hover color on navbar*/
+}
+
+  .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: white; /*BACKGROUND color for active*/
+background-color: #000000;
+}
+
+  .navbar-default {
+    background-color: #0f006f;
+    border-color: #000000;
+}
+
+  .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+    color: #262626;
+   text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+   }
+
+ .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: silver; /*Change rollover cell color here*/
+  }
+ .navbar-default  .navbar-nav > li > a {
+   color: white; /*Change active text color here*/
+    }
+ 
+  .navbar-default  .navbar-brand  {
+   color: white; /*Change active text color here*/
+    }
+     
+ </style>
+ <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="Login_script.js" > </script>
+ <script type="text/javascript" src="load_online_tournaments.js" > </script>
+ <script type="text/javascript" src="user_details.js" > </script>
+ <script type="text/javascript" src="load_recent_winners.js" > </script>
+ <script type="text/javascript" src="Username_valid.js" > </script>
+  <script type="text/javascript" src="Google_script.js" > </script>
+  <script type="text/javascript" src="load_tournaments.js" > </script>
+ <script>
+ $(document).ready(function(){
+ //alert("in the tournament");
+ //$('#login_popup1').modal('show');
+ var tournaments_length = 0;
+ var high_tournaments_length =0;
+ var mid_tournaments_length =0;
+ var entry_tournaments_length =0;
+ var one_tournaments_length =0;
+ $.getJSON("/Tournament_list", { "command" : "tournament_list" }, function(data){ 
+        // alert("Tournament_list");
+         
+ });
+ 
+ 
+ });
+ 
+ function clicked_link(id)
+            {
+                var click = id ;
+                 console.log(click);
+               id = id.replace(/"/gi,"");
+              
+               //alert("in the result");
+                $.getJSON("/FrontControl", {"clicked" : id, "command" : "clicked" }, function(data){ 
+                     //alert(data.result);
+                    //return false;
+                     if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                            
+                                 sessionStorage.clicked = id;
+                             
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+                        
+                    window.location.href = "bootstrap_tournament_details.html";
+                });
+                //alert("JSON failed") ;
+               
+            }
+ 
+ 
+  function login_pop1()
+  {
+      $('#login_popup1').modal('show');
+  }
+ 
+ </script>
+</head>
+<body>
+ <div>   
+ 
+   
+   
+    <div class="row">
+        <br/>
+    </div>
+       <div class="row">
+    
+          <div class="container">     
+           <div class="col-xs-12" style="background:#444444; border-radius: 16;color:#ffffff">
+               
+                   <div class="row" style="text-align:justfy">
+                      
+                       <div class="col-xs-11">
+                            <br/> 
+                           <strong style="font-size:18">  Unauthorized </strong> 
+                           <br/>
+                           <br/>
+                               <h4> Due to legal restrictions in your region, you are not allowed to access this site</h4>
+                               <p>Racing Poker is only available in the United States, Canada, UK, Australia and New Zealand. If you use a VPN in these countries you may also be restricted, please connect to Internet via your ISP.</p>
+                               <p>If you feel that you're seeing this message in error, please <a style="text-decoration: underline;" href="https://support.maxmind.com/geoip-faq/geoip2-and-geoip-legacy-databases/how-accurate-are-your-geoip2-and-geoip-legacy-databases/" target="_blank">click here for support</a>.</p> 
+                       </div>
+                   </div>
+               </div>
+           </div>
+          
+       </div>   
+           
+    </div>
+    
+    </div>
+    <div class="row">
+        <br/>
+        
+    </div>
+   
+    </div>
+    <div class="modal fade" id="login_popup1" tabindex="-1" role="dialog" aria-labelledby="login_popup1" aria-hidden="true">
+    <div class="modal-md modal-dialog" style="background:#070D0D" >
+         <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+        
+        <script type="text/javascript" src="facebooklogin_script.js" > </script>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h4 class="modal-title" id="myModalLabel" style="color:#E77817"> Kentucky Poker Login</h4>
+            <div id="error_message"> </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6"> 
+                        <div  id="form_login" class="form-group">
+                            <form id='login_form' autocomplete="on" action="Login_form">
+                            <label for="email_login">Email:</label>
+                           <input  type="email" class="form-control" name="email_login" id="email_login" placeholder="Email" value="">
+                           <br>
+                         
+                           <label for="password_login" >Password:</label>
+                           <input  type="password" class="form-control" name="password_login" id="password_login" value="" autocomplete="off">
+                          
+                           </form>  
+                            <br/>
+                            <button type="button" class="btn btn-success" id="login" onclick="login()"  > Login </button>
+                            <a id="Forgotpassword"  onclick="clicked(this.id)" style="color:#B80D0D" > Forgot Password </a>  
+                              
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                     
+                    </div>
+                    <div class="col-xs-5">
+                        <h4> Social Media Login </h4>
+                        <!p> Login with below social network sites.
+                        <div id="fb-root">  
+                   </div>
+                <fb:login-button data-scope="public_profile,email,user_friends" onlogin="checkLoginState();" data-size="xlarge" > 
+                </fb:login-button>
+                 <br/>
+                 <br/>
+                 <div id="gSignInWrapper">
+                 <div id="myButton" >
+                 <button class="btn" style="background:#d34836;color:white;" onclick="handleClientLoad()">  Sign in with Google+ </button>
+                  </div>
+                 </div>
+                
+                    </div>
+                </div>
+            </div>
+             <div class="modal-footer">
+                               
+             </div> 
+    </div>
+  </div>
+</div>
+    <footer class="footer" style="background: #444444; text-align: center; height:50 ; padding: 5; color:whitesmoke;position: absolute;bottom:0;width:100%">
+        <div class="container">
+            <p> @1999 - 2016 Copy rights reserved at Pokerace Pvt. Ltd. </p>
+        </div>
+    </footer>
+</body>
+</html>

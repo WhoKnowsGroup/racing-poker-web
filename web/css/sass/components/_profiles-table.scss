@@ -1,0 +1,44 @@
+.profiles-table {
+    background-color: $color-background;
+    list-style: none;
+    padding: 5px 15px;
+
+    @include breakpoint(tablet) {
+        padding: 0 15px;
+    }
+
+    li {
+        margin: $margin-default 0;
+
+        @include breakpoint(phablet) {
+            margin: 10px;
+        }
+    }
+
+    img {
+        @include border-radius(50%);
+        float: left;
+        height: 50px;
+        margin-right: 13px;
+        width: 50px;
+
+        @include breakpoint(phablet) {
+            height: 35px;
+            width: 35px;
+        }
+    }
+
+    p {
+        display: inline-block;
+        color: $color-text;
+        font-weight: bold;
+        margin: 4px 0 0;
+    }
+
+    span {
+        display: inline-block;
+        color: #9db2bb;
+        font-weight: normal;
+        margin-top: 4px;
+    }
+}

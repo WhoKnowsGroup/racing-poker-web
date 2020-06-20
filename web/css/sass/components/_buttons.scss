@@ -1,0 +1,29 @@
+.btn {
+    @include border-radius(5px);
+    display: inline-block;
+    padding: 16px 24px;
+
+    &.btn-green {
+        background-color: #029e73;
+
+        &:hover {
+            background-color: #065640;
+        }
+    }
+
+    &.btn-orange {
+        background-color: #f26522;
+
+        &:hover {
+            background-color: #9e3e11;
+        }
+    }
+
+    &.btn-yellow {
+        background-color: #f2bd22;
+
+        &:hover {
+            background-color: #dfa702;
+        }
+    }
+}

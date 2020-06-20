@@ -1,0 +1,130 @@
+.mobile-menu {
+    @include transition(all .3s ease);
+    background: rgba(0,0,0, .8);
+    display: none;
+    height: 100vh;
+    position: fixed;
+    right: -200%;
+    top: 0;
+    width: 100%;
+    z-index: 5000;
+
+    &.active {
+        right: 0;
+    }
+
+    @include breakpoint(tablet) {
+        display: block;
+
+    }
+
+    &-content {
+        background: #fff;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 95%;
+
+        &-header {
+            height: 80px;
+
+            .official-logo.light  {
+                @include background-image(/images/v2/logo-light, png, 100%, center, no-repeat, false);
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+
+            .close-menu {
+                @include background-image(/images/v2/close, png, 100%, center, no-repeat, false);
+                color: #252525;
+                cursor: pointer;
+                display: inline-block;
+                font-weight: bolder;
+                height: 15px;
+                margin-right: 40px;
+                margin-top: 35px;
+                width: 15px;
+            }
+
+            // mobile sound and music player
+            .mobile-player {
+                display: block;
+                padding-top: 27px;
+
+                .volume-icon {
+                    @include background-image(/images/v2/volume-icon-reverse, png, 100%, center, no-repeat, false);
+                    margin-bottom: 2px;
+
+                    &.active {
+                        @include background-image(/images/v2/volume-icon-off-reverse, png, 100%, center, no-repeat, false);
+                    }
+                }
+
+                .audio-icon {
+                    @include background-image(/images/v2/audio-icon-reverse, png, 100%, center, no-repeat, false);
+
+                    &.active {
+                        @include background-image(/images/v2/audio-icon-off-reverse, png, 100%, center, no-repeat, false);
+                    }
+                }
+            }
+        }
+
+        &-body {
+            @include momentum-scroll;
+            @include box-sizing(border-box);
+            height: calc(100vh - 80px);
+            width: 100%;
+
+            &-buttons {
+                padding: 0 20px;
+                & .btn {
+                    @include box-sizing(border-box);
+                    margin-bottom: 20px;
+                    text-align: center;
+                    width: 100%;
+
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+
+                .fb-follow {
+                    background-color: #3b5998;
+
+                    &:active {
+                        background-color: #183677;
+                    }
+
+                    span {
+                        @include background-image(/images/v2/fb-logo, png, 100%, center, no-repeat, false);
+                        display: block;
+                        float: left;
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+            }
+
+            &-nav {
+                @include list-reset;
+                margin-bottom: 30px;
+
+                &-item {
+                    border-bottom: 1px solid #252525;
+
+                    &:first-child {
+                        border-top: 1px solid #252525;
+                    }
+
+                    a {
+                        color: #7f8080;
+                        display: block;
+                        padding: 15px 20px;
+                    }
+                }
+            }
+        }
+    }
+}

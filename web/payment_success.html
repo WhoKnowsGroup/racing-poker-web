@@ -1,0 +1,313 @@
+
+<html lang="en">
+<head>
+ <title>Racing Poker | Online Poker</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="keywords" content="Poker,racing poker,online poker,poker tournaments,players">
+ <meta name="application-name" content="Racing Poker">
+ <meta name="author" content="Pokerace Team">
+ <meta property="og:image" content="https://www.racingpoker.com/images/racingpoker-logo9.png">     
+ <link rel="icon" href="./images/racingpoker-logo9.png" />
+ <link rel="stylesheet" href="./css/bootstrap_min.css" />
+ <link rel="stylesheet" href="./templates/PageStyleSheets.css" />
+ <link rel="stylesheet" href="./templates/PageLayout.css" />
+ <script src="./Jquery/jquery_min.js"></script>
+ <script src="./Jquery/bootstrap_min.js"></script>
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                        
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+  
+ </style>
+  
+ <script>
+ $(document).ready(function(){
+ //alert("in the tournament");
+ //$('#login_popup1').modal('show');
+             $('#payment_information').hide();
+            if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                               console.log(username);
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+             
+             //alert(username);
+             $.getJSON("/FrontControl", {"username" : username, "command" : "verify" }, function(data){ 
+                 
+                 if(data.result === "success")
+                 {
+                  //alert("success")   ;
+                 }
+                 
+                else
+                {
+                    connection_check();
+                    //window.location.href="index.html";
+                    return false;
+                }
+                 
+             });
+             var user_coins ;
+             var user_level ;
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                       // alert(data.user_detail);
+                        var user_split = data.user_detail.split(",");
+                        var user_credit = user_split[1];
+                        var user_fname = user_split[2];
+                        var user_lname = user_split[3];
+                        var user_nname = user_split[0];
+                        
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var user_wins = "2";
+                         if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                               console.log(username);
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                           }
+                          var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"bootstrap_profile" + ".html\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" "+"<a href=\"bootstrap_history.html\"class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-user\"></span>" +"History"+"</a>"+" "+"<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        var div2 = document.getElementById("welcome");
+                        div2.innerHTML = "<h4>" + "Welcome" + "&nbsp;" +user_nname + ",";
+                        var div3 = document.getElementById("credits");
+                        div3.innerHTML = "<em> <span>" + user_credit + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + user_coins + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    
+    });
+    
+    
+     var amount = sessionStorage.Payment_amount;
+     var transaction_id = sessionStorage.Transaction_id;
+     var credits = sessionStorage.Credits;
+     if(sessionStorage.Approval_status == "requested" || sessionStorage.Approval_status == "confirmed" )
+     {
+     
+   	 //FIXME:  retire this page and also 'Process_payment_success' server-side method; don't use sessionStorage to track purchase state
+     $.getJSON("/Process_payment_success", {"Username" : username, "Amount" : amount , "Transaction_id" : transaction_id, "Description" : "Pay-pal","Credits" : credits , "Bitlets" : "0.0" }, function(data){ 
+         
+          $('#payment_information').show();
+          sessionStorage.Approval_status = "confirmed"; 
+         if(data.result === "success")
+         {
+           var credits  = data.Credit ;
+           
+            var div3 = document.getElementById("credits");
+            div3.innerHTML = "<em> <span>" + credits + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+            div3.innerHTML += "<em> <span>" + user_coins + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+            div3.innerHTML += "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+            
+            var transaction_div = document.getElementById("Transaction_id");
+            transaction_div.innerHTML = "Transaction id :" + transaction_id;
+            
+            var amount_div = document.getElementById("Payment_amount");
+            amount_div.innerHTML = "Total Amount :" + amount ;
+            
+            var credits_div = document.getElementById("Credits_credited");
+            credits_div.innerHTML = "Credits Added " + sessionStorage.Credits ;
+            
+         }
+         
+         else
+         {
+              var transaction_div = document.getElementById("Transaction_id");
+            transaction_div.innerHTML = "Transaction id :" + transaction_id;
+            
+            var amount_div = document.getElementById("Payment_amount");
+            amount_div.innerHTML = "Total Amount :" + amount ;
+            
+            var credits_div = document.getElementById("Credits_credited");
+            credits_div.innerHTML = "Credits Added " + sessionStorage.Credits ;
+         }
+     });
+    }
+    else
+    {
+        alert("You are not authorized to see content.");
+        window.location.href = "index.html";
+    }
+   
+ });
+ 
+ function clicked_link(id)
+            {
+                var click = id ;
+                 console.log(click);
+               id = id.replace(/"/gi,"");
+              
+               //alert("in the result");
+                $.getJSON("/FrontControl", {"clicked" : id, "command" : "clicked" }, function(data){ 
+                     //alert(data.result);
+                    //return false;
+                     if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                            
+                                 sessionStorage.clicked = id;
+                             
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+                        
+                        
+                    window.location.href = "bootstrap_tournament_details.html";
+                });
+                //alert("JSON failed") ;
+               
+            }
+            
+  
+ 
+ </script>
+</head>
+<body>
+ 
+ <div class="navbar navbar-custom navbar-fixed-top" >
+    <div class="navbar-inner header">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+        <a class="navbar-brand" href="/u/home" > Racing Poker&trade; </a> 
+    </div>
+    <div id="myNavbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="learn_game.html" style=""> Game Rules</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+         
+            </ul>
+            <form class="navbar-form navbar-right" >
+                <div id="user_profile" style="color:white">
+            <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#login_popup1"> <span class="glyphicon glyphicon-log-in"> </span>&nbsp; Login </button>
+             <a href="register.html" class="btn btn-success"><span class="glyphicon glyphicon-user"></span>Sign up </a>
+                </div>
+        </form>
+                 
+    </div>
+    </div>
+    </div>
+   </div>
+   <br/>
+   <br/>
+   <br/>
+   <br/> 
+   
+    
+     <div class="row">
+         <br/>
+         
+     </div>
+       <div class="row">
+    
+        <div class="container">
+                    
+           <div class="bg-row" style="" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="welcome">
+                       <h4>  </h4>
+                   </div>
+                   
+                   
+               </div>
+              
+               
+               <div class="row" style="">
+                   
+                   
+                   <div class="col-xs-12">
+                   <div style="" >
+                        <div class="col-xs-3" style=""> <strong> Current Credits: </strong></div>
+                        <div id="credits" class="col-xs-6 online" style=""> </div>
+                        
+                   </div>
+                       <br/>
+                       <br/>
+                      
+                   
+               </div>
+               </div>
+               <div id="payment_information" style="" >
+                   <br/>
+                   <h5> Congratulations, </h5> <p> Your payment is successful. Your transaction details are </p>
+                   
+                   <div id="Transaction_id" ></div>
+                   <div id="Payment_amount" ></div>
+                   <div id="Credits_credited"></div>
+                   
+                   <p> Please Click on Home tab, to return to Home page . </P>
+      
+                   
+               </div>
+              
+               
+           </div>
+          
+       </div>   
+           
+    
+    
+    </div>
+    
+   
+    <div class="row">
+        <br/>
+        
+    </div>
+    <!--footer-->
+    <div class="row"> 
+   <div class="footer" >
+      <div class="container" >
+          <p class="text-muted" style="color:#fff;text-align: center;"> <span> <kbd> 18+ </kbd> &nbsp;</span> <span> | </span> <span> Secured by <img src="./images/paypal_curved.png"  height="30"/> </span> | <span> &COPY;</span> <span> Copy rights (1999 - 2016) reserved by Pokerace Pty Ltd </span> </p>
+      </div>
+    </div>
+    </div>    
+   <script type="text/javascript" src="user_details.js" > </script>
+</body>
+</html>

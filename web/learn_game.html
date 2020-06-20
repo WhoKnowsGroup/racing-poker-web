@@ -1,0 +1,492 @@
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="keywords" content="Poker,racing poker,online poker,poker tournaments,players">
+ <meta name="application-name" content="Racing Poker">
+ <meta name="author" content="Pokerace Team">
+ <meta property="og:image" content="https://www.racingpoker.com/images/racingpoker-logo9.png">     
+ <link rel="icon" href="./images/racingpoker-logo9.png" />
+ <link rel="stylesheet" href="./css/bootstrap_min.css" />
+ <link rel="stylesheet" href="./templates/PageStyleSheets.css" />
+ <link rel="stylesheet" href="./templates/PageLayout.css" />
+ <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/highslide/highslide.css" />
+ <link rel="stylesheet" href="" />
+ <style>
+    
+     @media (min-width:1200px)
+     {
+        .container {
+                       
+                   }
+         
+     }
+     em {
+          color:#f6a828;
+     }  
+     a:hover {
+         color:#ffffff;
+     }
+     a{
+         color:#ffffff;
+     }
+    
+ </style>
+ <script src="./Jquery/jquery_min.js"></script>
+ <script src="./Jquery/bootstrap_min.js"></script>
+ <script>
+ var count =0;
+ $(document).ready(function(){
+ //alert("in the tournament");
+ $('#help_popup').modal('show');
+  change_list("game_rules");
+ });
+ 
+ function change_list(id)
+ {
+     if(id == "demo_link")
+     {
+          $("#playlink").hide();
+          $("#levels_bonuses").hide();
+          $("#gamerules").hide();
+          $("#demo").show();
+           var heading = document.getElementById("heading");
+         heading.innerHTML = "Demo";
+     }
+     
+     if(id == "game_rules")
+     {
+         //alert(count);
+         $("#playlink").hide();
+          if(count > 0)
+          $('#help_popup').modal('hide');
+          $("#demo").hide();
+          $("#levels_bonuses").hide();
+         
+         $("#gamerules").show();
+          var heading = document.getElementById("heading");
+         heading.innerHTML = "Game Rules";
+         count++;
+     }
+     if(id == "play_link")
+     {
+         $("#gamerules").hide();
+         $("#playlink").show();
+          $("#levels_bonuses").hide();
+          $("#demo").hide();
+          $('#help_popup').modal('hide');
+         var heading = document.getElementById("heading");
+         heading.innerHTML = "How to play";
+         
+         
+     }
+     
+     if( id == "levels")
+     {
+         $("#gamerules").hide();
+         $('#help_popup').modal('hide');
+         $("#playlink").hide();
+         $("#demo").hide();
+         $("#levels_bonuses").show();
+          var heading = document.getElementById("heading");
+         heading.innerHTML = "Levels and Bonuses";
+     }
+ }
+ 
+  function login_pop1()
+  {
+      $('#login_popup1').modal('show');
+  }
+ 
+ </script>
+</head>
+<body>
+ <div class="navbar navbar-custom navbar-fixed-top" >
+    <div class="navbar-inner header">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+        <a class="navbar-brand" href="/u/home" > Racing Poker&trade; </a> 
+    </div>
+    <div id="myNavbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="learn_game.html" style=""> Game Rules</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+         
+      </ul>
+      <form class="navbar-form navbar-right" >
+            <div id="user_profile" style="color:white">
+                 <a href="/r/guestModeV2"  onclick="navigate()" class="btn btn-primary" > guest mode</a>
+                 <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#login_popup1"> <span class="glyphicon glyphicon-log-in"> </span>&nbsp; Login </button>
+           
+            </div>
+        </form>      
+                 
+    </div>
+    </div>
+    </div>
+   </div>  
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+    <div class="row">
+   
+        <div class="container">
+            
+        
+            <div class="col-md-3 bg-row" style=" border-radius: 16px;border: 1px white solid;font-size:16;padding :15">  
+                <h4 style="text-align: center;color:white;;"> Get Started </h4> 
+                &nbsp;&nbsp; <a  id="game_rules" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span> Game Rules</a>  <br/>
+                &nbsp;&nbsp; <a  id="play_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span> How to play</a>  <br/>
+                &nbsp;&nbsp; <a  id="demo_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span> Demo</a>  <br/>
+                &nbsp;&nbsp; <a  id="levels" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span>  Levels and Bonuses </a><br/>
+                          </div>
+        
+           <div class="col-md-9 bg-row" style="border-radius: 16px;color:#ffffff;">
+               
+                       <br/>
+                        <div id="heading" style="font-size:16">  Game Rules </div> 
+                                                 
+                           <div id="gamerules" style="text-align: justify;">
+                               <p> Racing Poker &trade; Tournament is a game based on most of the rules of poker and played using a 52 card deck. </p>
+                               <p style=""> It contains six hands,every hand consists of five cards.</p>
+                               <p> In first step, 30  random cards will be dealt and useless cards are thrown back into deck. </p>
+                               <img src="./images/dealt_images.JPG" class="img-responsive" />
+                               <h5> Useful cards and useless cards: </h5>
+                               <p> The useless cards will be decided based on below rules</p>
+                               <table style="color:whitesmoke;">  
+                                            <tr>
+                                                <td align="left" valign="top"><div align="left">                      
+                                                        <p>Royal<br />
+                                                            Flush</p>
+                                                    </div></td>
+                                                <td  align="left" valign="top"><div align="left">                      
+                                                        <p><img src="./images/royalflush.gif" width="214" height="55" /></p>
+                                                    </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="top"><p>Straight<br />
+                                                        Flush</p>
+                                                </td>
+                                                <td align="left" valign="top"><p><img src="./images/straightflush.gif" width="214" height="55" /></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="top"><p>Four of <br />
+                                                        a Kind</p></td>
+                                                <td align="left" valign="top"><p><img src="./images/fourofakind.gif" width="214" height="55" /></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="top"><p>Full House</p></td>
+                                                <td align="left" valign="top"><p><img src="./images/fullhouse.gif" width="214" height="55" /></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="top"><p>Flush</p></td>
+                                                <td align="left" valign="top"><p><img src="./images/flush.gif" width="214" height="55" /></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" valign="top"><p>Straight</p></td>
+                                                <td align="left" valign="top"><p><img src="./images/straight.gif" width="214" height="55" /></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" align="left" valign="top"><p>All other combinations such as a Pair, two pairs and three of a kind are not considered to be a winning hand.</p></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                
+                                            </tr>
+                                            <tr>
+                                                To improve playing conditions Aces are always high.
+                                              <br/>  A Pair is thrown in favour of a possible flush or double
+                                              ended straight. <br/> Hand Hierarchy determines the winner. Royal Flush, Straight Flush, Four of a kind, Full house, Flush, Straight. <br/>Suit Hierachy is Hearts, Diamonds, Clubs, Spades.
+                                               <br/>
+                                            </tr>
+                                        </table>
+                              The below image represents useful cards after useless cards are discarded.
+                               <img class="img-responsive" src="./images/after_dealing.JPG" />
+                               Now you will be given 30 seconds to place bets on hand . To place a bet , please click on the hand .
+                                <img class="img-responsive" src="./images/Betbox.JPG" />
+                               After 30 seconds, the remaining cards in deck  will be used to next deal. If there is winning hand then it pops up and pays your bets
+                                <img class="img-responsive" src="./images/Winning_hand.JPG" />
+                                
+                               
+                           </div>
+                               <div id="playlink" style="text-align: justify;">
+                                   <p> Initially,Each player is given Racing Poker&trade; Tournament Credits after registering to become a member.</p>
+                                   <p> Please check your credits in current player section as described in below image. </p>
+                                   <img class="img-responsive" src="./images/Current_player.JPG" />
+                                   <p> Please wait for 20 seconds for other players to join in to the tournament </p>
+                                   <p> After every deal, you will be given 30 seconds time to place your bet. </p>
+                                   <p> To place bets, please click on the hand, who you want to place bet and it opens a bet box. </p>
+                                    <img class="img-responsive" src="./images/Betbox.JPG" />
+                                    <p> Please check your current bets in current bets section in web page. </p>
+                                    <img class="img-responsive" src="./images/Current_bets.JPG" />
+                                    <p> If you win your bet, it pays you the return amount on winning hand </p>
+                                    <img class="img-responsive" src="./images/Winning_hand.JPG" />
+                                    <p> You can observe your rank in the tournament in connected Player section </p>
+                                    <img class="img-responsive" src="./images/Connected_players.JPG" />
+                                    <p> At the end of tournament,  results pop up  to indicate your position in tournament.</p>
+                                    <img class="img-responsive" src="./images/Result.JPG" />
+                               </div>
+                               <div id="levels_bonuses" style="text-align: justify; ">
+                                   <p> Leveling </p>
+                                   <p> The player level indicates the expertise of each player.
+Based on your rank in the tournament, you will get rewarded with a level.
+If you finish first in a tournament, you will raise / increase one level up.
+These are varied based on the number of times you make a profit in a tournament.
+If you make a profit twice, you will get rewarded with a ‘2shot’ bonus (up to a maximum of ‘10shot’).</p>
+                                   <p> Bonuses </p>
+                                   <p> These are varied based on number of times you make a profit in a tournament </p>
+                                   <p> If you make profit twice, you will get rewarded with a 2shot bonus and at maximum of 10shot bonus</p>
+                                   <p> 2shot --- extra 10% of credits </p>
+                                   <p> 3shot --- extra 20% of credits </p>
+                                   <p> 4shot --- extra 30% credits, 1 bitlet </p>
+                                   <p> 5shot --- extra 40% credits, 2 bitlets, 1 player level </p>
+                                   <p> 6shot --- extra 50% credits, 3 bitlets , 1 player level </p>
+                                   <p> 7shot --- extra 60% credits, 4 bitlets, 1 player level </p>
+                                   <p> 8shot --- extra 70% credits, 5 bitlets, 1 player level</p>
+                                   <p> 9shot --- extra 80% credits, 30 bitlets, 3 player levels</p>
+                                   <p> 10shot --- extra 90% credits, 50 bitlets, 5 player levels</p>
+                               </div>
+                               <div id="demo" style="text-align: justify;" >
+                                   Demo mode explains how to play the game very quickly. 
+                                   <br/> Move  the mouse over different parts of the screen to activate the popup information windows .
+                                  <br/> The demo mode will also use popup windows to help you how to place bets on the hands.
+                          
+                                <br/>  Please note that the demo tournament will end after one hand wins a game.
+                                  <br/> Please click here to play the game in demo mode. 
+                                   <a href="/r/guestModeV2" style="color:#ffffff"> Link to demo mode </a>
+                               </div>
+                       </div>
+           </div>
+          
+       </div>   
+           
+   <br/>
+    <!--login Modal ---> 
+   
+    <div class="modal fade" id="login_popup1" tabindex="-1" role="dialog" aria-labelledby="login_popup1" aria-hidden="true">
+    <div class="modal-md modal-dialog" style="" >
+        <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+        
+        <script type="text/javascript" src="facebooklogin_script.js" > </script>
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h4 class="modal-title" id="myModalLabel" style="color:#E77817"> Racing Poker&trade; Login</h4>
+            <div id="error_message"> </div>
+            </div>
+            <div class="modal-body">  
+                <div class="row">
+                    <div class="col-xs-6"> 
+                        <div  id="form_login" class="form-group">
+                            <form id='login_form' autocomplete="on" action="Login_form">
+                            <label for="email_login">Email:</label>
+                           <input  type="email" class="form-control" name="email_login" id="email_login" placeholder="Email" value="">
+                           <br>
+                         
+                           <label for="password_login" >Password:</label>
+                           <input  type="password" class="form-control" name="password_login" id="password_login" value="" autocomplete="off">
+                          
+                           </form>  
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                     <button type="button" class="btn btn-success" id="login" onclick="login()"  > Login </button>
+                                </div>
+                                <div class="col-xs-6">
+                                    <a href="register.html" class="">&nbsp; &nbsp;Sign up ? </a> <br>
+                                    <a id="Forgotpassword" class="btn" onclick="forgot_load()" style="color:#B80D0D" > Forgot Password ? </a> 
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                        <p>|</p>
+                     
+                    </div>
+                    <div class="col-xs-5">
+                        <h4> Social Media Login </h4>
+                        
+                        
+                         <br/>
+                        <div id="social_media" class="btn">
+                        <div id="fb-root">  
+                   
+                <fb:login-button data-scope="public_profile,email,user_friends" onlogin="checkLoginState();" data-size="large" > Login with Facebook
+                </fb:login-button> </div>
+                 <br/>
+                
+                 <div class="google_login btn" style="background:#d34836;color:white;" onclick="handleAuthClick()"> <span> <img src="./images/google_plus.png" /></span> &nbsp; Signin with Google+</div>           
+                    </div>
+                    </div>
+                </div>
+            </div>
+             <div class="modal-footer">
+                  
+                
+             </div>
+    </div>
+  </div>
+</div>
+    
+     <!--Login Registration facebook-->
+  
+   <div class="modal fade" id="login_popup2" tabindex="-1" role="dialog" aria-labelledby="login_popup2" aria-hidden="true">
+    <div class="modal-md modal-dialog" style="background:#070D0D" >
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h4 class="modal-title" id="myModalLabel" style="color:#E77817"> Setting up Account</h4>
+            <div id="error_message2"> </div>
+            </div>
+            <div class="modal-body">
+                <h3> Please choose nickname </h3>
+                <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="snname" > &nbsp; &nbsp; Nick Name:</label> </div>
+                            <div class="col-xs-8">    
+                                <input  type="text" name="snname" id="snname" placeholder="Nick name" value="" style="color:#000000"> </div>
+                           <br>
+                            </div>
+                <br/>
+                <label> <input id="age"  type="checkbox" onChange="display_register()" value="age_accept" /> I am over 18/21 years of age whichever is permitted by my country/state law and I am permitted to play games of chance for fun </label> <br/>
+                   &nbsp; &nbsp; &nbsp;   <label> <input id="terms"  type="checkbox" onChange="display_register()" value="terms_accept" /> I accept the <a href="" style="text-decoration: underline" data-toggle="modal" data-target="#terms_modal"  > Terms and  Conditions </a> , <a href="" style="text-decoration: underline" data-toggle="modal" data-target="#privacy_modal"  > Privacy policy </a>  and <a href="" style="text-decoration: underline" data-toggle="modal" data-target="#social_modal"  > Social policy </a>   as required by Pokerace Pty Ltd.</label> 
+            </div>
+             <div class="modal-footer">
+                 
+                <button class="btn btn-danger"> Cancel </button>       
+                <button class="btn btn-primary" onclick="nickname()"> Submit  </button>
+             </div>
+    </div>
+  </div>
+</div>
+  
+  <!--Login Registration google+ -->
+   <div class="modal fade" id="login_popup3" tabindex="-1" role="dialog" aria-labelledby="login_popup2" aria-hidden="true">
+    <div class="modal-md modal-dialog" style="background:#070D0D" >
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h4 class="modal-title" id="myModalLabel" style="color:#E77817"> Setting up Account</h4>
+            <div id="error_message3"> </div>
+            </div>
+            <div class="modal-body">
+                <h3> Please choose nickname </h3>
+                <br/>
+                <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="gnname" > &nbsp; &nbsp; Nick Name:</label> </div>
+                            <div class="col-xs-8">    
+                                <input  type="text" name="gnname" id="gnname" placeholder="Nick name" value="" style="color:#000000"> </div>
+                           <br>
+                            </div>
+                <br/>
+              
+            </div>
+             <div class="modal-footer">
+                 
+                <button class="btn btn-danger"> Cancel </button>       
+                <button class="btn btn-primary" onclick="gnickname()"> Submit  </button>
+             </div>
+    </div>
+  </div>
+</div>
+  
+  
+     <div class="modal fade" id="help_popup" tabindex="-1" role="dialog" aria-labelledby="help_popup" aria-hidden="true">
+    <div class="modal-md modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header" style="color:#E77817;">
+             Help
+            </div>
+            <div class="modal-body"  style="color:#E77817;">  
+                <div class="row">
+                <div id="bonus_body" style="" >
+                    
+                    <p> &nbsp; &nbsp; Hi <span id="name_user"> </span>   </p>
+                    
+                    <p> &nbsp; &nbsp; What do you want to know about Racing Poker &trade; ? </p>
+                    
+                &nbsp;&nbsp; <a  id="game_rules" class="" style="color:#E77817" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span> 1.Game Rules</a>  <br/>
+                &nbsp;&nbsp; <a  id="play_link" class="" style="color:#E77817" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span> 2.How to play</a>  <br/>
+                &nbsp;&nbsp; <a  id="levels" class="" style="color:#E77817" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span>  3.Levels and Bonuses </a><br/>
+                &nbsp;&nbsp; <a  id="demo_link" class="" style="color:#E77817" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-tasks active" > </span>4. Demo </a>  <br/>
+                </div>
+                </div>
+            </div>
+             <div class="modal-footer">
+               
+        </div>
+    </div>
+  </div>
+      </div>
+  
+   <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="forgot" aria-hidden="true">
+       <div class="modal-md modal-dialog" style="background:#070D0D" >
+           <div class="modal-content">
+           <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+               <h4 class="modal-title" id="myModalLabel" style="color:#E77817"> Racing Poker&trade; Login</h4>
+            <div id="error_message_forgot"> </div>
+            </div>
+                <div class="modal-body">
+                    
+                    <div class="row container" id="message">
+                        
+                    </div>
+                    <div class="row container">
+                        <p> We would like to send an email to your email address with login credentials </P>
+                    </div>
+                <div class="row">
+                    <div class="col-xs-3"> 
+                        <p>  Email Address: </p>
+                        
+                    </div>
+                    <div class="col-xs-9">
+                        <input  type="email"  id="email_forgot" placeholder="Email" value="">
+                        <button type="button"  onclick="email_password()" class="btn btn-success"> Send </button>
+                    </div>
+                    
+                </div>
+                    <div class="row container" >
+                        
+                    </div>
+                </div>      
+           </div>
+       </div>
+   </div>
+   <!--- footer -->
+    <div class="row"> 
+   <div class="footer" >
+      <div class="container" >
+          <p class="text-muted" style="color:#fff;text-align: center;"> <span> <kbd> 18+ </kbd> &nbsp;</span> <span> | </span> <span> Secured by <img src="./images/paypal_curved.png"  height="30"/> </span> | <span> &COPY;</span> <span> Copy rights (1999 - 2016) reserved by Pokerace Pty Ltd </span> </p>
+      </div>
+    </div>
+    </div>
+ 
+ <script type="text/javascript" src="Login_script.js" > </script>
+ <script type="text/javascript" src="user_details.js" > </script>
+ <script type="text/javascript" src="Username_valid.js" > </script>
+ <script src="https://apis.google.com/js/platform.js?onload=handleClientLoad"></script>
+    <!-- FIXME:  handleClientLoad will not be called 
+    <script src="//www.google.com/jsapi?key=AIzaSyCTiOaoXN_cL4gkwUjV32B_gsj1-B_1M-U&onload=handleClientLoad" -->
+    <!-- <script src="./Jquery/client.js?onload=handleClientLoad"></script> -->
+ <script type="text/javascript" src="Google_signin.js" > </script>
+ <script type="text/javascript" src="facebooklogin_script.js" > </script>
+ <script type="text/javascript" src="age_check.js"> </script>
+</body>
+</html>

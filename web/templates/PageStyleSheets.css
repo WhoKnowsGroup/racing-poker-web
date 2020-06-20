@@ -1,0 +1,175 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 13, 2016, 7:31:32 AM
+    Author     : Lokesh
+*/
+
+.header
+   {
+     color: #ffffff;
+     background: url('../images/tail-row-top.png');
+     
+   }
+ 
+   .navbar-custom .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: silver;  /*Sets the text hover color on navbar*/
+    background: url('../images/tail-cont.png');
+   }
+   
+   .navbar-custom .navbar-brand > li > a:hover, .navbar-default .navbar-brand> li > a:focus {
+    color: silver;  /*Sets the text hover color on navbar*/
+    background: url('../images/tail-cont.png');
+   }
+ 
+  .navbar .navbar-custom  .navbar-brand  {
+   color: white; /*Change active text color here*/
+  }
+    .navbar-custom .navbar-toggle .icon-bar {
+     background-color: #ffffff;
+     
+    }
+    .navbar-custom  .navbar-nav > li > a {
+   color: #ffffff; /*Change active text color here*/
+   }
+    
+  .block-online
+  {
+      float:center;
+      color:silver;
+  }
+  .online
+  {
+      background:url('../images/tail-1.png');
+      border-radius: 22px;
+      padding:13px 20px 11px 15px;
+  }
+  .online em
+  {
+      color:goldenrod;
+  } 
+
+
+.footer {
+  z-index: 1;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background:url('../images/tail-cont.png');
+ /* Set the fixed height of the footer here */
+  height: 40px;
+}
+
+.row {
+    
+    background-size: 100% 100% ;
+    margin-left : 0px;
+    margin-right : 0px; 
+    
+}
+
+.bg-row{
+    background:url('../images/tail-cont.png');
+    color:#ffffff;
+    border-radius:16px; 
+    
+}
+.bg-3{
+     background:url('../images/bg-3.gif');
+    color:#ffffff;
+    border-radius: 16px;
+}
+.modal-header
+{
+    background:url('../images/tail-row-top.png') repeat;
+    
+}
+
+.close{
+    
+    color: #ffffff !important;
+}
+.carousel-inner > .item > img {
+    max-width: 100%;
+    height:auto;
+} 
+.modal-footer{
+     background:url('../images/tail-cont.png') repeat;
+}
+
+.modal-content {
+     color:#ffffff;
+     background:url('../images/bg-menu.gif') repeat center 0px;
+}
+
+input {
+    color:#000000;
+}
+.dealButton {
+	display: none;
+}
+.header-wrapper .header {
+    position: fixed;
+    z-index: 4000;
+    width: 100%;
+}
+.header .tutorialOverlay {
+	z-index: 5000;
+}
+.header-wrapper {
+	height: 100px;
+}
+.dealButton input {
+    position: relative;
+    left: -7px;
+    width: 80px;
+    background-color: #00aa00;
+    color: white !important;
+    cursor: pointer;
+}
+.mobileDealButton {
+	position: absolute;
+	top: 29px;
+	right: 63px;
+}
+.inGameTimer {
+	display: none !important;
+}
+.inGameTimer,
+.header-profile-options p.inGameTimer {
+	background-color: rgba(96,96,96,0.5);
+    max-width: 75px;
+    width: 75px;
+    border: none;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: bold;
+    font-size: 17px;
+    height: auto;
+    line-height: normal;
+    padding: 0;
+}
+.inGameTimer b,
+.header-profile-options p.inGameTimer b {
+    width: 35px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+    display: inline-block;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 6px;
+    margin-right: 4px;
+    color: black;
+}
+.mobileInGameTimer {
+    background-clip: padding-box;
+}
+.popup-bet .inGameTimer {
+	left: 42%;
+	top: 10px !important;
+}

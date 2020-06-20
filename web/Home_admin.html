@@ -1,0 +1,441 @@
+<html>
+    <head>
+        <title>Pokerace</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" href="css/maintemplate.css" />
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+         <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+         <script type="text/javascript" src="user_details.js" > </script>
+         <script type="text/javascript" src="tournaments_lists.js" > </script>
+         <script>
+             var username="";
+             //var cookie_username="";
+             
+             //FIXME:  taking username from cookie; should be passed in from server
+             var cook=document.cookie.split(";");
+             var length=cook.length;
+             for(var i=0;i<length;i++)
+             {
+               alert(cook[i]);
+               var split = cook[i].split("=");
+               alert(split[0]);
+               alert(split[1]);
+               if(split[0] === "username")
+               username = split[1]; 
+               
+             }
+             alert(username);
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			alert("in the servlet");
+                        alert(data.result);
+                        alert(data.user_detail);
+                        var user_split = data.user_detail.split(",");
+                        var user_credit = user_split[1];
+                        var user_fname = user_split[2];
+                        var user_lname = user_split[3];
+                        var user_nname = user_split[0];
+                        var div1 = document.getElementById("welcome");
+                        div1.innerHTML = "Welcome " + user_nname + div1.innerHTML;
+                        
+                        
+                    });
+             //alert(username);
+             
+         </script>
+    </head>
+    <body>
+        <div id="Home_admin" data-role="page" style="color:#070707" >
+         <div data-role="header" >
+              <table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <td> 
+                <div  id="header" >
+                    <div id="welcome"> 
+                        <a href="#user_detail"   style= "margin-left:75%" > Account </a> &nbsp;
+                        <a href="#" onclick="logout()" > Logout </a>
+                    </div>
+                    <div id="logo">
+                    </div>
+
+                </div>
+                
+            </td>
+              </table>
+             <div id="menu">
+                 <div id="menuBg2">
+                     <table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <td align="center" valign="middle"><a href="Home_admin.html" >Home</a></td> 
+                        <td align="center" valign="middle"> <div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td> 
+                        <td align="center" valign="middle"><a href="thegame.html" >Game</a></td> 
+                        <td align="center" valign="middle"><div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td>  
+                        <td align="center" valign="middle"><a href="Bookus.html" >Contact us</a></td>
+                        <td align="center" valign="middle"><div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td>
+                              
+                </table>      
+                 </div>
+               
+                </div>
+            </div>
+            <div id="body1" data-role="body"  >
+                <div id="logo" style="height:700px;margin-left:15%">
+                    <div id="division"  class="ui-grid-a">
+                        <div id="division1" class="ui-block-a" style="width:25%" >
+                          <div id="admin_list" class="ui-grid-solo" >
+                  <table style="width: 100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="266" align="left" valign="top">
+                            <div class="leftPanelbox">
+                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="left" valign="top"><div class="leftHading">
+                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                                    <td align="left" valign="middle">Admin</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><div class="leftMid">
+                                                            <!-- action ="/ChatPage.xhtml?faces-redirect=true"-->
+                                                            <a href="#manage_bots"> Manage Bots </a>
+                                                            <a href="Manage_users.html"> Manage Register Users </a>
+                                                            <a href="send_inivitations.html"> Send Invitations</a>
+                                                            <a href="" onclick="create_tournaments()"> Create Tournaments</a>
+                                                            <a href="#set_credit_plans"> Set Tournaments Credit Plans</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                            </div>
+                        </td>
+                    </tr>
+                  </table>
+               </div>             
+                            <div id="tournament_list" class="ui-grid-solo" >             
+                              <table style="width: 100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="266" align="left" valign="top">
+                            <div class="leftPanelbox">
+                  
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="left" valign="top"><div class="leftHading">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                        <td align="left" valign="middle">Tournaments</td>
+                                                    </tr>
+                                                </table>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                                    <td align="left" valign="top"><div class="custom_list" id="tournaments_list">
+                                                            <!-- action ="/ChatPage.xhtml?faces-redirect=true"-->
+                                                           <div data-role="collapsible" id="high_level" data-inset="false"  data-theme="b" data-iconpos="right"><h3>High Level Tournaments </h3>
+                                                                 <ul data-role="collapsible" data-theme="a" id="ul_list" > </ul></div>
+                                                            <div data-role="collapsible" id="mid_level" data-inset="false"  data-theme="b" data-iconpos="right"><h3>Mid Level Tournaments</h3>
+                                                                   <ul data-role="listview" data-theme="a" id="ul_list_mid" > </ul>                                                            </div>
+                                                            <div data-role="collapsible" id="low_level" data-inset="false"  data-theme="b" data-iconpos="right"><h3>Low Level Tournaments</h3></div>
+                                                            <div data-role="collapsible" id="single" data-inset="false"  data-theme="b" data-iconpos="right"><h3>One Player Tournaments</h3></div>
+                                                            
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                </table>
+                            </div>
+                            </td>
+                    </tr>
+                  </table>
+                  </div>
+                    <div id="patent_rights" class="ui-grid-solo" >
+                         <div class="leftPanelbox">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="left" valign="top"><div class="leftHading">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                        <td align="left" valign="middle">Important</td>
+                                                    </tr>
+                                                </table>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top">
+                                            <div  class="addbox" style="text-align:justify;padding-right:10px;   ">
+                                                To improve playing conditions Aces are always high
+                                                A Pair is thrown in favour of a possible flush or double
+                                                ended straight.When “no more bets” is displayed on a hand all bets on this hand will be lost.
+                                                Hand Hierarchy determines the winner. Royal Flush, Straight Flush, Four of a kind, Full house, Flush, Straight. Suit Hierachy is Hearts, Diamonds, Clubs, Spades.
+                                                A single pair, Two pairs and three of a kind are not winning hands.     
+                                                This game is to be used for amusement only and not for illegal or gambling (real money) purposes.
+                                                <br/>
+                                                <br/>
+                                                <h4 style="text-align: left">Patents exist in multiple countries
+                                                    Australian Patent Number 778934 </h4>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+                 
+                        
+                        <div id="division2" class="ui-block-b">
+                             <div id="user_credit" >
+                              <table width="651" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>
+                                <br>
+                                <br>
+                                <br>
+                            </td>
+                        </tr>
+                     </table>
+                              <table width="651" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="left" valign="top">
+                            <table width="651" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="left" valign="top"><img src="images/welcome_corner.gif" alt="" width="651" height="24" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="left" valign="top">
+                                        <div id="welcomeOuter">
+                                            <div id="welcomeInner">
+                                                <div id="welcome">
+                                                    <h4 class="pageHeading">Tournament Details</h4>
+                                                    <div id="credit_points">
+                                                    <h4> Current Credit Points: 
+                                                    </h4>
+                                                    </div>
+                                                    <div  class="addbox" style="text-align:justify;padding-right:130px;   ">
+                                                                    To improve playing conditions Aces are always high
+                                                                    A Pair is thrown in favour of a possible flush or double
+                                                                    ended straight.When “no more bets” is displayed on a hand all bets on this hand will be lost.
+                                                                    Hand Hierarchy determines the winner. Royal Flush, Straight Flush, Four of a kind, Full house, Flush, Straight. Suit Hierachy is Hearts, Diamonds, Clubs, Spades.
+                                                                    A single pair, Two pairs and three of a kind are not winning hands.     
+                                                                    This game is to be used for amusement only and not for illegal or gambling (real money) purposes.
+                                                                    <br/>
+                                                                    
+                                                                    <h4 style="text-align: left">Patents exist in multiple countries
+                                                                        Australian Patent Number 778934 </h4><br/> <br/>
+                                                                    <p  style="color: orangered; font-size: large" >
+                                                                        "Please select one type of Tournament to play..."
+                                                                    </p>
+                                                                    <br />
+                                                                    
+                                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                  </table>
+                    </div>        
+                        </div>
+                </div>
+                    </div>
+            </div>
+                  
+                    
+                   
+                
+            <div id="footer_bg" data-role="footer">
+                
+            </div>
+                
+            </div>
+        
+        <div id="manage_bots" data-role="page" >
+             <div data-role="header" >
+              <table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <td> 
+                <div  id="header" >
+                    <div id="welcome"> 
+                        <a href="Account_admin.html"   style= "margin-left:75%" > Account </a> &nbsp;
+                        <a href="#" onclick="logout()" > Logout </a>
+                    </div>
+                    <div id="logo">
+                    </div>
+
+                </div>
+                
+            </td>
+              </table>
+             <div id="menu">
+                 <div id="menuBg2">
+                     <table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <td align="center" valign="middle"><a href="/u/home" >Home</a></td> 
+                        <td align="center" valign="middle"> <div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td> 
+                        <td align="center" valign="middle"><a href="/u/home" >Game</a></td> 
+                        <td align="center" valign="middle"><div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td>  
+                        <td align="center" valign="middle"><a href="/u/home" >Book us</a></td>
+                        <td align="center" valign="middle"><div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td>
+                        <td align="center" valign="middle"><a href="/u/home" >Contact us</a></td>
+                        <td align="center" valign="middle"><div class="examples"><img src="../images/menu_mid.png"  width="7" height="39" /></div></td>
+                              
+                </table>      
+                 </div>
+               
+                </div>
+            </div>
+            <div id="body1" data-role="body"  >
+                <div id="logo" style="height:700px;margin-left:15%">
+                    <div id="division"  class="ui-grid-a">
+                        <div id="division1" class="ui-block-a" style="width:25%" >
+                          <div id="admin_list" class="ui-grid-solo" >
+                  <table style="width: 100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="266" align="left" valign="top">
+                            <div class="leftPanelbox">
+                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="left" valign="top"><div class="leftHading">
+                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                                    <td align="left" valign="middle">Admin</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><div class="leftMid">
+                                                            <!-- action ="/ChatPage.xhtml?faces-redirect=true"-->
+                                                            <a href="#manage_bots"> Manage Bots </a>
+                                                            <a href="#manage_users"> Manage Register Users </a>
+                                                            <a href="#send_inivitations"> Send Invitations</a>
+                                                            <a href="" onclick="create_tournaments()"> Create Tournaments</a>
+                                                            <a href="#set_credit_plans"> Set Tournaments Credit Plans</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                            </div>
+                        </td>
+                    </tr>
+                  </table>
+               </div>             
+                            <div id="tournament_list" class="ui-grid-solo" >             
+                              <table style="width: 100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="266" align="left" valign="top">
+                            <div class="leftPanelbox">
+                  
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="left" valign="top"><div class="leftHading">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                        <td align="left" valign="middle">Tournaments</td>
+                                                    </tr>
+                                                </table>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                                    <td align="left" valign="top"><div class="leftMid" id="tournaments_list">
+                                                            <!-- action ="/ChatPage.xhtml?faces-redirect=true"-->
+                                                           
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                </table>
+                            </div>
+                            </td>
+                    </tr>
+                  </table>
+                  </div>
+                    <div id="patent_rights" class="ui-grid-solo" >
+                         <div class="leftPanelbox">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="left" valign="top"><div class="leftHading">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="32" align="left" valign="top"><img src="images/arrow1.gif" alt="" width="27" height="25" /></td>
+                                                        <td align="left" valign="middle">Important</td>
+                                                    </tr>
+                                                </table>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top">
+                                            <div  class="addbox" style="text-align:justify;padding-right:10px;   ">
+                                                To improve playing conditions Aces are always high
+                                                A Pair is thrown in favour of a possible flush or double
+                                                ended straight.When “no more bets” is displayed on a hand all bets on this hand will be lost.
+                                                Hand Hierarchy determines the winner. Royal Flush, Straight Flush, Four of a kind, Full house, Flush, Straight. Suit Hierachy is Hearts, Diamonds, Clubs, Spades.
+                                                A single pair, Two pairs and three of a kind are not winning hands.     
+                                                This game is to be used for amusement only and not for illegal or gambling (real money) purposes.
+                                                <br/>
+                                                <br/>
+                                                <h4 style="text-align: left">Patents exist in multiple countries
+                                                    Australian Patent Number 778934 </h4>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+                 
+                        
+                        <div id="division2" class="ui-block-b">
+                             <div id="user_credit" >
+                              <table width="651" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>
+                                <br>
+                                <br>
+                                <br>
+                            </td>
+                        </tr>
+                     </table>
+                              
+                    
+                    <div class="ui-grid-c">
+                        
+                         <div id="first_name" class="ui-block-a">
+                            First name
+                        </div>
+                         <div id="last_name" class="ui-block-b">
+                            Last name
+                        </div>
+                       
+                        <div id="credits_user" class="ui-block-c">
+                            Credits
+                        </div>
+                        <div id="player_level" class="ui-block-d">
+                            Player Level
+                        </div>
+                       
+                    </div>
+                    
+                  
+                    </div>        
+                        </div>
+                </div>
+                    </div>
+            </div>
+                  
+                    
+                   
+                
+            <div id="footer_bg" data-role="footer">
+                
+            </div>
+        </div>
+        
+    </body>
+</html>

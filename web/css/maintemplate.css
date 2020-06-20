@@ -1,0 +1,301 @@
+html{
+    padding: 0;
+    margin: 0;
+    color:#070707;
+    text-shadow: none;
+}   
+#body1{
+    height: 100%;
+    width: 100%;
+    padding : 0;
+    align:center;
+    margin : 0;
+    font : 12px/16px 'Arial', Helvetica, sans-serif;
+    color : #8F8F8F;
+    background:#070707 url(../images/maincontant-bg2.gif) top left repeat-x;
+    text-shadow:none;
+}
+td{font : 12px/16px 'Arial', Helvetica, sans-serif;
+   color : #8F8F8F;}
+div, h1, h2, h3, h4, p, img, ul, ol, li, form, input, textarea {
+    padding : 0;
+    margin : 0;
+}
+p {
+    padding : 0 0 8px 0;
+    margin : 0;
+}
+
+img {
+    outline : none;
+    border : none;
+}
+a {
+    outline : none;
+    text-decoration : none;
+}
+
+
+/*----------------start header---------------*/
+#header{
+      height:182px; 
+    background:url(../images/Kentucky-Poker-Banner-02.jpg) no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size : cover;}
+    
+#logo{ padding:26px 0 0 12px; font-size:11px; color:#705F38; font-style:italic;}
+/*----------------end header---------------*/
+/*----------------start menu---------------*/
+.examples{
+
+    /*background: url(bbappworldx-web.jpg);*/
+}
+#menu{
+    border-top:#913E3E 1px solid;
+    border-bottom:#071212 1px solid;
+    background:url(../images/menu-bg.gif) top left repeat-x;}
+#menuBg2{ background:url(../images/menu-bg2.gif) top left no-repeat;}
+#menu a{
+    color:#E2DCDC;
+    padding:0 17px 0 17px;
+}
+#menu a:hover{ color:#E98145;}
+/*----------------end menu---------------*/
+/*----------------start meinContant---------------*/
+#meinContant{background:url(../images/maincontant-bg.gif) top left repeat-x;}
+#meinContantInner{
+    padding:0px 0 0 0;
+    width:960px;
+    margin:0 auto;
+    text-align:center;
+    background:url(../images/maincontant-bg2.gif) top right no-repeat;
+}
+/*----------------end meinContant---------------*/
+/*----------------start leftPanel---------------*/
+.leftPanelbox{
+    width:250px;
+    background:url(../images/left-hading-bg.gif) top left no-repeat;
+    padding:0 0 15px 0;}
+.leftHading{
+    padding:19px 0 0 20px;
+}
+.leftHading td{
+    font-size:15px;
+    color:#fff;
+
+}
+.custom_list{
+    padding:10px 22px 0 25px;
+    text-shadow: none;
+}
+.custom_list a{
+    padding:0px 0px 5px 7px;
+    display:block;
+    color:#9D1111;
+    height:1%;
+    text-shadow: none;
+   
+    
+}
+
+.leftMid{
+    padding:10px 22px 0 25px;
+    text-shadow: none;
+}
+.leftMid li{
+    padding-left:5px;
+    background:url(../images/dot1.gif) bottom left repeat-x;
+    text-shadow: none;
+}
+.leftMid a{
+    /*background:url(../images/arrow2.gif) top left no-repeat;*/
+    padding:0px 0px 5px 7px;
+    display:block;
+    color:#9D1111;
+    height:1%;
+    text-shadow: none;
+}
+.leftMid a:hover{ color:#999999; text-shadow: none;}
+.poker{
+    padding:10px 22px 0 25px;}
+.poker li{
+    padding-left:5px;
+    background:url(../images/dot1.gif) bottom left repeat-x;}
+.poker a{
+    background:url(../images/arrow2.gif) top left no-repeat;
+    padding:5px 0px 12px 15px;
+    display:block;
+    color:#8F8F8F;
+    height:1%;
+}
+.poker a:hover{ color:#fff; text-decoration:underline;}
+.border{ border:#000 1px solid;}
+.grayBorder{ border:#434B4C 1px solid;}
+
+/*.addbox{ padding:20px 0 20px 0 ; text-align:center;}*/
+.addbox{
+    padding:10px 22px 0 25px;
+    text-justify: auto;
+}
+.addbox li{
+    padding-left:10px;
+    list-style-type:inline;
+
+}
+.addbox{
+    /*     padding:10px 22px 0 25px;*/
+    padding:5px 0px 12px 15px;
+    display:block;
+    color:#8F8F8F;
+    height:1%;
+    text-align: match-parent;
+    font-family: Arial ; font-size:12px;
+    text-shadow: none ;
+}
+#welcomeOuter{  width:651px;top: 0; background:url(../images/welcome_bg.gif) top left repeat-y;margin-top: -5px; text-shadow:none; }
+#welcomeInner{ width:651px; min-height:192px;top: 0;  background:url(../images/welcome_img.png) bottom right no-repeat;}
+#welcome{
+    margin:0 0 0px 0px;
+    
+    /*padding: 5px;*/
+}
+.pageHeading{ font-size:20px; font-weight:normal;color:#AF1E1E; padding:8px 0 12px 0;}
+.whiteLink{ color:#D7D7D7; text-decoration:underline; font-weight:bold;}
+.whiteLink:hover{ color:#B80D0D; text-decoration:none;}
+.whiteText{ color:#fff;}
+.redText{ color:#AF1E1E;}
+.redLink{ color:#AF1E1E; }
+.redLink:hover{ color:#fff; text-decoration:underline;}
+
+.fontSize14{ font-size:14px; color:#DFDFDF; line-height:20px;}
+.fontSize18{ font-size:18px; color:#fff; line-height:30px;}
+.fontSize20{ font-size:20px; color:#fff; line-height:30px;}
+.fontSize24{ font-size:24px; color:#fff; line-height:30px;}
+.fontSize36{ font-size:36px;  line-height:40px;}
+
+
+.chartBox{
+    background:#130E0E url(../images/bg1.gif) top center no-repeat;
+    border-right:#070707 0px solid;
+    text-align: left;
+}
+
+.chartBoxHeading {
+
+
+
+}
+.chartBoxContent td{
+    color:#DFDFDF;
+    padding:12px 0 12px 12px;
+    border-bottom:#070707 1px solid;
+    border-left:#070707 1px solid;
+    background:#0F0F0F;
+
+}
+/*----------------start footer---------------*/
+#footer_bg{
+    padding:20px 0 0 0;
+    line-height:18px;
+    background-color:#070D0D;
+    background:url(../images/footer-bg.gif) top center repeat-x;}
+#footer{ color:#E7E7E7;}
+#footer a{
+    color:#E7E7E7;
+}
+#footer a:hover{ color:#FF9900;}
+#footer .footerRedLink{ color:#AF1E1E; text-decoration:underline;}
+#footer .footerRedLink:hover{ color:#fff; }
+.copyright{ color:#B43131; font-size:11px;}
+/*----------------end footer---------------*/
+
+#contactForm input{ border:0px; padding:2px;}
+
+
+/*-------------------textfiled--------------*/
+.textFiled{
+    font-size: small;
+    border: #8B0000 1px  solid;
+}
+.profile{
+    font-family:verdana; font-size: medium;
+    color: #B80D0D;
+}
+
+
+
+.otherbutton {
+    clear: both;
+    position:relative;
+    display:block;
+    height: 64px;
+    width: 570px;
+    background:url(../images/contact.png) no-repeat;
+    background-position:0 0;
+    cursor: pointer;
+}
+.otherbutton span.hover {
+    position: absolute;
+    display: block;
+    height: 64px;
+    width: 570px;
+    background: url(../images/contact.png) no-repeat;
+    background-position: bottom;
+}
+
+
+
+.accover:hover {
+    color : #B80D0D;
+}
+
+.accover {
+    color: wheat;
+}
+
+#connect {
+    width: 1300px;
+    height: 30px;
+}
+
+.adminPlanLabel{
+    font-size: large; color: white;
+}
+.datatable th{
+    width: 50px;
+    color: orange;
+}
+.forgotpassword{
+    font-size: 10px; color: #791010;text-decoration: none
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    font-weight: bold;
+    color: #4f4f4f;
+    text-shadow: 0px 0px 0px rgba(255,255,255,0.7);
+}
+.ui-widget-content{
+    background: #070707;
+    color: white;
+    border: none;
+}
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    border: none;
+    color: white;
+    background: none;
+    outline:none;
+}
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td samp{
+    color: orange;
+    outline:none;
+    background:none;
+}
+#hand1_bet, #hand2_bet, #hand3_bet, #hand4_bet, #hand5_bet, #hand6_bet {
+	font-weight: bold;
+}
+
+.tournament.prize-distribution {
+	display: none;
+}

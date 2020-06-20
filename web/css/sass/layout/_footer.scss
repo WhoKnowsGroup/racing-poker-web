@@ -1,0 +1,55 @@
+.footer {
+    background-color: $color-background;
+    padding: 55px 0 15px;
+
+
+    &-nav {
+        & ul {
+            @include list-reset;
+
+            & li {
+                line-height: 1.7;
+            }
+        }
+    }
+
+    &-link {
+        a {
+            @include background-image(/images/v2/paypal, png, 100%, center, no-repeat, false);
+            display: inline-block;
+            height: 33px;
+            margin-top: 15px;
+            text-align: right;
+            width: 152px;
+        }
+    }
+
+    &-copyright {
+        margin: 100px 0 0;
+    }
+}
+
+@include breakpoint(phablet) {
+    .footer {
+        &-nav {
+            text-align: center;
+        }
+
+        &-link,
+        &-logo {
+            display: inline-block;
+            width: initial !important;
+        }
+
+        &-link {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        &-copyright {
+            text-align: center;
+            margin-top: 30px;
+        }
+    }
+}

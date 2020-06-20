@@ -1,0 +1,116 @@
+.grid-container {
+
+    @if $responsive-mode == 'fluid' {
+
+        margin: 0 auto;
+        max-width: $width-grid;
+        position: relative;
+        width: 100%;
+
+    } @else if $responsive-mode == 'fluid-fixed' {
+
+        margin: 0 auto;
+        max-width: $width-grid;
+        position: relative;
+
+        @include breakpoint(desktop) {
+           max-width: $tablet;
+        }
+
+        @include breakpoint(tablet) {
+           max-width: $phablet;
+        }
+
+        @include breakpoint(phablet) {
+           max-width: $phone;
+        }
+
+        @include breakpoint(phone) {
+            max-width: 100%;
+        }
+
+    }
+
+}
+
+.row {
+
+    @include clearfix();
+
+    @for $i from 1 through $column-number {
+
+        .col-#{$i} {
+            @include column($i);
+        }
+
+    }
+
+    @for $i from 1 through $column-number {
+
+        .offset-#{$i} {
+
+            @include column-offset($i);
+
+            @include breakpoint(phablet) {
+                margin-left: 0;
+            }
+
+        }
+
+    }
+
+    [class*='col-'] {
+
+        @include box-sizing(border-box);
+        @include clearfix();
+        float: left;
+        min-height: 1px;
+        padding: 0 $column-gap/2;
+
+        @include breakpoint(phablet) {
+            float: none;
+            width: 100%;
+        }
+
+    }
+
+    [class*='offset-'] {
+
+        @include breakpoint(phablet) {
+            margin-left: 0;
+        }
+
+    }
+
+    .row {
+        margin-left: -$column-gap/2;
+        margin-right: -$column-gap/2;
+        position: relative;
+    }
+
+}
+
+.pull-left {
+
+    float: left !important;
+
+    // @include breakpoint(phablet) {
+    //  float: none !important;
+    // }
+
+}
+
+.pull-right {
+
+    float: right !important;
+
+    // @include breakpoint(phablet) {
+    //  float: none !important;
+    // }
+
+}
+
+.pull-center {
+    float: none !important;
+    margin: 0 auto;
+}

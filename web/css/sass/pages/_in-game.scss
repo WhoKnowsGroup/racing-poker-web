@@ -1,0 +1,252 @@
+.in-game {
+    .main {
+        @include background-image(/images/v2/landing-background, jpg, cover, center, no-repeat, false);
+        padding-top: $padding-default;
+        padding-bottom: $padding-default;
+
+         @include breakpoint(phablet) {
+            padding: 0;
+        }
+
+        // stats /second-box
+        .stats {
+            width: 40%;
+
+            @include breakpoint(tablet) {
+                width: 100%;
+            }
+
+            .profile-stats {
+                margin-bottom: 10px;
+
+                div {
+                    height: initial;
+                    // width: 100%;
+                }
+
+                &-progress {
+                    width: 100%;
+
+                    @include breakpoint(tablet) {
+                        margin-bottom: 7px;
+                    }
+
+                    // exit game link
+                    &-link {
+                        display: inline-block;
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-top: 34px;
+                        margin-right: 10px;
+                    }
+
+                    // progress bar holder
+                    &-bar {
+                        margin-bottom: 15px;
+                        width: 100%;
+
+                        p {
+                            margin-top: 10px;
+                        }
+
+                        div {
+                            height: 15px;
+                            width: 170px;
+                        }
+                    }
+                }
+
+                // credits section
+                &-credits {
+                    margin-top: 10px;
+                    width: 100%;
+
+                    @include breakpoint(tablet) {
+                        float: right;
+                    }
+
+                    p {
+                        line-height: 2;
+                        text-align: left;
+                    }
+
+                    &-spec {
+                        color: #ff3e3e;
+                        font-size: 18px;
+                        font-weight: bolder;
+                        line-height: 18px;
+                    }
+                }
+            }
+
+            .profiles-table {
+                height: 360px;
+                overflow-y: scroll;
+            }
+
+            .tabs {
+                @include breakpoint(tablet) {
+                    display: none;
+                }
+            }
+        }
+
+         // main-table
+        .main-table {
+            background-color:rgba(0,0,0,0.5);
+            width: 55%;
+
+            @include breakpoint(tablet) {
+                margin-top: 20px;
+                width: 100%;
+            }
+
+            @include breakpoint(phablet) {
+                margin-top: 0;
+            }
+
+            &>img {
+                float: left;
+                width: 100%;
+            }
+
+            .main-table-list-holder {
+
+                &-helper {
+                    @include background-image(/images/v2/mobile-background, jpg, cover, center, no-repeat, false);
+                    clear: both;
+                    position: relative;
+
+                    // @include breakpoint(tablet) {
+                    //     @include background-image(/images/v2/mobile-background, jpg, cover, center, no-repeat, false);
+                    // }
+                }
+            }
+
+            &-list {
+                @include list-reset;
+                padding: 20px 0 5px;
+
+                &-item {
+                    padding: 0 10px 0 10px;
+                    position: relative;
+                }
+
+                hr {
+                    margin: 9px auto;
+
+                    @include breakpoint(phone) {
+                        border-top: 2px solid #fff;
+                        height: 5px;
+                    }
+                }
+            }
+
+            // mobile use components
+            .profile-stats-credits {
+                background-color: #363636;
+                border-bottom: 4px solid #fff;
+                float: none;
+                padding: 0;
+                width: 100%;
+
+                @include breakpoint(tablet) {
+                    width: 100% !important;
+                }
+
+                p {
+                    font-weight: bold;
+                    margin: 10px 0;
+
+                    @include breakpoint(phone) {
+                        text-align: center;
+                        width: 25%;
+                    }
+
+                    span {
+                        font-weight: normal;
+                    }
+                }
+
+                .timer-holder {
+                    .deal-button {
+                        @include breakpoint(tablet) {
+                            left: calc(50% - 23px);
+                            margin-top: 12px;
+                            padding: 8px 15px;
+                        }
+                    }
+
+                    p {
+                        width: 100%;
+                    }
+                }
+            }
+
+            &-nav {
+                background-color: #363636;
+                border-top: 2px solid #fff;
+                border-bottom: 2px solid #fff;
+
+                .leaderboard-trigger {
+                    cursor: pointer;
+                    font-weight: bold;
+                }
+
+                p {
+                    display: inline-block;
+                    float: left;
+                    margin: 0;
+                    padding: 10px 0;
+                    text-align: center;
+                    width: 33.3333%;
+
+                    @include breakpoint(phone) {
+                        font-size: 10px;
+                    }
+                }
+            }
+
+            .profile-stats-credits {
+                p {
+                    span {
+                        margin-left: 0;
+                    }
+                }
+
+                .profile-stats-credits-spec {
+                    color: #ff3e3e;
+                }
+            }
+
+            .profiles-table-mobile {
+                display: none;
+                left: 0;
+                max-height: 100%;
+                margin-top: 0;
+                overflow-y: scroll;
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                z-index: 2;
+            }
+        }
+
+        // mobile use
+        .game-stats-mobile {
+            background-color:rgba(0,0,0,0.5);
+            display: none;
+
+            @include breakpoint(tablet) {
+                display: block;
+            }
+
+            .game-stats {
+                @include breakpoint(phone) {
+                    margin: 0 10px;
+                }
+            }
+        }
+    }
+}

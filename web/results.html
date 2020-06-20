@@ -1,0 +1,418 @@
+<html lang="en">
+<head>
+ <title>Racing Poker Tournament Results</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="keywords" content="Poker,racing poker,online poker,poker tournaments,players">
+ <meta name="application-name" content="Racing Poker">
+ <meta name="author" content="Pokerace Team">
+ <meta property="og:image" content="https://www.racingpoker.com/images/racingpoker-logo9.png">   
+ <meta property="og:title" content="Racing Poker Tournament Results">
+<meta property="og:description" content="Racing Poker® is a game based on most of the rules of poker and played using a 52 card deck.This game is only for amusement purposes and not for real money">
+ <link rel="icon" href="./images/racingpoker-logo9.png" />
+ <link rel="stylesheet" href="./css/bootstrap_min.css" />
+ <link rel="stylesheet" href="./templates/PageStyleSheets.css" />
+ <link rel="stylesheet" href="./templates/PageLayout.css" />
+ <script src="./Jquery/jquery_min.js"></script>
+ <script src="./Jquery/bootstrap_min.js"></script>
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                       
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+   
+ </style>
+ 
+ <script> 
+     var user_nname = "";
+     var user_credit = 0;
+     var user_coins = 0;
+     var user_level =0;
+     var username="";
+     //var cookie_username="";
+     var tournament_id = "";
+      $(document).ready(function ()
+         {
+           
+             //var cook=document.cookie.split(";");
+             
+              if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                               tournament_id = sessionStorage.clicked;
+                               var url = window.location.href;
+                               var url_split = url.split("=");
+                               tournament_id = url_split[1];
+                               var sUrl = window.location.href;
+                               //document.getElementById('fbshare').setAttribute('href', sUrl);
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               //window.location.href = "index.html"; 
+                              //username="lokesh.metla@gmail.com";
+                              var url = window.location.href;
+                              var url_split = url.split("=");
+                              tournament_id = url_split[1];
+                              //alert(tournament_id);
+                              var share_fb = document.getElementById("share-fb");
+                              share_fb.innerHTML = "&nbsp; Please sign up and play along with your  friend.";
+                              $("#credits_div").hide();
+                              $("#back-home").hide();
+                             }
+                            
+                                 
+                             
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+             var user_split = "";
+                 
+                        var user_fname = "";
+                        var user_lname = "";
+                        
+                       
+ 
+     
+     var tournaments_length = 0;
+ var high_tournaments_length =0;
+ var mid_tournaments_length =0;
+ var entry_tournaments_length =0;
+ var one_tournaments_length =0;
+ 
+  $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                         if(data.result == "success")
+                         {
+                         user_split = data.user_detail.split(",");
+                         user_credit = parseInt(user_split[1]);
+                         user_fname = user_split[2];
+                         user_lname = user_split[3];
+                         user_nname = user_split[0];
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"/u/profile\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" " +  "<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        document.getElementById("credits_div").style.visibility="visible";
+                        var div3 = document.getElementById("credits");
+                        var div4 = document.getElementById("bitlets");
+                        var div5 = document.getElementById("level");
+                        div3.innerHTML = "<em> <span>" + user_credit + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                        div4.innerHTML = "<em> <span>" + parseInt(user_coins) + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                        div5.innerHTML = "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+                        }
+    
+    });   
+    console.log(tournament_id);
+    $.getJSON("/Tournamentresults", {"tournament_id" : tournament_id }, function(data){ 
+                             
+                            // alert(data.Playername);
+                             //div1.stinnerHTML += "Welcome " + data.Playername + div1.innerHTML;
+                             
+                              var players = data.Playername.split(",");
+                              var credit_points = data.Credit_points.split(",");
+                              var tournament_points = data.Tournament_points;
+                              var bitlets = data.Bitlets.split(",");
+                              var facebook_count = data.facebook_count.split(",");
+                              if (facebook_count == "1") {
+                                  $("#share-fb").hide();
+                              }
+                              var players_number = players.length ;
+                              for(var j=0; j < (players_number -1) ; j++)
+                              {
+                              var newRow = document.all("result_table").insertRow();
+                              newRow.style.border = "white 1px solid";
+                              newRow.style.color = "white";
+                              var oCell = newRow.insertCell();
+                              oCell.style.border = "white 1px solid";
+                              oCell.style.color = "white";
+                              oCell.innerHTML = "" +(j+1);
+                              var oCell1 = newRow.insertCell();
+                              oCell1.style.border = "white 1px solid";
+                              oCell1.style.color = "white";
+                              
+                              oCell1.innerHTML = players[j];
+                              var oCell2 = newRow.insertCell();
+                              oCell2.style.border = "white 1px solid";
+                              oCell2.style.color = "white";
+         
+                               oCell2.innerHTML = credit_points[j];
+                              var oCell3 = newRow.insertCell();
+                              oCell3.style.border = "white 1px solid";
+                              oCell3.style.color = "white";
+                              
+                               var result = tournament_points - parseInt(credit_points[j].split("&&")[0]);
+                               if(result > 0 )  
+                               oCell3.innerHTML = result + "<img src=\"/images/arrow-down.png\" />";
+                               else
+                               {
+                               result = (result * (-1)) ;
+                               oCell3.innerHTML = result + "<img src=\"/images/arrow-up.png\" />";
+                               }
+                                var oCell4 = newRow.insertCell();
+                              oCell4.style.border = "white 1px solid";
+                              oCell4.style.color = "white";
+                              
+                              
+                               if(parseInt(bitlets[j]) > 0 )  
+                               oCell4.innerHTML = parseInt(bitlets[j]) + "<img src=\"/images/arrow-up.png\" />";
+                               else
+                               {
+                               //result = (result * (-1)) ;
+                               if(parseInt(bitlets[j]) !== 0)
+                               bitlets[j] = bitlets[j] * (-1);
+                               oCell4.innerHTML = parseInt(bitlets[j]) + "<img src=\"/images/arrow-down.png\" />";
+                               }
+                       }
+                       
+                         });
+ });
+   function clicked_link(id)
+            {
+               // alert(id);
+               // document.cookie = "tournament_id" + "=" + id;
+               id = id.replace(/"/gi,"");
+                $.getJSON("/FrontControl", {"clicked" : id, "command" : "clicked" }, function(data){ 
+                   // alert(data.result);
+                    //return false;
+                      if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                            
+                                 sessionStorage.clicked = id;
+                             
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+                    //window.location.href = "bootstrap_tournament_details.html";
+                    window.location.href = "bootstrap_tournament_details.html";   
+                });
+                 
+            }
+     function increase_credits(id)
+     {
+         console.log(id);
+                
+           if(id == "fbshare")
+            {
+               /// alert("fblike");
+                var d = new Date()
+                sessionStorage.Payment_amount = 0.0;
+                var transaction_id = "Pokerace"+ d.getFullYear()  +d.getMonth() + d.getDate()  + d.getHours() + d.getMinutes() +d.getSeconds() ;
+                var Approval_status = "requested";
+                var credits = 5000;
+                var Description = "Fb-share-result";
+                
+                $.getJSON("/u/facebookAction", {"Transaction_id" : transaction_id, "Description" : "FB-share"}, function(data){ 
+                 
+               //  alert(" 1000 Credits are added to your account");
+                  if(data.result === "success")
+         {
+             $.getJSON("/FacebookShareResult", {"tournament_id" : tournament_id}, function(data){ 
+                 
+               //  alert(" 1000 Credits are added to your account")
+              
+           });
+           var credits  = data.Credit ;
+           //var bitlets = data.Bitlets;
+           user_coins += 10.0;
+            //$("#ineligibleModal").modal('hide');
+            var div3 = document.getElementById("credits");
+            var div4 = document.getElementById("bitlets");
+            var div5 = document.getElementById("level");
+            //$("#promotionsModal").modal('hide');
+            
+            
+            for(var i=0;i< 10000 ; i++)  
+            {
+                 user_credit += 1.0;
+                 div3.innerHTML = "<em> <span>"+ parseInt(user_credit) + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                 div4.innerHTML = "<em> <span>" + parseInt(user_coins) + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                 div5.innerHTML = "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+            }
+            document.getElementById("share-fb").style.visibility="hidden";
+         }
+                 
+                });
+                }
+            }
+            function fbshare()
+            {
+                var url = window.location.href;
+                var message = user_nname+" "+" just played  Racing poker " + " and achieved a new level. Have you got the skill to beat him?";
+                var heading = "10,000 Tournament Credit Joining Bonus";
+                fb_share(url,message,heading);
+            }
+            
+            function backToHome() {
+                window.location.href = "/u/home";
+            }
+ </script>
+</head>
+<body>
+    <!--header--->   
+  <div class="navbar navbar-custom navbar-fixed-top" >
+    <div class="navbar-inner header">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+        <a class="navbar-brand" href="/u/home" > Racing Poker&trade;</a> 
+    </div>
+    <div id="myNavbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="learn_game.html" style=""> Game Rules</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+         
+            </ul>
+            <form  class="navbar-form navbar-right" >
+            <div id="user_profile" style="color:white">
+            </div>
+            
+        </form>
+                 
+    </div>
+    </div>
+    </div>
+   </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   <div class="container">
+    <div class="col-md-3">
+          <div id="logo"> <span ><img src="./images/Logo_type.png"  class="center-block"     alt="Racing Poker" /> </span> </div> </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-5">
+          <div class="block-online hidden-sm hidden-xs" style="text-align: right">  <h5> Online now:   <span id="online" class="online"> </span> </h5></div> </div>
+  </div>
+    <div class="row">
+        <br/>
+    </div>
+    <div id="credits_div" style="visibility: collapse">
+    <div class="container bg-row selected_color">
+            
+            <h4>  <span> <img src="./images/wallet-icon.png" /> </span>Your Wallet
+                <span> </span> 
+                <span class="pull-right"> <a href="#" data-toggle="modal" data-target="#promotionsModal" class="btn bg-3" ><span> <img src="./images/coins-add-icon.png" /> </span><span>Add Credits</span></a></span> </h4>
+            
+            <div class="row">
+            <div  class="col-sm-4">
+                <p> <span> <img src="./images/credits-icon.png" /> </span> <span id="credits" class="online"></span> </p>
+            </div>
+            <div  class="col-sm-4" >
+                 <p> <span> <img src="./images/bitlets-icon.png" /> </span> <span id="bitlets" class="online"></span> </p>
+            </div>
+            <div  class="col-sm-4">
+                  <p> <span><img src="./images/level-icon.png" /></span> <span id="level" class="online"></span> </p>
+            </div> 
+            </div>
+        </div>
+      </div>
+      <br/>
+       <div class="row">
+    
+        <div class="container bg-row">
+                    
+           <div class="col-xs-8" style="" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="welcome">
+                       <h4> Tournament Results  </h4>
+                   </div>
+                   
+                   
+               </div>
+              
+               
+               <br/>
+               <div class="row">
+                   
+                   <div class="container">
+                       
+                       <div class="col-xs-1"></div>
+                        <div id="results" class="col-xs-9">
+                                                          <table id="result_table"  class="table table-hover online" style="" >
+                                                         <thead style="color:white" >
+                                                         <th style="border:1px white solid ; text-align: center" >Rank</th>
+                                                         <th style="border:1px white solid ; text-align: center">Player name</th>		
+                                                         <th style="border:1px white solid ; text-align: center">Credits</th>
+                                                         <th style="border:1px white solid ; text-align: center"> Gain/Loss </th>
+                                                         <th style="border:1px white solid ; text-align: center"> Bitlets Gain / Loss </th>
+                                                         </thead>
+                                                         <tbody style="border:1px white solid ; text-align: center">                                        
+                                                         </tbody>
+                                                               
+                                                        </table>
+                                                    </div>
+                   </div>
+               </div>
+               <br/>
+               <div class="row container">
+                   <div id="share-fb" class="col-xs-9">
+                   <p>Please share your results on facebook to get 5000 credits
+                       <span onclick="fbshare()"><img src="./images/fb_share.png" /></span>
+                   </p>
+                 
+               </div>
+               
+               <div id="back-home" class="col-xs-3">
+                   <button onClick="backToHome()" style="color:black" class="btn btn-sm btn">Back to Home Page</button>
+               </div>
+               </div>
+               
+               <br/>
+               </div>
+          
+       </div>   
+           
+    
+    
+    </div>
+   
+    <div class="row">
+        <br/>
+        
+    </div>
+   <!--footer-->
+   <div class="row"> 
+   <div class="footer" >
+      <div class="container" >
+          <p class="text-muted" style="color:#fff;text-align: center;"> <span> <kbd> 18+ </kbd> &nbsp;</span> <span> | </span> <span> Secured by <img src="./images/paypal_curved.png"  height="30"/> </span> | <span> &COPY;</span> <span> Copy rights (1999- 2016) reserved by Pokerace Pty Ltd </span> </p>
+      </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="user_details.js" > </script>
+    <script type="text/javascript" src="load_online_tournaments.js" > </script>
+    <script type="text/javascript" src="facebooklogin_script.js" > </script>
+</body>
+</html>

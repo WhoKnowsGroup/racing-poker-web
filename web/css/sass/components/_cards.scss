@@ -1,0 +1,116 @@
+.card-holder {
+    li {
+        @include breakpoint(tablet) {
+            padding: 20px 10px 0 !important;
+        }
+    }
+    .cards {
+        display: inline-block;
+
+        & .card {
+            background-color: #464646;
+            display: inline-block;
+            height: 67px;
+            width: 43px;
+
+            @include breakpoint(tablet) {
+                height: 55px;
+                width: 38px;
+            }
+
+            @include breakpoint(phone) {
+                height: 50px;
+                width: 33px;
+            }
+
+            @include breakpoint(tinyphone) {
+                height: 40px;
+                width: 25px;
+            }
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    & .result {
+        display: inline-block;
+        font-weight: bold;
+        margin: 0 15px 30px;
+        vertical-align: text-bottom;
+
+         @include breakpoint(phone) {
+            left: 10px;
+            margin: 0;
+            position: absolute;
+            top: -6px;
+        }
+    }
+
+    & .bid {
+        font-size: 19px;
+        font-weight: bold;
+        display: inline-block;
+        line-height: 1.4;
+        margin: 0;
+
+        @include breakpoint(tablet) {
+            line-height: 1;
+        }
+
+        @include breakpoint(phone) {
+            font-size: 17px;
+        }
+
+        @include breakpoint(tinyphone) {
+            font-size: 14px;
+        }
+
+        span {
+            font-size: 14px;
+            font-weight: normal;
+
+            @include breakpoint(tinyphone) {
+                font-size: 12px;
+            }
+        }
+    }
+
+
+    & .submit-bid {
+        @include border-radius(50%);
+        border: none;
+        color: $color-text;
+        font-weight: bold;
+        float: right;
+        height: 70px;
+        margin-top: 4px;
+        width: 70px;
+
+        @include breakpoint(tablet) {
+            height: 56px;
+            margin-top: -3px;
+            width: 56px;
+        }
+
+        @include breakpoint(tinyphone) {
+            height: 48px;
+            margin-top: -1px;
+            width: 48px;
+        }
+
+        &:hover {
+            transition: .4s all;
+            font-size: 16px;
+            -webkit-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

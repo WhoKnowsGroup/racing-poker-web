@@ -1,0 +1,205 @@
+.profile-stats {
+	 @include breakpoint(phone) {
+	 	background-color: #363636;
+	 	height: 150px;
+	 	margin: -20px -15px 0;
+
+        p {
+            font-size: 14px !important;
+        }
+	 }
+
+    margin-bottom: 40px;
+
+    div {
+        @include box-sizing(border-box);
+        background-color:rgba(0,0,0,0.5);
+        height: 90px;
+    }
+
+    p {
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    span {
+        font-weight: normal;
+    }
+
+    // first
+    &-progress {
+        float: left;
+        padding: 0 15px;
+        width: 38%;
+
+        @include breakpoint(tablet) {
+        	float: none;
+        	margin-bottom: 20px;
+        	width: 100%;
+        }
+
+        @include breakpoint(phone) {
+        	height: 100% !important;
+        	float: left !important;
+            margin-bottom: 0 !important;
+            width: 60% !important;
+        }
+
+        img {
+
+            @include border-radius(50%);
+            float: left;
+            height: 50px;
+            margin-top: $margin-default;
+            margin-right: 15px;
+            width: 50px;
+
+        }
+
+        p {
+            margin-top: 25px;
+        }
+
+        a {
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        //progress-bar holder
+        &-bar {
+            display: inline-block;
+            background-color: initial !important;
+            margin-right: $margin-default;
+
+            @include breakpoint(phone) {
+	        	float: none !important;
+                margin-right: 0;
+                width: 100%;
+	        }
+
+            p {
+                margin-bottom: 5px;
+
+            	@include breakpoint(phone) {
+            		margin-top: 0;
+            	}
+
+                span {
+                    margin-left: 10px;
+                }
+            }
+
+            // progress-bar
+            div {
+                @include border-radius(3px);
+                border: 1px solid #fff;
+                background-color: initial;
+                height: 15px;
+                position: relative;
+                width: 170px;
+
+                @include breakpoint(phone) {
+            		width: 150px;
+            	}
+
+                span {
+                    background-color: #fff;
+                    height: 100%;
+                    position: absolute;
+                    width: 30%;
+                }
+            }
+        }
+    }
+
+    // second
+    &-credits {
+    	@include breakpoint(tablet) {
+        	float: none;
+        	width: 100%;
+        }
+
+		@include breakpoint(phone) {
+			float: left !important;
+			height: 100% !important;
+			padding-left: 0;
+            overflow: hidden;
+            width: 40% !important;
+
+            & .bonuses,
+            & .bit {
+                display: none;
+            }
+		}
+
+        float: right;
+        padding: 15px;
+        width: 61%;
+
+        p {
+            float: left;
+            text-align: center;
+            width: 25%;
+
+            @include breakpoint(phone){
+				text-align: left;
+                width: 100%;
+			}
+        }
+
+        .timer-holder {
+            background-color: transparent;
+            display: inline-block;
+            float: left;
+            position: relative;
+            text-align: center;
+            width: 25%;
+
+            p {
+                // display: none;
+                // position: absolute;
+                // opacity: 1;
+                transition: 2.5s all;
+                width: 100%;
+                z-index: 0;
+
+                &.fadeIn-Out {
+                    display: inline-block;
+                    opacity: 0;
+                    transition: 2.5s all;
+                }
+            }
+
+            .deal-button {
+                @include border-radius(5px);
+                background-color: #f23a22;
+                cursor: pointer;
+                left: 0;
+                margin-left: 0;
+                margin-top: 28px;
+                opacity: 0;
+                padding: 15px 30px;
+                position: absolute;
+                text-align: left;
+                transition: 2.5s all;
+                z-index: 2;
+
+                &.button-fade {
+                    opacity: 1;
+                }
+
+                &:hover {
+                    background-color: #ca3522;
+                }
+            }
+        }
+
+        span {
+            margin-left: 10px;
+        }
+
+    }
+
+}

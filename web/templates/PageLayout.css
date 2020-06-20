@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 13, 2016, 7:11:19 AM
+    Author     : Lokesh
+*/
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+       
+   
+}
+ 
+html, body {
+	height: 100%;
+        /*background: url('../images/bg-menu.gif') repeat center 0 ;*/
+  }
+  
+     ::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+    background-color: #555;
+}

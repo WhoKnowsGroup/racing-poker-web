@@ -1,0 +1,14 @@
+{
+   "_id": "Super Star ",
+   "Tournament_name": "Super star ",
+   "starting_credit_points": 250000,
+   "Required_bitlets": 500,
+   "Number_of_games": 20,
+   "Number_of_MinPlayers": 4,
+   "Number_of_MaxPlayers": 10,
+   "CreatedAt": "Mon Dec 31 10:11:02 UTC 2018",   
+   "Type": "Pot_poker",
+   "Tournament_id": 1008,
+   "Status": "active",
+   "notes": "id and name must match, 'pokerace_tournaments' table does not appear to be used"
+}

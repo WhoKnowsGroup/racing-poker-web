@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+  <html lang="en">
+<head>
+ <title>Kentucky Tournament</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+ <link rel="stylesheet" href="" />
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                         max-width:1024px;
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+ </style>
+ <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="user_details.js" > </script>
+ <script type="text/javascript" src="load_online_tournaments.js" > </script>
+ <script>
+     
+      var country_codes = [];
+      var country_names ;
+      var regions ;
+      var blocked_regions ;
+      var unblocked_regions ;
+      var country_name ;
+      var country_id ;
+       $("#blocking").hide();
+       $("#unblocking").hide();
+      
+       //$("#blocked_list_div").hide(); 
+    
+  var username="";
+ var emails_displayed = 0.0;
+ var bots_displayed = 0.0;
+             //var cookie_username="";
+             //var cook=document.cookie.split(";");
+             
+             //FIXME:  taking username from cookie; should be passed in from server
+             var value = "; " +document.cookie;
+             var cook= value.split("; ");
+             var length=cook.length;
+             for(var i=0;i<length;i++)
+             {
+             //  alert(cook[i]);
+               var split = cook[i].split("=");
+               if(split[0] === "username")
+               username = split[1]; 
+               
+             }
+             var user_split = "";
+             var user_credit = 0.0;
+             var user_fname = "";
+             var user_lname = "";
+             var user_nname = "";
+             var user_coins = "0";
+             var user_level = "1";
+ $(document).ready(function ()
+ {
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                         user_split = data.user_detail.split(",");
+                         user_credit = user_split[1];
+                         user_fname = user_split[2];
+                         user_lname = user_split[3];
+                         user_nname = user_split[0];
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"bootstrap_profile" + ".html\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" " +  "<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    });
+                    change_list("blocked_list");
+ });
+    function block()
+    {
+        var country_select = document.getElementById("countries");
+        var selected_index = country_select.selectedIndex ;
+        //alert(selected_index);
+        var country_selected = country_select.options[selected_index].value ;
+        
+        var region_select = document.getElementById("regions");
+        var region_selected_index = region_select.selectedIndex ;
+        //alert(selected_index);
+        var region_selected = region_select.options[region_selected_index].value ;
+        
+        var notes = document.getElementById("notes").value;
+        
+        alert(notes);
+        alert(country_selected);
+        alert(region_selected);
+        
+        if(region_selected == "ALL")
+        {
+            region_selected = regions[selected_index];
+            region_selected = region_selected.split(' ').join('+');
+        }
+        
+         $.getJSON("/Blocking_location", { "Country_code" : country_selected , "Regions": region_selected , "Notes" : notes }, function(data){ 
+            
+            console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Blocked Location" +"&nbsp;"+"Please refresh page";
+                region_select.disabled = "true";
+                country_select.disabled = "true";
+                document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+                 region_select.disabled = "true";
+                country_select.disabled = "true";
+                document.getElementById("block_div").style.visibility = "hidden";
+            }
+            
+         });
+    }
+     
+    function country_selection()
+    {
+        var country_select = document.getElementById("countries");
+        var selected_index = country_select.selectedIndex ;
+        //alert(selected_index);
+        var country_selected = country_select.options[selected_index].value ;
+        document.getElementById("regions_div").style.visibility = "visible" ;
+        document.getElementById("text_note").style.visibility = "visible" ;
+         document.getElementById("block_div").style.visibility = "visible" ;
+        var regions_select = document.getElementById("regions");
+        var options_length = regions_select.options.length ;
+        //alert(options_length);
+        if(regions_select.options.length > 0)
+        {
+        
+        regions_select.options.length = 0;
+     
+        }
+        //else
+        //alert("Empty");
+        var x = document.createElement("OPTION");
+        x.setAttribute("value", "ALL");
+        var t = document.createTextNode("ALL");
+        x.appendChild(t);
+        regions_select.appendChild(x);
+        var region_names = regions[selected_index].split(",");
+        for(var j=0 ; j < region_names.length -1  ; j++)
+        {
+             var x = document.createElement("OPTION");
+             x.setAttribute("value", region_names[j].split(' ').join('+'));
+             var t = document.createTextNode(region_names[j]);
+             x.appendChild(t);
+             regions_select.appendChild(x);
+        }
+   
+    }
+    function change_list(id)
+    {
+        if(id == "block")
+        {
+            $("#unblocking").hide();
+            $("#blocked_list_div").hide();
+            $("#blocking").show();
+            $.getJSON("/Countries_list", { }, function(data){ 
+          
+         // console.log(data.Codes);
+         // console.log(data.Names);
+         // console.log(data.Regions);
+          
+          country_codes = data.Codes.split(",");
+          country_names = data.Names.split(",");
+          regions = data.Regions.split("|");
+          
+        for(var i=0 ; i < country_codes.length - 1 ; i++)
+        {
+        var x = document.createElement("OPTION");
+        x.setAttribute("value", country_codes[i]);
+        var t = document.createTextNode(country_names[i]);
+        x.appendChild(t);
+        document.getElementById("countries").appendChild(x);
+       }
+                 
+                  
+                   
+    });
+        }
+        if(id == "unblock")
+        {
+            //document.getElementById("blocking").style.visibility = "hidden";
+            $("#blocking").hide();
+            $("#blocked_list_div").hide();
+            $("#unblocking").show();
+            document.getElementById("unblocking").style.visibility = "visible";
+            document.getElementById("heading").innerHTML = "Unblock Location";
+            document.getElementById("message").innerHTML = "";
+            $.getJSON("/Blocked_list", { }, function(data)
+            { 
+             country_codes = data.Codes.split(",");
+             country_names = data.Names.split(",");
+             regions = data.Regions.split("|");
+          
+            for(var i=0 ; i < country_codes.length - 1 ; i++)
+            {
+             var x = document.createElement("OPTION");
+             x.setAttribute("value", country_codes[i]);
+             var t = document.createTextNode(country_names[i]);
+             x.appendChild(t);
+             document.getElementById("unblock_countries").appendChild(x);
+            }
+            });
+        }
+        
+        if(id == "blocked_list")
+        {
+            $("#blocking").hide();
+            $("#unblocking").hide();
+            $("#blocked_list_div").show();
+            document.getElementById("blocked_list_div").style.visibility = "visible";
+             document.getElementById("heading").innerHTML = "Blocked Location";
+             
+             $.getJSON("/Blocked_list", { }, function(data)
+            {  
+                
+                  if(country_codes.length > 1)
+                  {
+                         for(var j=0;j< country_codes.length - 1; j++)
+                 {
+                      document.getElementById("list_blocked").deleteRow(1);
+                 } 
+                  }
+                  country_codes = data.Codes.split(",");
+                  country_names = data.Names.split(",");
+                  regions = data.Regions.split("|");
+                  
+                  
+                  for(var j=0;j< country_names.length - 1; j++)
+                  {
+                var list = document.getElementById("list_blocked");
+                var newRow = list.insertRow();
+                newRow.style.border = "white 1px solid";
+                newRow.style.padding = "5px";
+                var oCell = newRow.insertCell();
+                oCell.style.border = "white 1px solid";
+                oCell.innerHTML = j+1;
+                var oCell1 = newRow.insertCell();
+                oCell1.style.border = "white 1px solid";
+                 var a = document.createElement('a');
+                  a.setAttribute('href',"#");
+                  a.setAttribute('id',country_codes[j]);
+                  a.setAttribute('onclick',"clicked_country(this.id)");
+                  a.innerHTML = country_names[j];
+                oCell1.appendChild(a);
+                var oCell2 = newRow.insertCell();
+                oCell2.style.border = "white 1px solid";
+                oCell2.innerHTML = regions[j];
+            }
+            });
+        }
+    }
+    function unblock_regions()
+    {
+        var regions_unblock = "" ;
+    
+        for(var r=0 ; r < blocked_regions.length -1 ; r++)
+        {
+            alert(document.getElementById(blocked_regions[r]).innerHTML);
+            if(document.getElementById(blocked_regions[r]).checked)
+            {
+                regions_unblock += blocked_regions[r] + ",";
+                 alert(regions_unblock);
+            }
+            else
+            {
+                
+            }
+        }
+       
+         $.getJSON("/Unblock_regions", { "Country_code" : country_id , "Regions": regions_unblock  }, function(data){ 
+             
+                 console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Unblocked Location" +"&nbsp;"+"Please refresh page";
+               // region_select.disabled = "true";
+               // country_select.disabled = "true";
+                //document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+               //  region_select.disabled = "true";
+               // country_select.disabled = "true";
+               // document.getElementById("block_div").style.visibility = "hidden";
+            }
+         });
+        
+    }
+    function block_regions()
+    {
+         var regions_block = "" ;
+    
+        for(var r=0 ; r < unblocked_regions.length -1 ; r++)
+        {
+            //alert(document.getElementById(unblocked_regions[r]).innerHTML);
+            if(document.getElementById(unblocked_regions[r]).checked)
+            {
+                regions_block += unblocked_regions[r] + ",";
+                 alert(regions_block);
+            }
+            else
+            {
+                
+            }
+        }
+        
+        var notes = "";
+       
+         $.getJSON("/Blocking_location", { "Country_code" : country_id , "Regions": regions_block , "Notes": notes }, function(data){ 
+             
+                 console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Blocked Location" +"&nbsp;"+"Please refresh page";
+               // region_select.disabled = "true";
+               // country_select.disabled = "true";
+                //document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+               //  region_select.disabled = "true";
+               // country_select.disabled = "true";
+               // document.getElementById("block_div").style.visibility = "hidden";
+            }
+         });
+    }
+    function goback()
+    {
+        $("#blocked_country_details").hide();
+        change_list("blocked_list");
+    }
+    function clicked_country(id)
+    {
+          country_id = id ;
+          $.getJSON("/Country_details", { "Country_code" : id }, function(data)
+            {  
+                  console.log(data);
+                  $("#blocked_list_div").hide();
+                  $("#blocked_country_details").show();
+                  document.getElementById("blocked_country_details").style.visibility = "visible";
+                   blocked_regions = data.Blocked_regions.split(",");
+                   unblocked_regions = data.Unblocked_regions.split(",");
+                   country_name = data.Country_name ;
+                  var blocked_regions_div = document.getElementById("blocked_regions");
+                  var unblocked_regions_div = document.getElementById("unblocked_regions");
+                  var country_name_div = document.getElementById("Country_name");
+                   document.getElementById("heading").innerHTML = "Regions list" + "&nbsp;"   +"in" + "&nbsp;" + country_name;
+                   blocked_regions_div.innerHTML = "Blocked Regions" + "<br/>";
+                    unblocked_regions_div.innerHTML = "Unblocked Regions" + "<br/>";
+                  for(var r=0 ; r < blocked_regions.length -1 ;r++)
+                  {
+                      var checkbox = document.createElement('input');
+                      checkbox.type = "checkbox";
+                      checkbox.name = blocked_regions[r];
+                      checkbox.value = blocked_regions[r];
+                      checkbox.id = blocked_regions[r];
+                      var label = document.createElement('label')
+                      label.htmlFor = blocked_regions[r];
+                      label.appendChild(document.createTextNode(blocked_regions[r]));
+                      blocked_regions_div.appendChild(checkbox);
+                      blocked_regions_div.appendChild(label);
+                      blocked_regions_div.innerHTML += "<br/>";
+                  }
+                  
+                   for(var r=0 ; r < unblocked_regions.length -1 ;r++)
+                  {
+                      var checkbox = document.createElement('input');
+                      checkbox.type = "checkbox";
+                      checkbox.name = unblocked_regions[r];
+                      checkbox.value = unblocked_regions[r];
+                      checkbox.id = unblocked_regions[r];
+                      var label = document.createElement('label')
+                      label.htmlFor = unblocked_regions[r];
+                      label.appendChild(document.createTextNode(unblocked_regions[r]));
+                      unblocked_regions_div.appendChild(checkbox);
+                      unblocked_regions_div.appendChild(label);
+                      unblocked_regions_div.innerHTML += "<br/>";
+                  }
+                  
+            });
+    }
+    function unblock_country_selection()
+    {
+         var country_select = document.getElementById("unblock_countries");
+        var selected_index = country_select.selectedIndex ;
+        //alert(selected_index);
+        var country_selected = country_select.options[selected_index].value ;
+        document.getElementById("unblock_regions_div").style.visibility = "visible" ;
+        document.getElementById("unblock_text_note").style.visibility = "visible" ;
+         document.getElementById("unblock_div").style.visibility = "visible" ;
+        var regions_select = document.getElementById("unblock_regions");
+        var options_length = regions_select.options.length ;
+        //alert(options_length);
+        if(regions_select.options.length > 0)
+        {
+        
+        regions_select.options.length = 0;
+     
+        }
+        //else
+        //alert("Empty");
+        
+        var region_names = regions[selected_index].split(",");
+        for(var j=0 ; j < region_names.length -1  ; j++)
+        {
+             var x = document.createElement("OPTION");
+             x.setAttribute("value", region_names[j].split(' ').join('+'));
+             var t = document.createTextNode(region_names[j]);
+             x.appendChild(t);
+             regions_select.appendChild(x);
+        }
+    }
+    
+    function unblock()
+    {
+       var country_select = document.getElementById("unblock_countries");
+        var selected_index = country_select.selectedIndex ;
+        //alert(selected_index);
+        var country_selected = country_select.options[selected_index].value ;
+        
+        var region_select = document.getElementById("unblock_regions");
+        var region_selected_index = region_select.selectedIndex ;
+        //alert(selected_index);
+        var region_selected = region_select.options[region_selected_index].value ;
+        
+        var notes = document.getElementById("unblock_notes").value;
+        
+        alert(notes);
+        alert(country_selected);
+        alert(region_selected);
+        
+              
+         $.getJSON("/Unblocking_location", { "Country_code" : country_selected , "Regions": region_selected , "Notes" : notes }, function(data){ 
+            
+            console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Blocked Location" +"&nbsp;"+"Please refresh page";
+                region_select.disabled = "true";
+                country_select.disabled = "true";
+                document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+                 region_select.disabled = "true";
+                country_select.disabled = "true";
+                document.getElementById("block_div").style.visibility = "hidden";
+            }
+            
+         }); 
+    }
+    function block_all_regions()
+    {
+        var regions_block = "";
+        
+         for(var r=0 ; r < unblocked_regions.length -1 ; r++)
+        {
+            regions_block += unblocked_regions[r] + ",";
+        }
+        
+        $.getJSON("/Blocking_location", { "Country_code" : country_id , "Regions": regions_block }, function(data){ 
+             
+                 console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Blocked Location" +"&nbsp;"+"Please refresh page";
+               // region_select.disabled = "true";
+               // country_select.disabled = "true";
+                //document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+               //  region_select.disabled = "true";
+               // country_select.disabled = "true";
+               // document.getElementById("block_div").style.visibility = "hidden";
+            }
+         });
+    }
+    function unblock_all_regions()
+    {
+        
+        var regions_unblock = "" ;
+    
+        for(var r=0 ; r < blocked_regions.length -1 ; r++)
+        {
+           regions_unblock += blocked_regions[r] + ",";
+        }
+        
+         $.getJSON("/Unblock_regions", { "Country_code" : country_id , "Regions": regions_unblock  }, function(data){ 
+             
+                 console.log(data);
+            
+            if(data.result == "success")
+            {
+                var message = document.getElementById("message");
+                message.innerHTML = "&nbsp;" + "&nbsp;" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" + "&nbsp;"  + "Successfully Unblocked Location" +"&nbsp;"+"Please refresh page";
+               // region_select.disabled = "true";
+               // country_select.disabled = "true";
+                //document.getElementById("block_div").style.visibility = "hidden";
+            }
+            else
+            {
+                 var message = document.getElementById("message");
+                 message.innerHTML = "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" + "Operation Unsuccessfull" + "Please refresh page";
+               //  region_select.disabled = "true";
+               // country_select.disabled = "true";
+               // document.getElementById("block_div").style.visibility = "hidden";
+            }
+         }); 
+    }
+ </script>
+</head>
+<body>
+ <nav class="navbar navbar-default" style="background: #070707"   >
+     <div class="container" >
+      <div class="row"></div>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Racing Poker</a> 
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="bootstrap_/u/home">Home</a></li>
+        <li><a href="#">Get Started</a></li>
+        <li><a href="#">Promotions</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">About us</a></li>
+      </ul>
+       
+        <form class="navbar-form navbar-right" >
+            <div id="user_profile" style="color:white">
+            </div>
+        </form>
+       
+    </div>
+  </div>
+</nav>
+   
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-6"  style="color:#913E3E;font-family: cursive;font-size: 36"> &nbsp; &nbsp;  <img src="./images/racingpoker-logo5.png" width="250" height="120" /></div>
+        <div class="col-xs-6" > 
+            <br/>
+            <div class="col-xs-3" style=""> <strong> Online now: </strong></div>
+            <div class="col-xs-7" id="online" style="border-radius: 16;font-size:15; background-color:#666 ; text-align: center;color:#ffffff"> <em> <span>15,968 </span> </em> Players &nbsp; &nbsp; <em> <span> 984 </span> </em> Tournaments</div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <br/>
+    </div>
+     
+       <div class="row">
+    
+        <div class="container">
+            
+        
+            <div class="col-xs-3" style=" border-radius: 16;border: 1px white solid;font-size:16; background-color:grey; text-align:left;color:#000000;padding :15;">  
+                <h4 style="text-align: center;color:white;;">  Admin Options </h4> 
+             
+               &nbsp;&nbsp; <a  id="blocked_list" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-user" > </span> Blocked list </a>  <br/>
+              </div>
+        
+           <div class="col-xs-9" style=" border-radius: 16;border: 1px white solid;font-size:14; background-color:grey; text-align: left;color:#000000;padding :15;" >
+              
+               <div id="heading" > <h4>  Block Location </h4> </div>
+               <div id="message" class="row" >
+                   
+               </div>
+               <div  id="blocking" class="row">
+      
+                   <div class="col-xs-11">
+                       <div >
+                           <div class="row">
+                               <div class="col-xs-4">
+                                   
+                           <p> Please select country: </p>
+                               </div>
+                               <div class="col-xs-5">
+                                   
+                                <select id="countries" onchange="country_selection()">
+                                                                
+                                </select>
+                               </div>
+                           </div>
+                             <div id="regions_div" class="row" style="visibility:hidden;">
+                               <div class="col-xs-4">
+                                   
+                           <p> Please select Regions: </p>
+                               </div>
+                               <div class="col-xs-5">
+                                   
+                                <select id="regions">
+                                                                
+                                </select>
+                               </div>
+                              </div>
+                           <div id="text_note" class="row" style="visibility:hidden">
+                           <div class="col-xs-4">
+                               <p> Notes: </p>
+                           </div>
+                           <div class="col-xs-6">
+                            <textarea id="notes" rows="3" cols="25">
+
+                            </textarea>
+                         </div>
+                        </div> 
+                        <div id="block_div" class="row" style="visibility:hidden">
+                            
+                         <div class="col-xs-4">
+                           <button class="btn-primary" onclick="block()"> Block </button>  
+                         </div>
+                         <div class="col-xs-5">
+                           
+                         </div>
+                        </div>
+       </div>
+           
+       </div>
+ </div>
+               
+   <div id="unblocking" style="visibility:hidden">
+       
+         <div class="row">
+                               <div class="col-xs-4">
+                                   
+                           <p> Please select country: </p>
+                               </div>
+                               <div class="col-xs-5">
+                                   
+                                <select id="unblock_countries" onchange="unblock_country_selection()">
+                                                                
+                                </select>
+                               </div>
+                           </div>
+                             <div id="unblock_regions_div" class="row" style="visibility:hidden;">
+                               <div class="col-xs-4">
+                                   
+                           <p> Please select Regions: </p>
+                               </div>
+                               <div class="col-xs-5">
+                                   
+                                <select id="unblock_regions">
+                                                                
+                                </select>
+                               </div>
+                              </div>
+                           <div id="unblock_text_note" class="row" style="visibility:hidden">
+                           <div class="col-xs-4">
+                               <p> Notes: </p>
+                           </div>
+                           <div class="col-xs-6">
+                            <textarea id="unblock_notes" rows="3" cols="25">
+
+                            </textarea>
+                         </div>
+                        </div> 
+                        <div id="unblock_div" class="row" style="visibility:hidden">
+                            
+                         <div class="col-xs-4">
+                           <button class="btn-primary" onclick="unblock()"> Unblock </button>  
+                         </div>
+                         <div class="col-xs-5">
+                           
+                         </div>
+                        </div>
+       
+   </div>
+    <div id="blocked_list_div" style="visibility:hidden">
+        
+           <div class="row">
+               <div class="col-xs-2">
+               </div>
+               <div class="col-xs-8">
+               <table id="list_blocked"> 
+                   <th style="width:25px"> S.No:</th>
+                   <th style="width:50px"> Country </th>
+                   <th style="width:100px"> Region </th>                   
+               </table>
+               </div>
+           </div>
+    </div>
+               <div id="blocked_country_details" style="visibility:hidden" >
+                   
+                <div  id="country_name" class="row">
+                   
+                </div>
+                 <div class="row">
+                     <div class="col-xs-6">
+                         <div id="blocked_regions">
+                             
+                         </div>
+                         <div>
+                             
+                             <button class="btn-primary" onclick="unblock_regions()"> Unblock </button> &nbsp;  
+                         </div>
+                     </div>
+                     <div class="col-xs-6">
+                           <div id="unblocked_regions">
+                               
+                               
+                           </div>
+                         <div>
+                             <button class="btn-primary" onclick="block_regions()"> Block </button> &nbsp;
+                         </div>
+                     </div>
+               </div>
+                 <div class="row">
+                     <br/>
+                     
+                     <button class="btn-danger" onclick="goback()" > Go back </button> &nbsp;
+                     <button class="btn-primary" onclick="block_all_regions()"> Block all regions</button> &nbsp;
+                     <button class="btn-primary" onclick="unblock_all_regions()"> Unblock all regions</button> &nbsp;
+                 </div>
+   </div>
+  </div>
+  </div>
+   </div>
+</body>
+ </html>
+ 

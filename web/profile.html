@@ -1,0 +1,329 @@
+<html lang="en">
+<head>
+ <title>Racing Poker | Online Poker</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="keywords" content="Poker,racing poker,online poker,poker tournaments,players">
+ <meta name="application-name" content="Racing Poker">
+ <meta name="author" content="Pokerace Team">
+ <meta property="og:image" content="https://www.racingpoker.com/images/racingpoker-logo9.png">     
+ <link rel="icon" href="./images/racingpoker-logo9.png" />
+ <link rel="stylesheet" href="./css/bootstrap_min.css" />
+ <link rel="stylesheet" href="./templates/PageStyleSheets.css" />
+ <link rel="stylesheet" href="./templates/PageLayout.css" />
+ <script src="./Jquery/jquery_min.js"></script>
+ <script src="./Jquery/bootstrap_min.js"></script>
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                        
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+     
+ </style>
+  
+ <script>
+ var username="";
+            if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+             
+             var user_split = "";
+                        var user_credit = 0.0;
+                        var user_fname = "";
+                        var user_lname = "";
+                        var user_nname = "";
+                        var user_coins = "0";
+                        var user_level = "1";
+ $(document).ready(function ()
+ {
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                         user_split = data.user_detail.split(",");
+                         user_credit = user_split[1];
+                         user_fname = user_split[2];
+                         user_lname = user_split[3];
+                         user_nname = user_split[0];
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"bootstrap_profile" + ".html\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>"+" "+"<a href=\"history.html\"class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-stats\"></span>" +"History"+"</a>" +" " +  "<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        var div2 = document.getElementById("heading");
+                        div2.innerHTML = "<h4>" + "General Account Settings" + "&nbsp;" + "</h4>" ;
+                        $("#security").hide();
+                        var div3 = document.getElementById("credits");
+                        div3.innerHTML = "<em> <span>" + user_credit + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + parseInt(user_coins) + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+                        change_list("general_link");
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    });
+ });
+ function change_list(id)
+ {
+     if(id == "security_link")
+     {
+           $("#general").hide();
+          var div2 = document.getElementById("heading");
+          div2.innerHTML = "<h4>" + "Change Password" + "&nbsp;" + "</h4>" ;
+          $("#security").show();
+          
+     }
+     if(id == "add_credits_link")
+     {
+         // invite friends to get 
+          window.location.href = "/u/addChips"; 
+     }
+       if(id == "statistics_link")
+     {
+         // invite friends to get 
+          window.location.href = "Top_shots.html"; 
+     }
+     if(id == "general_link")
+     {
+           $("#security").hide();
+          var div2 = document.getElementById("heading");
+          div2.innerHTML = "<h4>" + "General Account Settings" + "&nbsp;" + "</h4>" ;
+          $("#general").show();
+          var fdiv = document.getElementById("first");
+          var ldiv = document.getElementById("last");
+          var ndiv = document.getElementById("nick");
+          document.getElementById("first").value = user_fname;
+          document.getElementById("last").value = user_lname;
+          document.getElementById("nick").value = user_nname;
+     }
+    
+     
+ }
+ function change_userdetails()
+             {          
+                 var fname ="";
+                 var lname ="";
+                 var nname = "";
+                 console.log(username);
+                 var fdiv = document.getElementById("first").value;
+                 var ldiv = document.getElementById("last").value;
+                 var ndiv = document.getElementById("nick").value;
+                 
+                 var mdiv = document.getElementById("message");
+    
+                 $.getJSON("/Updateuser", {"username" : username, "firstname" : fdiv , "lastname" : ldiv , "nickname" : ndiv , "command" : "Update_details" }, function(data){
+                     
+                     if(data.result === "success")
+                     {
+                         mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" +"SuccessFully Updated";
+                         
+                     }
+                     else
+                     {
+                         mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Update is unsuccussfull";
+                     }
+                 });
+    
+              }
+              function change_password()
+             {          
+                 var cpass ="";
+                 var npass ="";
+                 var cfpass = "";
+                 
+                 var fdiv = "deprecated";//document.getElementById("current").value;
+                 var ldiv = document.getElementById("new").value;
+                 var ndiv = document.getElementById("confirm").value;
+                 
+                 if (ldiv != ndiv) {
+                	 alert("The passwords don't match!");
+                	 return;
+                 }
+                 
+                 var mdiv = document.getElementById("message");
+    
+                 $.getJSON("/Updatepassword", {"username" : username, "password" : fdiv , "new" : ldiv , "command" : "Change_password" }, function(data){
+                     
+                     if(data.result === "success")
+                     {
+                         mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" +"SuccessFully Updated";
+                         
+                     }
+                     else
+                     {
+                         mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Password is incorrect";
+                     }
+                 });
+    
+              }
+ </script>
+</head>
+<body>
+ 
+     <div class="navbar navbar-custom navbar-fixed-top" >
+    <div class="navbar-inner header">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+        <a class="navbar-brand" href="/u/home" > Racing Poker&trade; </a> 
+    </div>
+    <div id="myNavbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="learn_game.html" style=""> Game Rules</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+         
+            </ul>
+            <form class="navbar-form navbar-right" >
+                <div id="user_profile" style="color:white">
+            <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#login_popup1"> <span class="glyphicon glyphicon-log-in"> </span>&nbsp; Login </button>
+             <a href="register.html" class="btn btn-success"><span class="glyphicon glyphicon-user"></span>Sign up </a>
+                </div>
+        </form>
+                 
+    </div>
+    </div>
+    </div>
+   </div>
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+   
+    <div class="row">
+        <br/>
+    </div>
+       <div class="row">
+    
+        <div class="container">
+            
+        
+            <div class="col-xs-12 col-md-3 bg-row" style="text-align:left;padding :15;">  
+                <h4 style="text-align: center;color:white;;">  Settings </h4> 
+               &nbsp;&nbsp; <a  id="general_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-wrench active" > </span> General</a>  <br/>
+               &nbsp;&nbsp; <a  id="security_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-lock" > </span> Security </a>  <br/>
+               &nbsp;&nbsp; <a  id="add_credits_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-credit-card" > </span> Add Credits </a>  <br/>
+               &nbsp;&nbsp; <a  id="statistics_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-stats" > </span> Statistics </a>  <br/>
+            </div>
+        
+           <div class="col-xs-12 col-md-9 bg-row" style="padding :15;bottom:0" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="heading">
+                       <h4>  </h4>
+                   </div>
+                   <div id="message"></div>
+                   
+               </div>
+              
+               
+               <div class="row" style="">
+                   
+                   
+                   <div class="col-xs-12">
+                   <div style="" >
+                        <div class="col-xs-3" style=""> <strong> Current Credits: </strong></div>
+                        <div id="credits" class="col-xs-6" style="border-radius: 16;font-size:15; background-color:#333333 ; text-align: center;color:#ffffff;padding:2;"> </div>
+                        <div class="col-xs-3"><a href="/u/addChips" class="btn btn-default" > Add Credit </a> </div>
+                   </div>
+                   
+               </div>
+               </div>
+               
+               <div class="row" id="general">
+                   <div class="col-xs"></div>
+                   <div class="col-xs-12">
+                      <br/>
+                       <div id="first_name">
+                           &nbsp; &nbsp; <label for="first">  First name :</label>
+                          <input type="text" id="first" />
+                       </div>
+                        <div id="last_name">
+                         &nbsp; &nbsp; <label for="last">  Last name :</label>
+                          <input type="text" id="last" />
+                       </div>
+                        <div id="nick_name">
+                         &nbsp; &nbsp;  <label for="nick" >  Screen name :</label>
+                         <input type="text" id="nick" disabled />
+                       </div>
+                      <br/>
+                      <div id="save">
+                          &nbsp; &nbsp; <button type="button" class="btn btn-primary" onclick="change_userdetails()">Save</button>
+                      </div> 
+                      
+                   </div>
+               </div>
+               <div class="row" id="security" style="display:none">
+                   <div class="col-xs"></div>
+                   <div class="col-xs-12">
+                       <div class="row">
+                           <br/>
+                       <div class="row">
+                        <div class="col-xs-3">
+                            <label for="new"> New Password :</label> </div>
+                          <div class="col-xs-9">  
+                              <input type="password" id="new"> </div>
+                       </div>
+                       <div class="row">
+                          <div class="col-xs-3">  
+                              <label for="confirm"> Confirm Password :</label> </div>
+                           <div class="col-xs-9">     <input type="password" id="confirm" /> </div>
+                         </div>
+                       
+                       <div>
+                           <br/>
+                          &nbsp; &nbsp; <button type="button" class="btn btn-primary" onclick="change_password()">
+                               Update
+                           </button>                       </div>                               
+                   </div>
+               
+           </div>
+          
+       </div>   
+           
+    
+    
+    </div>
+    
+      </div>
+    <div class="row">
+        <br/>
+        
+    </div>
+
+  
+    <!--footer-->
+     <div class="row"> 
+   <div class="footer" >
+      <div class="container" >
+          <p class="text-muted" style="color:#fff;text-align: center;"> <span> <kbd> 18+ </kbd> &nbsp;</span> <span> | </span> <span> Secured by <img src="./images/paypal_curved.png"  height="30"/> </span> | <span> &COPY;</span> <span> Copy rights (1999 - 2016) reserved by Pokerace Pty Ltd </span> </p>
+      </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="user_details.js" > </script>
+</body>
+ </html>

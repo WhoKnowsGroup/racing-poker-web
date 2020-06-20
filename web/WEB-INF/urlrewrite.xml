@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN"
+        "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
+
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+    <rule>
+        <!-- This shouldn't be necessary, but for some reason image URL's are being rewritten -->
+        <from>/images/(.*)</from>
+        <to>/images/$1</to>
+    </rule>
+    <rule>
+        <!-- This shouldn't be necessary, but for some reason image URL's are being rewritten -->
+        <from>/Login_script(.*)</from>
+        <to>/Login_script$1</to>
+    </rule>
+    <rule>
+    	<from>/r/newPass/([a-f0-9]+)\?(.*)</from>
+     	<to>/auth?method=newPassword&amp;auth=$1&amp;$2</to>
+    </rule>
+    <rule>
+    	<from>/r/activate/([a-f0-9]+)\?(.*)</from>
+     	<to>/auth?method=activateUser&amp;auth=$1&amp;$2</to>
+    </rule>
+    <rule>
+    	<from>/r/invite/([a-f0-9]+)\?(.*)</from>
+     	<to>/auth?method=activateInvite&amp;auth=$1&amp;$2</to>
+    </rule>
+	
+	<!-- PreAuthMethods -->
+	<rule>
+    	<from>/r/([a-zA-Z0-9]+)</from>
+     	<to>/auth?method=$1</to>
+    </rule>
+    <rule>
+    	<from>/r/([a-zA-Z0-9]+)\?(.*)</from>
+     	<to>/auth?method=$1&amp;$2</to>
+    </rule>
+	<rule>
+		<from>/Verification</from>
+		<to>/auth?method=verify</to>
+	</rule>
+	<rule>
+		<from>/Verification\?(.*)</from>
+		<to>/auth?method=verify&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/UserRegister</from>
+		<to>/auth?method=register</to>
+	</rule>
+	<rule>
+		<from>/UserRegister\?(.*)</from>
+		<to>/auth?method=register&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Tournament_list</from>
+		<to>/auth?method=listTournaments</to>
+	</rule>
+	<rule>
+		<from>/Tournament_list\?(.*)</from>
+		<to>/auth?method=listTournaments&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Tournament_find</from>
+		<to>/auth?method=findTournament</to>
+	</rule>
+	<rule>
+		<from>/Tournament_find\?(.*)</from>
+		<to>/auth?method=findTournament&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Top_shots</from>
+		<to>/auth?method=topShots</to>
+	</rule>
+	<rule>
+		<from>/Top_shots\?(.*)</from>
+		<to>/auth?method=topShots&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Top_players</from>
+		<to>/auth?method=topPlayers</to>
+	</rule>
+	<rule>
+		<from>/Top_players\?(.*)</from>
+		<to>/auth?method=topPlayers&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Socialwebsite_userregistration</from>
+		<to>/auth?method=socialRegistration</to>
+	</rule>
+	<rule>
+		<from>/Socialwebsite_userregistration\?(.*)</from>
+		<to>/auth?method=socialRegistration&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Resendlink</from>
+		<to>/auth?method=resendVerficationLink</to>
+	</rule>
+	<rule>
+		<from>/Resendlink\?(.*)</from>
+		<to>/auth?method=resendVerficationLink&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Recent_winners</from>
+		<to>/auth?method=recentWinners</to>
+	</rule>
+	<rule>
+		<from>/Recent_winners\?(.*)</from>
+		<to>/auth?method=recentWinners&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Logout</from>
+		<to>/auth?method=logout</to>
+	</rule>
+	<rule>
+		<from>/Logout\?(.*)</from>
+		<to>/auth?method=logout&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Login_form</from>
+		<to>/auth?method=loginPage</to>
+	</rule>
+	<rule>
+		<from>/Login_form\?(.*)</from>
+		<to>/auth?method=loginPage&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Login\?(.*)</from>
+		<to>/auth?method=login&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/hand</from>
+		<to>/auth?method=hand</to>
+	</rule>
+	<rule>
+		<from>/hand\?(.*)</from>
+		<to>/auth?method=hand&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/FrontControl</from>
+		<to>/auth?method=frontControl</to>
+	</rule>
+	<rule>
+		<from>/FrontControl\?(.*)</from>
+		<to>/auth?method=frontControl&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Forgotpassword</from>
+		<to>/auth?method=forgotPassword</to>
+	</rule>
+	<rule>
+		<from>/Forgotpassword\?(.*)</from>
+		<to>/auth?method=forgotPassword&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/FacebookShareResult</from>
+		<to>/auth?method=facebookShareResult</to>
+	</rule>
+	<rule>
+		<from>/FacebookShareResult\?(.*)</from>
+		<to>/auth?method=facebookShareResult&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Facebook_login</from>
+		<to>/auth?method=facebookLogin</to>
+	</rule>
+	<rule>
+		<from>/Facebook_login\?(.*)</from>
+		<to>/auth?method=facebookLogin&amp;$1</to>
+    </rule>
+ 	<rule>
+ 		<from>/connect_check</from>
+ 		<to>/auth?method=connectionCheck</to>
+ 	</rule>
+ 	<rule>
+ 		<from>/connect_check\?(.*)</from>
+ 		<to>/auth?method=connectionCheck&amp;$1</to>
+    </rule>
+    
+ 	<!-- PaypalMethods -->
+    <rule>
+    	<from>/paypal/([a-zA-Z0-9]+)</from>
+     	<to>/paypalHandler?method=$1</to>
+    </rule>
+    <rule>
+		<from>/paypal/([a-zA-Z0-9]+)\?(.*)</from>
+		<to>/paypalHandler?method=$1&amp;$2</to>
+    </rule>
+    
+    <!-- AdminMethodsMethods -->
+    <rule>
+    	<from>/a/([a-zA-Z0-9]+)</from>
+     	<to>/admin?method=$1</to>
+    </rule>
+    <rule>
+		<from>/a/([a-zA-Z0-9]+)\?(.*)</from>
+		<to>/admin?method=$1&amp;$2</to>
+    </rule>
+    <rule>
+    	<from>/Users_list</from>
+    	<to>/admin?method=listUsers</to>
+    </rule>
+    <rule>
+		<from>/Users_list\?(.*)</from>
+		<to>/admin?method=listUsers&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/UserPasswordMigration</from>
+    	<to>/admin?method=migrateOldPasswords</to>
+    </rule>
+    <rule>
+		<from>/UserPasswordMigration\?(.*)</from>
+		<to>/admin?method=migrateOldPasswords&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Unblocking_location</from>
+    	<to>/admin?method=unblockLocation</to>
+    </rule>
+    <rule>
+		<from>/Unblocking_location\?(.*)</from>
+		<to>/admin?method=unblockLocation&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Unblock_regions</from>
+    	<to>/admin?method=unblockRegions</to>
+    </rule>
+    <rule>
+		<from>/Unblock_regions\?(.*)</from>
+		<to>/admin?method=unblockRegions&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Send_invitation</from>
+    	<to>/admin?method=inviteUser</to>
+    </rule>
+    <rule>
+		<from>/Send_invitation\?(.*)</from>
+		<to>/admin?method=inviteUser&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Registered_users</from>
+    	<to>/admin?method=listRegisteredUsers</to>
+    </rule>
+    <rule>
+		<from>/Registered_users\?(.*)</from>
+		<to>/admin?method=listRegisteredUsers&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Regions</from>
+    	<to>/admin?method=listRegions</to>
+    </rule>
+    <rule>
+		<from>/Regions\?(.*)</from>
+		<to>/admin?method=listRegions&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/guest_mode_users</from>
+    	<to>/admin?method=listGuestUsers</to>
+    </rule>
+    <rule>
+		<from>/guest_mode_users\?(.*)</from>
+		<to>/admin?method=listGuestUsers&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Create_tournament</from>
+    	<to>/admin?method=createTournament</to>
+    </rule>
+    <rule>
+		<from>/Create_tournament\?(.*)</from>
+		<to>/admin?method=createTournament&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Country_details</from>
+    	<to>/admin?method=countryDetails</to>
+    </rule>
+    <rule>
+		<from>/Country_details\?(.*)</from>
+		<to>/admin?method=countryDetails&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Countries_list</from>
+    	<to>/admin?method=listCountries</to>
+    </rule>
+    <rule>
+		<from>/Countries_list\?(.*)</from>
+		<to>/admin?method=listCountries&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Bots_list</from>
+    	<to>/admin?method=listBots</to>
+    </rule>
+    <rule>
+		<from>/Bots_list\?(.*)</from>
+		<to>/admin?method=listBots&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Bots</from>
+    	<to>/admin?method=manageBots</to>
+    </rule>
+    <rule>
+		<from>/Bots\?(.*)</from>
+		<to>/admin?method=manageBots&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/bot_registration</from>
+    	<to>/admin?method=createBot</to>
+    </rule>
+    <rule>
+		<from>/bot_registration\?(.*)</from>
+		<to>/admin?method=createBot&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Bot_details</from>
+    	<to>/admin?method=botDetails</to>
+    </rule>
+    <rule>
+		<from>/Bot_details\?(.*)</from>
+		<to>/admin?method=botDetails&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Bot_delete</from>
+    	<to>/admin?method=deleteBot</to>
+    </rule>
+    <rule>
+		<from>/Bot_delete\?(.*)</from>
+		<to>/admin?method=deleteBot&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/bot_changes</from>
+    	<to>/admin?method=updateBot</to>
+    </rule>
+    <rule>
+		<from>/bot_changes\?(.*)</from>
+		<to>/admin?method=updateBot&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Blocking_location</from>
+    	<to>/admin?method=blockedLocations</to>
+    </rule>
+    <rule>
+		<from>/Blocking_location\?(.*)</from>
+		<to>/admin?method=blockedLocations&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Blocked_list</from>
+    	<to>/admin?method=blockedList</to>
+    </rule>
+    <rule>
+		<from>/Blocked_list\?(.*)</from>
+		<to>/admin?method=blockedList&amp;$1</to>
+    </rule>
+    <rule>
+    	<from>/Admin_changes</from>
+    	<to>/admin?method=adminChanges</to>
+    </rule>
+    <rule>
+		<from>/Admin_changes\?(.*)</from>
+		<to>/admin?method=adminChanges&amp;$1</to>
+    </rule>
+    
+    <!-- PostAuthMethods -->
+    <rule>
+		<from>/u/([a-zA-Z0-9]+)</from>
+		<to>/user?method=$1</to>
+	</rule>
+	<rule>
+		<from>/u/([a-zA-Z0-9]+)\?(.*)</from>
+		<to>/user?method=$1&amp;$2</to>
+    </rule>
+	<rule>
+		<from>/Updateuser</from>
+		<to>/user?method=updateProfile</to>
+	</rule>
+	<rule>
+		<from>/Updateuser\?(.*)</from>
+		<to>/user?method=updateProfile&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Updatepassword</from>
+		<to>/user?method=updatePassword</to>
+	</rule>
+	<rule>
+		<from>/Updatepassword\?(.*)</from>
+		<to>/user?method=updatePassword&amp;$1</to>
+    </rule>
+ 	<rule>
+ 		<from>/Tournamentresults</from>
+ 		<to>/user?method=tournamentResults</to>
+ 	</rule>
+ 	<rule>
+ 		<from>/Tournamentresults\?(.*)</from>
+ 		<to>/user?method=tournamentResults&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Process_payment_success</from>
+		<to>/user?method=paymentSuccess</to>
+	</rule>
+	<rule>
+		<from>/Process_payment_success\?(.*)</from>
+		<to>/user?method=paymentSuccess&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Pokerace_user_credit_history</from>
+		<to>/user?method=creditHistory</to>
+	</rule>
+	<rule>
+		<from>/Pokerace_user_credit_history\?(.*)</from>
+		<to>/user?method=creditHistory&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Payment_history</from>
+		<to>/user?method=paymentHistory</to>
+	</rule>
+	<rule>
+		<from>/Payment_history\?(.*)</from>
+		<to>/user?method=paymentHistory&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Exit_tournament</from>
+		<to>/user?method=exitTournament</to>
+	</rule>
+	<rule>
+		<from>/Exit_tournament\?(.*)</from>
+		<to>/user?method=exitTournament&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Convert_bitlets</from>
+		<to>/user?method=convertBilets</to>
+	</rule>
+	<rule>
+		<from>/Convert_bitlets\?(.*)</from>
+		<to>/user?method=convertBilets&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Chat_servlet</from>
+		<to>/user?method=sendChatMessage</to>
+	</rule>
+	<rule>
+		<from>/Chat_servlet\?(.*)</from>
+		<to>/user?method=sendChatMessage&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Bets</from>
+		<to>/user?method=bets</to>
+	</rule>
+	<rule>
+		<from>/Bets\?(.*)</from>
+		<to>/user?method=bets&amp;$1</to>
+    </rule>
+	<rule>
+		<from>/Achievements</from>
+		<to>/user?method=achievements</to>
+	</rule>
+	<rule>
+		<from>/Achievements\?(.*)</from>
+		<to>/user?method=achievements&amp;$1</to>
+    </rule>
+    
+
+	<!-- default rule included with urlrewrite -->
+    <rule>
+        <note>
+            The rule means that requests to /test/status/ will be redirected to /rewrite-status
+            the url will be rewritten.
+        </note>
+        <from>/test/status/</from>
+        <to type="redirect">%{context-path}/rewrite-status</to>
+    </rule>
+    <outbound-rule>
+        <note>
+            The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)
+            the url /rewrite-status will be rewritten to /test/status/.
+
+            The above rule and this outbound-rule means that end users should never see the
+            url /rewrite-status only /test/status/ both in thier location bar and in hyperlinks
+            in your pages.
+        </note>
+        <from>/rewrite-status</from>
+        <to>/test/status/</to>
+    </outbound-rule>
+
+
+    <!--
+
+    INSTALLATION
+
+        in your web.xml add...
+
+        <filter>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+            <init-param>
+                <param-name>logLevel</param-name>
+                <param-value>WARN</param-value>
+            </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+
+     EXAMPLES
+
+     Redirect one url
+        <rule>
+            <from>/some/old/page.html</from>
+            <to type="redirect">/very/new/page.html</to>
+        </rule>
+
+    Redirect a directory
+        <rule>
+            <from>/some/olddir/(.*)</from>
+            <to type="redirect">/very/newdir/$1</to>
+        </rule>
+
+    Clean a url
+        <rule>
+            <from>/products/([0-9]+)</from>
+            <to>/products/index.jsp?product_id=$1</to>
+        </rule>
+    eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
+
+    Browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <from>/some/page.html</from>
+            <to>/some/page-for-old-browsers.html</to>
+        </rule>
+    eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
+    browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
+
+    Centralised browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <set type="request" name="browser">moz</set>
+        </rule>
+    eg, all requests will be checked against the condition and if matched
+    request.setAttribute("browser", "moz") will be called.
+
+    -->
+
+</urlrewrite>
+

@@ -1,0 +1,48 @@
+.leaderboard {
+    .main {
+        @include background-image(/images/v2/landing-background-darken, jpg, cover, center, no-repeat, false);
+        padding: 10px;
+
+        @include breakpoint(phablet) {
+            padding: 0;
+        }
+
+        &-inner {
+            background-color: rgba(0,0,0, .3);
+            padding: 10px;
+
+            @include breakpoint(phone) {
+                padding: 0;
+            }
+
+            h1 {
+                font-weight: normal;
+                margin-top: 0;
+                padding-top: 20px;
+                text-align: center;
+            }
+
+            .tabs {
+                &-tab {
+                    .game-stats {
+                        margin: 0;
+                        height: 400px;
+
+                        &-row-title-holder {
+                            background-color: transparent;
+                            padding-right: 20px;
+                        }
+
+                        .table-holder {
+                            background-color: transparent;
+
+                            &-inner {
+                                height: 300px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

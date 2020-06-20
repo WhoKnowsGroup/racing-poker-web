@@ -1,0 +1,2 @@
+<a href="/r/guestModeV2"  onclick="navigate()" class="btn btn-primary" >Guest Mode</a>
+<a  class=" btn btn-success"  data-toggle="modal" data-target="#login_popup1"> <span class="glyphicon glyphicon-log-in"> </span>&nbsp; Login </a>

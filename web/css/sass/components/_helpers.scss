@@ -1,0 +1,195 @@
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-justify {
+	text-align: justify;
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+.float-none {
+	float: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.clearfix {
+	@include clearfix();
+}
+
+.responsive-img {
+    @include responsive-img();
+}
+
+.hidden {
+    display: none;
+}
+
+.mobile-hide {
+
+    display: block;
+
+    @include breakpoint(phone) {
+        display: none !important;
+    }
+
+}
+
+.mobile-show {
+
+    display: none;
+
+    @include breakpoint(phone) {
+        display: block;
+    }
+
+}
+
+.phablet-hide {
+
+    display: block;
+
+    @include breakpoint(phablet) {
+        display: none !important;
+    }
+
+}
+
+.phablet-show {
+
+    display: none;
+
+    @include breakpoint(phablet) {
+        display: block;
+    }
+
+}
+
+.tablet-hide {
+
+    display: block;
+
+    @include breakpoint(tablet) {
+        display: none !important;
+    }
+
+}
+
+.tablet-show {
+
+    display: none;
+
+    @include breakpoint(tablet) {
+        display: block;
+    }
+
+}
+
+.page-wrapper {
+	overflow-x: hidden;
+	width: 100%;
+}
+
+// background-colors
+.color-1-bck {
+    background-color: #ea4343;
+}
+.color-2-bck {
+    background-color: #f1c100;
+}
+.color-3-bck {
+    background-color: #82bd2e;
+}
+.color-4-bck {
+    background-color: #3291ea;
+}
+.color-5-bck {
+    background-color: #6f448c;
+}
+.color-6-bck {
+    background-color: #e77817;
+}
+// text-color
+.color-1-txt {
+    color: #ea4343;
+}
+.color-2-txt {
+    color: #f1c100;
+}
+.color-3-txt {
+    color: #82bd2e;
+}
+.color-4-txt {
+    color: #3291ea;
+}
+.color-5-txt {
+    color: #6f448c;
+}
+.color-6-txt {
+    color: #e77817;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.5);
+    display: none;
+    height: 100%;
+    left: 0;
+    // overflow-y: scroll;
+    position:fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+.custom-scroll {
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: #262626;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #bebebe;
+    }
+}
+
+// mobile-menu links
+.terms-link {
+    margin-bottom: 20px;
+    // height: 60px;
+    text-align: center;
+
+    a {
+        color: #3b5998;
+        display: inline-block;
+
+        &:first-child {
+            position: relative;
+
+            &:after {
+                content: '|';
+                color: #3b5998;
+                display: inline-block;
+                margin-left: 10px;
+                margin-right: 6px;
+            }
+        }
+    }
+}

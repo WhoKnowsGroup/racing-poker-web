@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+    <html lang="en">
+<head>
+ <title>Racing Tournament</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/highslide/highslide.css" />
+ <link rel="stylesheet" href="" />
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                       
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+  .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: silver; /*Change rollover cell color here*/
+  }
+ .navbar-default  .navbar-nav > li > a {
+   color: white; /*Change active text color here*/
+    }
+ 
+  .navbar-default  .navbar-brand  {
+   color: white; /*Change active text color here*/
+   
+  } 
+ </style>
+ <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="user_details.js" > </script>
+ <script type="text/javascript" src="load_online_tournaments.js" > </script>
+ <script type="text/javascript" src="Graphs_and_charts.js" > </script>
+  <script type="text/javascript" src="Graphs_and_charts.js" > </script>
+  <script type="text/javascript" src="load_tournaments.js" > </script>
+  <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="https://www.highcharts.com/highslide/highslide-full.min.js"></script>
+<script type="text/javascript" src="https://www.highcharts.com/highslide/highslide.config.js" charset="utf-8"></script>
+ <script>
+ $(document).ready(function(){
+ //alert("in the tournament");
+ //$('#login_popup1').modal('show');
+ var chart;
+ var tournaments_length = 0;
+ var high_tournaments_length =0;
+ var mid_tournaments_length =0;
+ var entry_tournaments_length =0;
+ var one_tournaments_length =0;
+ var newdata = [];
+ 
+            if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                               console.log(username);
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+             
+             //alert(username);
+             $.getJSON("/FrontControl", {"username" : username, "command" : "verify" }, function(data){ 
+                 
+                 if(data.result === "success")
+                 {
+                  //alert("success")   ;
+                 }
+                 
+                else
+                {
+                    connection_check();
+                    //window.location.href="index.html";
+                    return false;
+                }
+                 
+             });
+             
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                       // alert(data.user_detail);
+                        var user_split = data.user_detail.split(",");
+                        var user_credit = user_split[1];
+                        var user_fname = user_split[2];
+                        var user_lname = user_split[3];
+                        var user_nname = user_split[0];
+                        
+                        var user_coins = user_split[6];
+                        var user_level = parseInt(user_split[7]);
+                        var user_wins = "2";
+                         if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                               console.log(username);
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                        if(sessionStorage.help_popup)
+                        {
+                           
+                        }
+                       else
+                       {
+                         if(parseInt(user_split[5]) < 10)
+                         $('#help_popup').modal('show');
+                        var name_user = document.getElementById("name_user");
+                        name_user.innerHTML = user_split[0] + ",";
+                        sessionStorage.help_popup = "true";
+                       }
+                        newdata.push(parseInt(user_split[5]));
+                        newdata.push(parseInt(user_split[6]));
+                        newdata.push(parseInt(user_split[7]));
+                        newdata.push(parseInt(user_split[8])); 
+                        newdata.push(parseInt(user_split[9]));
+                        newdata.push(parseInt(user_split[10]));
+                        newdata.push(parseInt(user_split[11]));
+                        newdata.push(parseInt(user_split[12]));
+                        newdata.push(parseInt(user_split[13]));
+                         newdata.push(parseInt(user_split[14]));
+                          newdata.push(parseInt(user_split[15]));
+                         newdata.push(parseInt(user_split[16]));
+                         newdata.push(parseInt(user_split[17]));
+                        console.log(data.user_detail);
+                        console.log(newdata);
+;                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"bootstrap_profile" + ".html\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" "+ "<a href=\"ipaddress_filter.html\"class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-user\"></span>" +"Admin"+"</a>" +" "+"<a href=\"bootstrap_history.html\"class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-user\"></span>" +"History"+"</a>"+" "+"<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        var div2 = document.getElementById("welcome");
+                        div2.innerHTML = "<h4>" + "Welcome" + "&nbsp;" +user_nname + ",";
+                        var div3 = document.getElementById("credits");
+                        div3.innerHTML = "<em> <span>" + user_credit + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + parseFloat(user_coins) + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+                         chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'stats',
+					defaultSeriesType: 'bar',
+                                        backgroundColor: '#ffffff',
+                                        height:500
+				},
+				title: {
+					text: 'Story so far'
+				},
+				subtitle: {
+					text: ''
+				},
+				xAxis: {
+					categories: ['No: of tournaments', 'No: of Bitlet coins', 'Player Level','No: of Bonuses','No: of 2shots','No: of 3shots','No: of 4shots','No: of 5shots','No: of 6shots', 'No: of 7shots','No: of 8shots','No: of 9shots', 'No: of 10shots'],
+					title: {
+						text: null
+					}
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: '',
+						align: 'high'
+					}
+				},
+				tooltip: {
+					formatter: function() {
+						return '<b>'+ this.x +'</b><br/>'+
+							 this.series.name +': '+ this.y ;
+					}
+				},
+				plotOptions: {
+					bar: {
+						dataLabels: {
+							enabled: true,
+							color: 'auto'
+						}
+					}
+				},
+				legend: {
+					layout: 'vertical',
+					style: {
+						left: '50px',
+						bottom: '50px',
+						right: '50px',
+						top: '50px'
+					},
+					
+				},
+				credits: {
+					enabled: false
+				},
+			        series: [{
+                                        name:'Your score',
+                                        data: newdata
+				} ]
+			});
+		
+
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    });
+                     function connection_check()
+             {
+                  $.getJSON("/connect_check", {"command" : "check"}, function(data){ 
+                   // alert(data.result);
+                   if(data.result === "success")
+                   console.log("true");
+                   else
+                    window.location.href = "index.html";
+                });
+                
+             }
+ });
+ 
+ function clicked_link(id)
+            {
+                var click = id ;
+                 console.log(click);
+               id = id.replace(/"/gi,"");
+              
+               //alert("in the result");
+                $.getJSON("/FrontControl", {"clicked" : id, "command" : "clicked" }, function(data){ 
+                     //alert(data.result);
+                    //return false;
+                     if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                            
+                                 sessionStorage.clicked = id;
+                             
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                            }
+                        
+                    //alert("loki") ;
+                    window.location.href = "bootstrap_tournament_details.html";
+                });
+                //alert("JSON failed") ;
+               
+            }
+            
+   function next_help()
+            
+    {
+        window.location.href = "Demo.html";
+    }
+ 
+ </script>
+</head>
+<body>
+ <div style="background:#eeeeee">   
+ <nav class="navbar navbar-default" style="background-color: #444444;"   >
+     <div class="container" >
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Racing Poker</a> 
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="bootstrap_/u/home">Home</a></li>
+        <li><a href="learn_game.html">Get Started</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+      </ul>
+       
+        <form class="navbar-form navbar-right" >
+            <div id="user_profile" style="color:white">
+            </div>
+        </form>
+       
+    </div>
+  </div>
+</nav>
+   
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-6" style="color:#913E3E;font-family: cursive;font-size: 36"> &nbsp; &nbsp;  <img src="./images/racingpoker-logo5.png" width="250" height="120" /> </div>
+        <div class="col-xs-6" > 
+            <br/>
+           
+            <div class="col-xs-3" style=""> <strong> Online now: </strong></div>
+            <div class="col-xs-7" id="online" style="border-radius: 16;font-size:15; background-color:#666 ; text-align: center;color:#ffffff"> <em> <span>15,968 </span> </em> Players &nbsp; &nbsp; <em> <span> 984 </span> </em> Tournaments</div>
+        </div>
+        </div>
+    </div>
+     <div class="row">
+         <br/>
+         
+     </div>
+       <div class="row">
+    
+        <div class="container">
+            
+        
+            <div class="col-xs-4" style=" border-radius: 16;border: 1px white solid;font-size:16; background-color:#444444; text-align: center;color:#ffffff;padding :15;">  
+                
+                 Running Tournaments <br/>
+                <div style="border: 1px solid; background-color:#333333; text-align: center;color:#ffffff;">
+                    <a id="toggler" href="#" data-toggle="collapse"  data-target="#high"> High level Tournaments </a>
+                    <div id="high" class="collapse">
+                        <ul id="high_list" class="" style="text-align: left" >
+                     
+                       </ul>
+                    </div>
+                </div>
+                <div style="border: 1px solid; background-color:#333333; text-align: center;color:#ffffff;">
+                     <a id="toggler" href="#" data-toggle="collapse"  data-target="#mid"> Mid level Tournaments </a>
+                    <div id="mid" class="collapse">
+                        <ul id="mid_list" class="" style="text-align: left" >
+                      
+                       </ul>
+                    </div>
+                </div>
+                <div style="border: 1px  solid ; background-color:#333333; text-align: center;color:#ffffff;">
+                     <a id="toggler" href="#" data-toggle="collapse"  data-target="#entry"> Entry level Tournaments </a>
+                    <div id="entry" class="collapse">
+                        <ul id="entry_list" class="" style="text-align:left">
+                      
+                       </ul>
+                    </div>
+                </div>
+                <div style="border: 1px solid; background-color:#333333; text-align: center;color:#ffffff;">
+                    <a id="toggler" href="#" data-toggle="collapse"  data-target="#one"> One Player Game </a>
+                    <div id="one" class="collapse">
+                        <ul id="one_list" class="" style="text-align:left">
+                         </ul>
+                    </div> 
+                </div>
+                 <div style="padding:5">
+                Recent Winners <br/> </div>
+                <div style="border: 1px ;font-size:18; background-color:#333333; text-align: center;color:#ffffff;">
+                    High level Tournaments
+                </div>
+                <div style="border: 1px ;font-size:18; background-color:#333333; text-align: center;color:#ffffff;">
+                    Mid level Tournaments
+                </div>
+            </div>
+        
+           <div class="col-xs-8" style=" border-radius: 16;border: 1px white solid;font-size:14; background-color:#444444; text-align: left;color:#ffffff;padding :15;" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="welcome">
+                       <h4>  </h4>
+                   </div>
+                   
+                   
+               </div>
+              
+               
+               <div class="row" style="">
+                   
+                   
+                   <div class="col-xs-12">
+                   <div style="" >
+                        <div class="col-xs-3" style=""> <strong> Current Credits: </strong></div>
+                        <div id="credits" class="col-xs-6" style="border-radius: 16;font-size:15; background-color:#333333 ; text-align: center;color:#ffffff;padding:2;"> </div>
+                        <div class="col-xs-3" style="color:#000000"><a href="/u/addChips" class="btn btn-default" > Add Credit </a> </div>
+                   </div>
+                   
+               </div>
+               </div>
+               <div style="row">
+                   <br/>
+               </div>
+               <div class="row">
+                   <div class="col-xs"></div>
+                   <div id="stats" class="col-xs-12">
+                       <br/>
+                      
+                   </div>
+               </div>
+               
+           </div>
+          
+       </div>   
+           
+    
+    
+    </div>
+    
+      </div>
+    <div class="row">
+        <br/>
+        
+    </div>
+      <div class="modal fade" id="help_popup" tabindex="-1" role="dialog" aria-labelledby="help_popup" aria-hidden="true">
+    <div class="modal-md modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header" style="color:#E77817;">
+             Help
+            </div>
+            <div class="modal-body"  style="color:#E77817;">  
+                <div class="row">
+                <div id="bonus_body" style="" >
+                    
+                    <p> &nbsp; &nbsp; Hi <span id="name_user"> </span>   </p>
+                    
+                    <p> &nbsp; &nbsp; Would you like to have  quick demonstration of how to play ? </p>
+                </div>
+                </div>
+            </div>
+            
+             <div class="modal-footer">
+                 <button type="button"  class="btn btn-success" onclick="next_help()"> Yes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> No</button>
+        </div>
+    </div>
+  </div>
+      </div>
+    <footer class="footer" style="background-color: #444444; text-align: center; height:35 ; padding: 5; color:whitesmoke">
+        <div class="container">
+            <p> ©1999-2016 Copy rights reserved at Pokerace Pty. Ltd. </p>
+        </div>
+    </footer> 
+   
+</body>
+</html>

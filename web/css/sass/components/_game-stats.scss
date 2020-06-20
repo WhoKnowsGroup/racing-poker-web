@@ -1,0 +1,85 @@
+.game-stats {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin: 20px;
+
+    &-title {
+        background-color: rgba(0,0,0, .6);
+        display: inline-block;
+        margin: 10px 0 0;
+        padding: 10px 25px;
+    }
+
+    &-row-title-holder {
+        background-color: rgba(0,0,0, .6);
+        padding-right: 29px;
+
+        &.column-3 {
+            p {
+                width: 33.3333%;
+            }
+        }
+
+        &.column-4 {
+            p {
+                width: 25%;
+            }
+        }
+
+        &.column-5 {
+            p {
+                width: 20%;
+            }
+        }
+    }
+
+    &-row-title{
+        display: inline-block;
+        font-weight: bold;
+        float: left;
+        margin: 0;
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    .table-holder {
+        background-color: rgba(0,0,0, .6);
+        padding: 0 15px 20px 0;
+
+        &-inner {
+            height: 120px;
+            overflow-y: auto;
+        }
+    }
+
+    &-table {
+        text-align: center;
+        width: 100%;
+
+        caption {
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 0;
+        }
+
+        &.column-3 {
+            td {
+                width: 33.3333%;
+            }
+        }
+
+        &.column-4 {
+            td {
+                width: 25%;
+            }
+        }
+
+        &.column-5 {
+            td {
+                width: 20%;
+            }
+        }
+    }
+}

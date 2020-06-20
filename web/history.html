@@ -1,0 +1,690 @@
+<html lang="en">
+<head>
+ <title>Racing Poker | online poker</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="keywords" content="Poker,racing poker,online poker,poker tournaments,players">
+ <meta name="application-name" content="Racing Poker">
+ <meta name="author" content="Pokerace Team">
+ <meta property="og:image" content="https://www.racingpoker.com/images/racingpoker-logo9.png">     
+ <link rel="icon" href="./images/racingpoker-logo9.png" />
+ <link rel="stylesheet" href="./css/bootstrap_min.css" />
+ <link rel="stylesheet" href="./templates/PageStyleSheets.css" />
+ <link rel="stylesheet" href="./templates/PageLayout.css" />
+ <script src="./Jquery/jquery_min.js"></script>
+ <script src="./Jquery/bootstrap_min.js"></script>
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                        
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+     
+ </style>
+ <script>
+ var username="";
+  var k=0;
+  var j=0;
+  var m=0;
+  var tournament_length =0;;
+  var payment_length =0
+  var tournaments ;
+  var achievements_length =0;
+  var number_tournaments = 0;
+          var start_credits ;
+          var end_credits;
+          var avail_credits;
+          var bitlets;
+            if(typeof(Storage) !== "undefined") 
+                         {
+                             if (sessionStorage.username)
+                             {
+                               username = sessionStorage.username;
+                             }
+                             else
+                             {
+                              //sessionStorage.username = email;
+                               window.location.href = "index.html"; 
+                             }
+                         } 
+                        else {
+                            alert("Sorry, your browser does not support HTML5");
+                        }
+             
+             var user_split = "";
+                        var user_credit = 0.0;
+                        var user_fname = "";
+                        var user_lname = "";
+                        var user_nname = "";
+                        var user_coins = "0";
+                        var user_level = "1";
+ $(document).ready(function ()
+ {
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                         user_split = data.user_detail.split(",");
+                         user_credit = user_split[1];
+                         user_fname = user_split[2];
+                         user_lname = user_split[3];
+                         user_nname = user_split[0];
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"/u/profile\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" " +" "+"<a href=\"history.html\"class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-stats\"></span>" +"History"+"</a>"+ " " +  "<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        var div2 = document.getElementById("heading");
+                        div2.innerHTML = "<h4>" + "Credits History" + "&nbsp;" + "</h4>" ;
+                        var div3 = document.getElementById("credits");
+                        div3.innerHTML = "<em> <span>" + parseInt(user_credit) + "</em></span>" +"&nbsp;" +"Credits"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + parseInt(user_coins) + "</em></span>" + "&nbsp;"+"Coins"+ "&nbsp; &nbsp;";
+                        div3.innerHTML += "<em> <span>" + user_level + "</em></span>" + "&nbsp;"+"Level"+ "&nbsp; &nbsp;";
+                        change_list("credit_link");
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    });
+ });
+ function change_list(id)
+ {
+      if(id == "achievements_link")
+      {
+          $("#credit_history").hide();
+          $("#payment_history").hide();
+          $("#achievements").show();
+          for(var r=0;r< achievements_length ; r++)
+                 {
+                      document.getElementById("achievements_table").deleteRow(1);
+                 } 
+           
+           $.getJSON("/Achievements", {"username" : username,"command" : "get"}, function(data){
+              console.log(data);
+              if (! data) {
+            	  data = {};
+              }
+              if (! data.achievements) {
+            	  data.achievements = "0,0,0,0,0,0,0";
+              }
+              achievements_length = data.achievement.split(",").length;
+               for( j = 0 ; j < achievements_length; j++)
+             {
+              //  alert(j);
+                var newRow = document.all("achievements_table").insertRow();
+                //number_tournaments++;
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = j+1;
+                 // k++;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                     if(j==0)
+                     oCell1.innerHTML = "Highest profit from bet";
+                     if(j==1)
+                     oCell1.innerHTML = "Back a royal flush";
+                     if(j==2)
+                     oCell1.innerHTML = "Back a straight flush";
+                     if(j==3)
+                     oCell1.innerHTML = "Profit made from bet with highest odds";
+                     if(j==4)
+                     oCell1.innerHTML = "Doubled credits by end of tournament";
+                     if(j==5)
+                     oCell1.innerHTML = "tripled credits by end of tournament";
+                     if(j==6)
+                     oCell1.innerHTML = "Highest level advance from tournament";
+                     
+                 
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = data.achievement.split(",")[j];
+                    
+                }
+          });
+      }
+      if(id === "credit_link")
+      {    
+         
+          
+          //alert("tournaments");
+          //alert(username);
+          
+             $("#payment_history").hide();
+             $("#credit_history").show();
+             $("#achievements").hide();
+                for(var r=0;r< number_tournaments; r++)
+                 {
+                      document.getElementById("credits_table").deleteRow(1);
+                      if(r==0)
+                       document.getElementById("tfoot").deleteRow(0);
+                 } 
+                     
+            $.getJSON("/Pokerace_user_credit_history", {"Username" : username }, function(data){
+              console.log(data);
+              if(data.result === "success")
+              {
+                ///  alert("success");
+                  tournaments = data.Tournaments.split(",");
+                  start_credits = data.Start_Credits.split(",");
+                  end_credits = data.End_Credits.split(",");
+                  avail_credits = data.Avail_Credits.split(",");
+                  bitlets = data.Bitlets.split(",");
+                 // console.log(tournaments);
+                 // console.log(start_credits);
+                 // console.log(end_credits);
+                 // console.log(avail_credits);
+                  tournament_length = tournaments.length ;
+                  k=0;
+                  //number_tournaments = tournaments.length;
+                  //alert(tournament_length);
+                    for( j = tournament_length - 1 ; j > tournament_length - 11  && j >= 0; j--)
+             {
+              //  alert(j);
+                var newRow = document.all("credits_table").insertRow();
+                number_tournaments++;
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = k+1;
+                  k++;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                     oCell1.innerHTML = tournaments[j];
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = start_credits[j];
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = end_credits[j];
+                    var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML = parseFloat(avail_credits[j]);
+                     var oCell5 = newRow.insertCell();
+                              oCell5.style.border = "white 1px solid";
+                              oCell5.style.color = "white";
+                              
+                              
+                               if(parseInt(bitlets[j]) > 0 )  
+                               oCell5.innerHTML = parseInt(bitlets[j]) + "<img src=\"/images/arrow-up.png\" />";
+                               else
+                               {
+                               //result = (result * (-1)) ;
+                               if(parseInt(bitlets[j]) !== 0)
+                               bitlets[j] = bitlets[j] * (-1);
+                               oCell5.innerHTML = parseInt(bitlets[j]) + "<img src=\"/images/arrow-down.png\" />";
+                               }
+                   
+               }
+                var table2Width = $("#credits_table").width();
+                console.log(table2Width);
+                var newRow = document.getElementById("tfoot").insertRow();
+                newRow.style.border = "white 1px solid";
+                newRow.style.background = "#66666";
+                newRow.style.color = "white";
+                newRow.style.width = table2Width+"px";
+                var ocell = newRow.insertCell();
+                var cell  = table2Width / 2 ;
+                cell = cell -1 ;
+               // alert(j);
+                if(tournament_length > 10)
+                {
+                ocell.style.width = cell + "px";
+                ocell.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ "10" + "&nbsp;" +"of" + "&nbsp;" + tournament_length+ "&nbsp;" +"rows";
+                var ocell4 = newRow.insertCell();
+                ocell4.style.width = cell+ "px";
+                ocell4.style.textAlign = "right";
+                ocell4.innerHTML = ""+ ""+ "" +  ""+ "&nbsp;"+ "&nbsp;" + "&nbsp;"+ "&nbsp;" + "<a onclick=\"next()\" > Next Page</a>";
+                
+                }
+                else
+                newRow.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ tournament_length +"&nbsp;" +"of" + "&nbsp;"+ tournament_length +"rows";
+               
+              }
+              else
+              {
+                  alert("fail");
+              }
+        
+        
+            });
+             ////var newRow = document.all("credits_table").insertRow();
+             //alert(newRow);
+         }
+     
+     if(id == "payment_link")
+     {
+         $("#credit_history").hide();
+          $("#payment_history").show();
+          $("#achievements").hide();
+          tournament_length =0 ;
+             for(var r=0;r< payment_length -1; r++)
+                 {
+                      document.getElementById("payments_table").deleteRow(1);
+                 } 
+        
+             $.getJSON("/Payment_history", {"Username" : username }, function (data){
+           
+        
+              console.log(data);
+             
+              if(data.result == "success")
+              {
+                  var payments = data.Payments.split(",") ;
+                  var credits_added = data.Credits_added.split(",") ;
+                  var statuses = data.Status.split(",") ;
+                  var dates = data.Date.split(",") ;
+                  var desc = data.Description.split(",");
+                  var bitlets_added = data.Bitlets_added.split(",")
+                   payment_length = payments.length ;
+                  var amount = data.Payment_amount.split(",") ;
+                  var m =1;
+                  for(var i= payment_length - 2; i >= 0 ; i--)
+                  {
+                   var newRow = document.all("payments_table").insertRow();
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = m;
+                  m++;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                     oCell1.innerHTML = dates[i];
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = payments[i];
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = credits_added[i] ;
+                    var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML = statuses[i];
+                   var oCell5 = newRow.insertCell();
+                    oCell5.style.border = "white 1px solid";
+                    oCell5.style.padding = "5px";
+                   oCell5.innerHTML = "USD" + "$"+parseFloat(amount[i]);
+                   var oCell6 = newRow.insertCell();
+                    oCell6.style.border = "white 1px solid";
+                    oCell6.style.padding = "5px";
+                   oCell6.innerHTML = desc[i];
+                    var oCell7 = newRow.insertCell();
+                    oCell7.style.border = "white 1px solid";
+                    oCell7.style.padding = "5px";
+                   oCell7.innerHTML = bitlets_added[i];
+                  }
+              }
+              else
+              {
+                  alert("you didn't made any payments");
+              }
+          }).fail(function (d,textStatus,error) {
+              alert(textStatus);
+          });
+    }
+ }
+ function previous()
+ {
+     var e = k- 2 *m ;
+      for( var row = 1 ; row < m + 1  ; row++)
+     {
+      document.getElementById("credits_table").deleteRow(1);   
+     }
+      m=0;
+      for(var y = j + 20  ; y > j+10   && y >= 0; y--)
+             {
+               // alert(j);
+               m++;
+                var newRow = document.all("credits_table").insertRow();
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = e+1;
+                  e++;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                     oCell1.innerHTML = tournaments[y];
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = parseInt(start_credits[y]);
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = parseInt(end_credits[y]);
+                    var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML = parseInt(avail_credits[y]);
+                    var oCell5 = newRow.insertCell();
+                              oCell5.style.border = "white 1px solid";
+                              oCell5.style.color = "white";
+                              
+                              
+                               if(parseInt(bitlets[y]) > 0 )  
+                               oCell5.innerHTML = parseInt(bitlets[y]) + "<img src=\"/images/arrow-up.png\" />";
+                               else
+                               {
+                               //result = (result * (-1)) ;
+                               if(parseInt(bitlets[j]) !== 0)
+                               bitlets[j] = bitlets[j] * (-1);
+                               oCell5.innerHTML = parseInt(bitlets[y]) + "<img src=\"/images/arrow-down.png\" />";
+                               }
+               }
+               k=e;
+               j=y;
+               document.getElementById("tfoot").deleteRow(0);  
+                var table2Width = $("#credits_table").width();
+                console.log(table2Width);
+                var newRow = document.getElementById("tfoot").insertRow(0);
+                newRow.style.border = "white 1px solid";
+                newRow.style.background = "#66666";
+                newRow.style.color = "white";
+                newRow.style.width = table2Width+"px";
+                var ocell = newRow.insertCell();
+                var cell  = table2Width / 2 ;
+                cell = cell -1 ;
+                if(k > 10)
+                {
+                ocell.style.width = cell + "px";
+                ocell.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ "10" + "&nbsp;" +"of" + "&nbsp;" + tournament_length+ "&nbsp;" +"rows";
+                var ocell4 = newRow.insertCell();
+                ocell4.style.width = cell+ "px";
+                ocell4.style.textAlign = "right";
+                ocell4.innerHTML = ""+ ""+ "" +  ""+ "&nbsp;"+ "&nbsp;" + "&nbsp;"+ "&nbsp;" +"<a onclick=\"previous()\" > Previous Page</a>" + "<a onclick=\"next()\" > Next Page</a>";
+                
+                }
+                else
+                {// newRow.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ tournament_length +"&nbsp;" +"of" + "&nbsp;"+ tournament_length +"rows";
+                     ocell.style.width = cell + "px";
+                ocell.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ "10" + "&nbsp;" +"of" + "&nbsp;" + tournament_length+ "&nbsp;" +"rows";
+                var ocell4 = newRow.insertCell();
+                ocell4.style.width = cell+ "px";
+                ocell4.style.textAlign = "right";
+                ocell4.innerHTML = ""+ ""+ "" +  ""+ "&nbsp;"+ "&nbsp;" + "&nbsp;"+ "&nbsp;" + "<a onclick=\"next()\" > Next Page</a>";
+                }
+      
+ }
+ function next()
+ {
+      var e = k ;
+      for( var row = 1 ; row <= 10  ; row++)
+     {
+      document.getElementById("credits_table").deleteRow(1);   
+     }
+     m=0;
+      for(var y = j ; y > j-10  && y >= 0; y--)
+             {
+               // alert(j);
+               // alert(k);
+                var newRow = document.all("credits_table").insertRow();
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = e+1;
+                  e++;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                     oCell1.innerHTML = tournaments[y];
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = start_credits[y];
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = end_credits[y];
+                    var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML = parseInt(avail_credits[y]);
+                    var oCell5 = newRow.insertCell();
+                              oCell5.style.border = "white 1px solid";
+                              oCell5.style.color = "white";
+                              
+                              
+                               if(parseInt(bitlets[y]) > 0 )  
+                               oCell5.innerHTML = parseInt(bitlets[y]) + "<img src=\"/images/arrow-up.png\" />";
+                               else
+                               {
+                               //result = (result * (-1)) ;
+                               if(parseInt(bitlets[j]) !== 0)
+                               bitlets[j] = bitlets[j] * (-1);
+                               oCell5.innerHTML = parseInt(bitlets[y]) + "<img src=\"/images/arrow-down.png\" />";
+                               }
+                   m++;
+               }
+               k=e;
+               j=y;
+               document.getElementById("tfoot").deleteRow(0);  
+                var table2Width = $("#credits_table").width();
+                console.log(table2Width);
+                var newRow = document.getElementById("tfoot").insertRow(0);
+                newRow.style.border = "white 1px solid";
+                newRow.style.background = "#66666";
+                newRow.style.color = "white";
+                newRow.style.width = table2Width+"px";
+                var ocell = newRow.insertCell();
+                var cell  = table2Width / 2 ;
+                cell = cell -1 ;
+                if(j > 0)
+                {
+                ocell.style.width = cell + "px";
+                ocell.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ "10" + "&nbsp;" +"of" + "&nbsp;" + tournament_length+ "&nbsp;" +"rows";
+                var ocell4 = newRow.insertCell();
+                ocell4.style.width = cell+ "px";
+                ocell4.style.textAlign = "right";
+                ocell4.innerHTML = ""+ ""+ "" +  ""+ "&nbsp;"+ "&nbsp;" + "&nbsp;"+ "&nbsp;" +"<a onclick=\"previous()\" > Previous Page</a>" + "<a onclick=\"next()\" > Next Page</a>";
+                
+                }
+                else
+                {// newRow.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ tournament_length +"&nbsp;" +"of" + "&nbsp;"+ tournament_length +"rows";
+                     ocell.style.width = cell + "px";
+                ocell.innerHTML = "Showing"+ "&nbsp;"  +"1-"+ "10" + "&nbsp;" +"of" + "&nbsp;" + tournament_length+ "&nbsp;" +"rows";
+                var ocell4 = newRow.insertCell();
+                ocell4.style.width = cell+ "px";
+                ocell4.style.textAlign = "right";
+                ocell4.innerHTML = ""+ ""+ "" +  ""+ "&nbsp;"+ "&nbsp;" + "&nbsp;"+ "&nbsp;" + "<a onclick=\"previous()\" > Previous Page</a>";
+                }
+               
+ }
+
+ </script>
+</head>
+<body>
+ 
+   <!--header-->
+    <div class="navbar navbar-custom navbar-fixed-top" >
+    <div class="navbar-inner header">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+        <a class="navbar-brand" href="/u/home" > Racing Poker&trade; </a> 
+    </div>
+    <div id="myNavbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="learn_game.html" style=""> Game Rules</a></li>
+        <li><a href="promotions.html">Promotions</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="Aboutus.html">About us</a></li>
+         
+            </ul>
+            <form class="navbar-form navbar-right" >
+                <div id="user_profile" style="color:white">
+            <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#login_popup1"> <span class="glyphicon glyphicon-log-in"> </span>&nbsp; Login </button>
+             <a href="register.html" class="btn btn-success"><span class="glyphicon glyphicon-user"></span>Sign up </a>
+                </div>
+        </form>
+                 
+    </div>
+    </div>
+    </div>
+   </div>
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+    
+    <div class="row">
+        <br/>
+    </div>
+       <div class="row">
+    
+        <div class="container">
+            
+        
+            <div class="col-xs-12 col-md-3 bg-row" style="border: 1px;font-size:16; text-align:left;color:#ffffff;padding :15;">  
+                <h4 style="text-align: center;color:white;;">  History </h4> 
+                &nbsp;&nbsp; <a  id="credit_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-stats active" > </span> Credit History</a>  <br/>
+                &nbsp;&nbsp; <a  id="payment_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-stats active" > </span> Payment History</a>  <br/>
+                 &nbsp;&nbsp; <a  id="achievements_link" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-certificate active" > </span> Achievements</a>  <br/>
+            </div>
+        
+           <div class="col-xs-12 col-md-9 bg-row" style="border: 1px;font-size:16; text-align: left;color:#ffffff;padding :15;" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="heading">
+                       <h4>  </h4>
+                   </div>
+                   <div id="message"></div>
+                   
+               </div>
+              
+               
+               <div class="row" style="">
+                   
+                   
+                   <div class="col-xs-12">
+                   <div style="" >
+                        <div class="col-xs-3" style=""> <strong> Current Credits: </strong></div>
+                        <div id="credits" class="col-xs-6 online" style="text-align: center;color:#ffffff;padding:2;"> </div>
+                        <div class="col-xs-3" style="color:#000000"><a href="/u/addChips" class="btn btn-default" > Add Credit </a></div>
+                   </div>
+                   
+               </div>
+               </div>
+               
+               <div class="row">
+                   <br/>
+               </div>
+               
+               <div id="credit_history" class="row" >
+                   
+                   <div class="col-xs-1">
+                       
+                   </div>
+                   <div class="col-xs-11">
+                                                         <table id="credits_table" style="" >
+                                                         <thead style="color:white;" >
+                                                         <th style="border:1px white solid ; text-align: center"> S.no: &nbsp;</th>
+                                                        
+                                                         <th style="border: 1px white solid; text-align: center">Tournament id &nbsp;</th>
+                                                         <th style="border: 1px white solid; text-align: center">Starting Credit points &nbsp;</th>		
+                                                         <th style="border: 1px white solid; text-align: center">Ended Credit points &nbsp;</th>
+                                                         <th style="border: 1px white solid; text-align: center">Available Credit points &nbsp;</th>
+                                                         <th style="border: 1px white solid; text-align: center">Bitlets &nbsp;</th>
+                                                         </thead>
+                                                         <tbody id="credits_tbody"  style="font-size:12px;font-family: sans-serif; border:2px">                                        
+                                                         </tbody>
+                                                         </table>
+                                                         <table id="tfoot">
+                           
+                                                         </table>
+                   </div>
+                   
+               </div>
+               <div id="payment_history" class="row" >
+                   
+                   <div class="col-xs-1">
+                       
+                   </div>
+                   <div class="col-xs-11">
+                                                         <table id="payments_table" style="" >
+                                                         <thead style="color:white;" >
+                                                         <th style="border:  1px white solid; text-align: center"> S.no: &nbsp;</th>
+                                                          <th style="border: 1px white solid; text-align: center">Date &nbsp;</th>
+                                                         <th style="border:  1px white solid; text-align: center">Transaction id &nbsp;</th>		
+                                                         <th style="border:  1px white solid; text-align: center">Credits added </th>
+                                                         <th style="border: 1px white solid; text-align: center">Status &nbsp;</th>
+                                                         <th style="border: 1px white solid; text-align: center">Amount &nbsp;</th>
+                                                         <th style="border:  1px white solid; text-align: center">Description &nbsp;</th>
+                                                         <th style="border:  1px white solid; text-align: center">Bitlets added &nbsp;</th>
+                                                         </thead>
+                                                         <tbody id="credits_tbody"  style="font-size:12px;font-family: sans-serif; border: 2px">                                        
+                                                         </tbody>
+                                                         </table>
+                                                         <table id="tfoot">
+                           
+                                                         </table>
+                   </div>
+                   
+               </div>
+ 
+               <div  id="achievements" class="row">
+                 
+                    <div class="col-xs-1">
+                       
+                   </div>
+                   <div class="col-xs-11">
+                       <table  id="achievements_table" class="table">
+                         <thead style="color:white" >
+                                                         <th style="border:1px white solid ; text-align: center" >S.No</th>
+                                                         <th style="border:1px white solid ; text-align: center">Achievement Description</th>		
+                                                         <th style="border:1px white solid ; text-align: center">Score</th>
+                                                       
+                          </thead>
+                        <tbody style="border:1px white solid ; text-align: center">                                        
+                        </tbody>
+                                                                
+                       </table> 
+                   </div>
+                   
+               </div>
+              
+       </div>   
+           
+    
+    
+    </div>
+    
+      </div>
+     <div class="row">
+         <br/>
+     </div>
+
+   <!---footer--->
+   <div class="row"> 
+   <div class="footer" >
+      <div class="container" >
+          <p class="text-muted" style="color:#fff;text-align: center;"> <span> <kbd> 18+ </kbd> &nbsp;</span> <span> | </span> <span> Secured by <img src="./images/paypal_curved.png"  height="30"/> </span> | <span> &COPY;</span> <span> Copy rights (1999 - 2016) reserved by Pokerace Pty Ltd </span> </p>
+      </div>
+    </div>
+    </div>
+ <script type="text/javascript" src="user_details.js" > </script>
+</body>
+ </html>

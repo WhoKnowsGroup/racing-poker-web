@@ -1,0 +1,14 @@
+{
+   "_id": "Pond",
+   "Number_of_games": 10,
+   "Number_of_MinPlayers": 4,
+   "Number_of_MaxPlayers": 10,
+   "CreatedAt": "Mon Dec 31 10:11:02 UTC 2018",   
+   "starting_credit_points": 5000,
+   "Required_bitlets": 0,
+   "Type": "Multi_Level",
+   "Tournament_id": 102,
+   "Tournament_name": "Pond",
+   "Status": "active",
+   "notes": "id and name must match, 'pokerace_tournaments' table does not appear to be used"
+}

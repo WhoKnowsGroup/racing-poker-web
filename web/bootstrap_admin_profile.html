@@ -1,0 +1,1043 @@
+<html lang="en">
+<head>
+ <title>Racing Tournament</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+ <link rel="stylesheet" href="" />
+ <style>
+     @media (min-width:1200px)
+     {
+        .container {
+                         max-width:1024px;
+                   }
+     }
+     em {
+          color:#f6a828;
+     }  
+     a {
+         color:#ffffff;
+     }
+ </style>
+ <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="user_details.js" > </script>
+ <script type="text/javascript" src="load_online_tournaments.js" > </script>
+ <script>
+ var username="";
+ var emails_displayed = 0.0;
+ var bots_displayed = 0.0;
+             //var cookie_username="";
+             //var cook=document.cookie.split(";");
+             
+             //FIXME:  taking username from cookie; should be passed in from server
+             var value = "; " +document.cookie;
+             var cook= value.split("; ");
+             var length=cook.length;
+             for(var i=0;i<length;i++)
+             {
+             //  alert(cook[i]);
+               var split = cook[i].split("=");
+               if(split[0] === "username")
+               username = split[1]; 
+               
+             }
+             var user_split = "";
+             var user_credit = 0.0;
+             var user_fname = "";
+             var user_lname = "";
+             var user_nname = "";
+             var user_coins = "0";
+             var user_level = "1";
+ $(document).ready(function ()
+ {
+             $.getJSON("/FrontControl", {"username" : username, "command" : "user_details" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                       // alert(data.user_detail);
+                         user_split = data.user_detail.split(",");
+                         user_credit = user_split[1];
+                         user_fname = user_split[2];
+                         user_lname = user_split[3];
+                         user_nname = user_split[0];
+                         user_coins = user_split[6];
+                         user_level = parseInt(user_split[7]);
+                        var div1 = document.getElementById("user_profile");
+                        div1.innerHTML = "<a href=\"bootstrap_profile" + ".html\"class=\"btn btn-success\"><span class=\"glyphicon glyphicon-user\"></span>"+user_nname +"</a>" +" " +  "<button  type=\"button\" onclick=\"logout()\" class=\"btn btn-danger\">" + "Logout" + "</button>";
+                        var div2 = document.getElementById("heading");
+                        div2.innerHTML = "<h4>" + "Create Tournament" + "&nbsp;" + "</h4>" ;
+                      ///-  $("#security").hide();
+                       // var div3 = document.getElementById("credits");
+                       
+                        change_list("create_tournament");
+                       // div3.innerHTML += "<button> Add Credit </button>"
+                    });
+ });
+ function change_list(id)
+ {
+     console.log(id);
+     if(id === "edit_users")
+     {
+           $("#create").hide();
+           $("#bot_create").hide();
+            $("#bots_list").hide();
+            $("#bot_edit").hide();
+            var mdiv = document.getElementById("message");
+            mdiv.innerHTML = "";
+          var div2 = document.getElementById("heading");
+          div2.innerHTML = "<h4>"+  "Manage users"+ "&nbsp;" + "</h4>" ;
+          $("#edit_users_details").show();
+          $.getJSON("/Users_list", {"command" : "users_lists" }, function(data){ 
+                
+                  console.log(data.Email);
+                  console.log(data.Last_login);
+                  console.log(data.Status);
+                  console.log(data.Joined_date);
+                  //var split = data.split();
+                  //console.log(data.object);\
+                  var email_split = data.Email.split(",");
+                  var email_length = email_split.length ;
+                  var status_split = data.Status.split(",");
+                  var last_login_split = data.Last_login.split(",");
+                  var joined_dates = data.Joined_date.split(",");
+                  for(var j=0 ; j< email_length -1 ; j++)
+                  {
+                  if(emails_displayed < email_length - 1 )
+                  {
+                  emails_displayed++;
+                  var newRow = document.all("users_table").insertRow();
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                   var a = document.createElement('a');
+                  a.setAttribute('href',"#");
+                  a.setAttribute('id',email_split[j]);
+                  a.setAttribute('onclick',"clicked_link(this.id)");
+                  a.innerHTML = email_split[j];
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = j+1;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                  // oCell1.innerHTML = "<a href=\"#\" onclick=\"email_link()\"  >"+email_split[j]+"</a>" ;
+                     oCell1.appendChild(a);
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = status_split[j];
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = last_login_split[j];
+                   var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML = joined_dates[j];
+                  }                   
+               }
+          });
+          
+          
+     }
+     if(id === "create_tournament")
+     {
+           $("#edit_users_details").hide();
+           $("#bot_create").hide();
+           $("#bots_list").hide();
+           $("#bot_edit").hide();
+           var mdiv = document.getElementById("message");
+            mdiv.innerHTML = "";
+          var div2 = document.getElementById("heading");
+          div2.innerHTML = "<h4>" + "Create Tournament" + "&nbsp;" + "</h4>" ;
+           $("#create").show();
+     }
+     
+     if(id === "create_bot")
+     {
+         var mdiv = document.getElementById("message");
+            mdiv.innerHTML = "";
+         $("#edit_users_details").hide();
+         $("#create").hide();
+         $("#bots_list").hide();
+         $("#bot_edit").hide();
+         $("#bot_create").show();
+          var div2 = document.getElementById("heading");
+          div2.innerHTML = "<h4>" + "Create Bot" + "&nbsp;" + "</h4>" ;
+          
+     }
+    if(id === "edit_bots")
+    {
+        $("#edit_users_details").hide();
+        $("#create").hide();
+        $("#bot_create").hide();
+        $("#bot_edit").hide();
+        $("#bots_list").show();
+        var mdiv = document.getElementById("message");
+            mdiv.innerHTML = "";
+        var div2 = document.getElementById("heading");
+        div2.innerHTML = "<h4>" + "Edit bots" + "&nbsp;" + "</h4>" ;
+        $("#bots_table").hide();
+        $("#image_load").show();
+         $.getJSON("/Bots_list", {"command" : "users_lists" }, function(data){ 
+                
+                  console.log(data.Email);
+                  console.log(data.playerlevel);
+                  console.log(data.level);
+                  //var split = data.split();
+                  //console.log(data.object);\
+                  var email_split = data.Email.split(",");
+                  var email_length = email_split.length ;
+                  var status_split = data.Playerlevel.split(",");
+                  var last_login_split = data.level.split(",");
+                  var firstname_split = data.firstname.split(",");
+                  var lastname_split = data.nickname.split(",");
+                  
+                  for(var j=0 ; j< email_length -1 ; j++)
+                  {
+                  if(bots_displayed < email_length - 1 )
+                  {
+                   bots_displayed++;
+                  var newRow = document.all("bots_table").insertRow();
+                  newRow.style.border = "white 1px solid";
+                  newRow.style.padding = "5px";
+                   var a = document.createElement('a');
+                  a.setAttribute('href',"#");
+                  a.setAttribute('id',email_split[j]);
+                  a.setAttribute('onclick',"clicked_botlink(this.id)");
+                  a.innerHTML = email_split[j];
+                  var oCell = newRow.insertCell();
+                  oCell.style.border = "white 1px solid";
+                  oCell.innerHTML = j+1;
+                   var oCell1 = newRow.insertCell();
+                    oCell1.style.border = "white 1px solid";
+                     oCell1.style.padding = "5px";
+                  // oCell1.innerHTML = "<a href=\"#\" onclick=\"email_link()\"  >"+email_split[j]+"</a>" ;
+                     oCell1.appendChild(a);
+                   var oCell2 = newRow.insertCell();
+                    oCell2.style.border = "white 1px solid";
+                    oCell2.style.padding = "5px";
+                   oCell2.innerHTML = lastname_split[j];
+                    var oCell3 = newRow.insertCell();
+                    oCell3.style.border = "white 1px solid";
+                    oCell3.style.padding = "5px";
+                   oCell3.innerHTML = firstname_split[j];
+                    var oCell4 = newRow.insertCell();
+                    oCell4.style.border = "white 1px solid";
+                    oCell4.style.padding = "5px";
+                   oCell4.innerHTML =  parseInt(status_split[j]);
+                    var oCell5 = newRow.insertCell();
+                    oCell5.style.border = "white 1px solid";
+                    oCell5.style.padding = "5px";
+                   oCell5.innerHTML = last_login_split[j];
+                   
+                  }                   
+               }
+               $("#image_load").hide();
+               $("#bots_table").show();
+          });
+    }
+     
+ }
+ function save_changes()
+ {
+     var email_id = document.getElementById("email_id").value ;
+     var fname = document.getElementById("fname").value;
+     var lname = document.getElementById("lname").value;
+     var nname = document.getElementById("nname").value;
+     var bitlets = document.getElementById("bitlets").value;
+     var player_level = document.getElementById("player_level").value;
+     var no_bonuses =  document.getElementById("no_bonuses").value;
+     var no_tournaments =  document.getElementById("no_tournaments").value;
+      var credits = document.getElementById("credits").value;
+       $.getJSON("/Admin_changes", {"command" : "users_lists", "firstname":fname , "lastname":lname, "nickname":nname,
+                                   "bitlets": bitlets, "player_level":player_level,"bonuses": no_bonuses , 
+                                   "tournaments": no_tournaments, "credits":credits , "username":email_id}, function(data){ 
+           
+                var mdiv = document.getElementById("message");
+                        if(data.result == "success")
+                        {
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" +"Changes are sucessfull";
+                        }
+                        else
+                        {
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" +"Something went wrong";
+                        }
+       });
+ }
+ function go_back()
+ {
+     $("#user_list").show();
+     $("#show_user").show();
+     $("#user_desc").hide();
+      for( var row = 1 ; row <= emails_displayed  ; row++)
+     {
+      document.getElementById("users_table").deleteRow(1);   
+     }
+    
+     //bots_table.innerHTML = "";
+     //bots_table.innerHTML = "";
+     emails_displayed = 0;
+     change_list("edit_users");
+ }
+ function go_back_bot()
+ {
+     $("#bot_edit").hide();
+     $("#bots_list").show();
+     
+     for( var row = 1 ; row <= bots_displayed  ; row++)
+     {
+      document.getElementById("bots_table").deleteRow(1);   
+     }
+    
+     //bots_table.innerHTML = "";
+     //bots_table.innerHTML = "";
+     bots_displayed = 0;
+     change_list("edit_bots");
+     
+ }
+ function save_bot() 
+ {
+     console.log("save_bot");
+                    var email =     document.getElementById("email_bot").value;
+                    var firstname=    document.getElementById("firstname_bot").value;
+                    var lastname=    document.getElementById("lastname_bot").value;
+                    var nickname=     document.getElementById("nickname_bot").value;
+                    var bitlets=   document.getElementById("no_bitlets_bot").value;
+                    var player_level= document.getElementById("player_level_bot").value;
+                    var no_bonuses= document.getElementById("no_bonuses_bot").value;
+                    var no_tournaments=    document.getElementById("no_tournaments_bot").value;
+                    var credits=    document.getElementById("credits_bot").value;
+                    var level=    document.getElementById("level_bot").value;
+                    $.getJSON("/bot_changes", { "firstname":firstname , "lastname":lastname, "nickname":nickname,
+                                   "bitlets": bitlets, "player_level":player_level,"bonuses": no_bonuses , 
+                                   "tournaments": no_tournaments, "credits":credits , "username":email , "level": level}, function(data){ 
+           
+                var mdiv = document.getElementById("message");
+                        if(data.result == "success")
+                        {
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" +"Changes are sucessfull";
+                        }
+                        else
+                        {
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" +"Something went wrong";
+                        }
+       });
+                    
+                    
+ }
+ function clicked_link(id)
+            {
+                var click = id ;
+                 console.log(click);
+               id = id.replace(/"/gi,"");
+              
+               //alert("in the result");
+               
+                //alert("JSON failed") ;
+                   $.getJSON("/FrontControl", {"username" : id, "command" : "user_details" }, function(data){ 
+                       
+                        console.log(data.user_detail);
+                        var user_split = data.user_detail.split(",");
+                        var user_credit = user_split[1];
+                        var user_fname = user_split[2];
+                        var user_lname = user_split[3];
+                        var user_nname = user_split[0];
+                        var user_tournaments = user_split[5];
+                        var user_coins = user_split[6];
+                        var user_level = parseFloat(user_split[7]);
+                        var user_bonuses = user_split[8];
+                        $("#user_list").hide();
+                        $("#show_user").hide();
+                        $("#user_desc").show();
+                         document.getElementById("email_id").value = id ;
+                         document.getElementById("fname").value= user_fname;
+                         document.getElementById("lname").value = user_lname;
+                         document.getElementById("nname").value = user_nname;
+                         document.getElementById("bitlets").value = user_coins;
+                         document.getElementById("player_level").value = user_level;
+                         document.getElementById("no_bonuses").value = user_bonuses;
+                         document.getElementById("no_tournaments").value = user_tournaments;
+                         document.getElementById("credits").value = user_credit;
+                        
+                   });
+               
+            }
+ function clicked_botlink(id)
+            {
+                var click = id ;
+                 console.log(click);
+               id = id.replace(/"/gi,"");
+               $.getJSON("/Bot_details", {"username" : id, "command" : "user_details" }, function(data){ 
+                   
+                   console.log(data.result);
+                   console.log(data.result._id);
+                   $("#bots_list").hide();
+                   $("#bot_edit").show();
+                   document.getElementById("email_bot").value = data.result._id ;
+                         document.getElementById("firstname_bot").value= data.result.Firstname;
+                         document.getElementById("lastname_bot").value = data.result.Lastname;
+                         document.getElementById("nickname_bot").value = data.result.Nickname;
+                         document.getElementById("no_bitlets_bot").value = data.result.no_of_bitlets;
+                         document.getElementById("player_level_bot").value = parseInt(data.result.playerlevel);
+                         document.getElementById("no_bonuses_bot").value = data.result.no_of_bonuses;
+                         document.getElementById("no_tournaments_bot").value = data.result.no_of_tournaments;
+                         document.getElementById("credits_bot").value = data.result.Credit;
+                         document.getElementById("level_bot").value = data.result.level ;
+                         console.log(data.result.level);
+               });
+            }
+ 
+ function create()
+             {   
+                // alert(tournament_name);
+                 // alert("1");
+                 var starting_credit_points = $("#starting_credit_amount").val();
+                 //alert("1");
+                 var number_of_games =$("#number_of_games").val();
+                // alert("1");
+                 var number_of_MinPlayers =$("#number_of_MinPlayers").val();
+                // alert("1");
+                 var number_of_MaxPlayers = $("#number_of_MaxPlayers").val();
+                 
+                 var type=$("#type").val();
+               //  alert(type);
+                // alert("1");
+                 //alert("perfect");
+                var tournament_name = $("#tournament_name").val().trim().replace(/ /gi,"-");;
+                 var tournament_details = tournament_name+" "+starting_credit_points+" "+number_of_games+" "+number_of_MinPlayers+" "+number_of_MaxPlayers+ " "+type;
+                 
+                 $.getJSON("/FrontControl", {"create_tournament" : tournament_details , "command" : "create_tournament" }, function(data){ 
+			//alert("in the servlet");
+                       // alert(data.result);
+                         var mdiv = document.getElementById("message");
+                         alert(data.result);
+                        if(data.result == "success")
+                        {
+         
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />" +"SuccessFully Created";
+                        }
+                        else
+                        {
+                             mdiv.innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />" +"Tournament already Exists";
+                        }
+                    });
+              }
+              function change_password()
+             {          
+                
+              }
+              
+              function register()
+              {
+                  var emailRegex = /^[A-Za-z0-9._]*\@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+                  var email = document.getElementById("email_register").value ;
+                  var fname = document.getElementById("firstname").value ;
+                  var lname = document.getElementById("lastname").value ;
+                  var nname = document.getElementById("nickname").value ;
+                  var gender=$("#gender").val();
+                  var level=$("#level").val();
+                  console.log(email);
+                  console.log(fname);
+                 if (email === "" )
+                 {
+                  document.getElementById("email_register").focus();
+                  document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Email address cannot be empty";
+                  return false;
+                 }
+                
+                if(fname === "")
+                {
+                   document.getElementById("fname").focus();
+                   document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Please enter your first name";
+                   return false;
+               }
+                if( lname === "" )
+               {
+    // document.form.Name.focus() 
+                  document.getElementById("lname").focus();
+                  document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Please enter your Last name";
+                 return false;
+                }
+                if( nname === "" )
+                {
+    // document.form.Name.focus() ;
+                 document.getElementById("nname").focus();
+                 document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Please enter your nick name";
+                 return false;
+                }
+                
+                var email_split = email.split("@");
+                console.log(email_split);
+                if(email_split[1] == "kentuckypoker.vegas")
+                {
+                     var command="register";
+                     var  register =  email +" "+ " "+ fname + " "+lname + " "+nname + " "+ gender+ " "+level;
+                        $.getJSON("/bot_registration", {"register" : register , "command" : command }, function(data){ 
+			//alert(data.result);
+                       // alert("wait");
+                       console.log(data.result);
+                         if(data.result === "success")
+                        document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />"+"A bot is succussfully created." + "<br/>" ;
+                         else
+                         {
+                             if(data.message === "nickname")
+                             {
+                                 document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Nickname already exists. Try adding 1 to nickname.";
+                             }
+                             else
+                             {
+                             document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Bot already registered.";
+                             } 
+                         }
+                    });
+	
+                }
+                else
+                {
+                  document.getElementById("email_register").focus();
+                  console.log(email_split);
+                  console.log(email);
+                  document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Please enter email address in @kentuckypoker.vegas format. ";   
+                  return false;
+                }
+                  
+              }
+              function delete_bot()
+              {
+                  var email_id =   document.getElementById("email_bot").value;
+                   $.getJSON("/Bot_delete", {"username" : email_id,"command" : "delete" }, function(data){ 
+                          
+                          if(data.result === "success")
+                          {
+                            document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/correct.jpg\" width=\"15px\" heigth=\"15px\"  />"+"A bot is succussfully deleted." ;  
+                          }
+                          else
+                          {
+                              document.getElementById("message").innerHTML = "&nbsp" + "<img  src=\"/images/Delete.png\" width=\"15px\" heigth=\"15px\"  />"+"Bot doesn't exist";
+                          }
+                   });
+              }
+ </script>
+</head>
+<body>
+ <div>   
+ <nav class="navbar navbar-default" style="background: #070707"   >
+     <div class="container" >
+      <div class="row"></div>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Racing Poker</a> 
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="bootstrap_/u/home">Home</a></li>
+        <li><a href="#">Get Started</a></li>
+        <li><a href="#">Promotions</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">About us</a></li>
+      </ul>
+       
+        <form class="navbar-form navbar-right" >
+            <div id="user_profile" style="color:white">
+            </div>
+        </form>
+       
+    </div>
+  </div>
+</nav>
+   
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-6" style="color:#B80D0D"> <h1>&nbsp; &nbsp;  <img src="./images/racingpoker-logo5.png" width="250" height="120" /> </h1></div>
+        <div class="col-xs-6" > 
+            <br/>
+            <div class="col-xs-3" style=""> <strong> Online now: </strong></div>
+            <div class="col-xs-7" id="online" style="border-radius: 16;font-size:15; background-color:#666 ; text-align: center;color:#ffffff"> <em> <span>15,968 </span> </em> Players &nbsp; &nbsp; <em> <span> 984 </span> </em> Tournaments</div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <br/>
+    </div>
+       <div class="row">
+    
+        <div class="container">
+            
+        
+            <div class="col-xs-3" style=" border-radius: 16;border: 1px white solid;font-size:16; background-color:grey; text-align:left;color:#000000;padding :15;">  
+                <h4 style="text-align: center;color:white;;">  Admin Options </h4> 
+               &nbsp;&nbsp; <a  id="create_tournament" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-wrench active" > </span> Create tournament</a>  <br/>
+               &nbsp;&nbsp; <a  id="edit_users" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-user" > </span> Edit Users </a>  <br/>
+               &nbsp;&nbsp; <a  id="create_bot" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-user" > </span> Create Bots </a>  <br/>
+               &nbsp;&nbsp; <a  id="edit_bots" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-credit-card" > </span> Edit Bots </a>  <br/>
+               &nbsp;&nbsp; <a  id="send_invitations" class="active" onclick="change_list(this.id)" ><span class="glyphicon glyphicon-stats" > </span> Send Invitations </a>  <br/>
+               &nbsp;&nbsp; <a  href="ipaddress_filter.html" id="ipAddressFilter" class="active" ><span class="glyphicon glyphicon-stats" > </span> Ip Address Filter </a>  <br/>
+            </div>
+        
+           <div class="col-xs-9" style=" border-radius: 16;border: 1px white solid;font-size:14; background-color:grey; text-align: left;color:#000000;padding :15;" >
+               <div class="row">
+                   <div class="col-xs">
+                       
+                   </div>
+                   <div class="col-xs-8" id="heading">
+                       <h4>  </h4>
+                   </div>
+                   <div id="message"></div>
+                   
+               </div>
+              
+               
+            
+               
+               <div class="row" id="create">
+                   <div class="col-xs"></div>
+                   <div class="col-xs-12">
+                      <br/>
+                      <div class="row">
+                          
+                          <div class="col-xs-3">
+                       <label for="tournament_name" style="">Tournament Name </label> </div>
+                          <div class="col-xs-9">
+                        <input id="tournament_name" name="tournament_name" type="text" /> 
+                          </div>
+                        </div>
+                       
+                      <div class="row" >
+                          <div class="col-xs-3">
+                               <label for="number_of_games" style="" >Number of Games</label>
+                          </div>
+                          <div class="col-xs-9">
+                               <input id="number_of_games" name="number_of_games" type="number"  />   </div>
+                      </div>
+                      
+                        <div class="row">
+                          
+                          <div class="col-xs-3">
+                              <label for="starting_credit_amount" style="" >Starting Credit Points </label> 
+                          </div>
+                              
+                           <div class="col-xs-9">
+                                                        
+                             <input id="starting_credit_amount" name="starting_credit_amount" type="number"  /> 
+                           </div>
+                       </div>
+                   
+                      <div class="row">
+                          <div class="col-xs-3">
+                           <label for="number_of_MinPlayers" style="" >No: of Min Players</label> </div>
+                          <div class="col-xs-9">
+                           <input id="number_of_MinPlayers" name="number_of_MinPlayers" type="number"  /> 
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-xs-3">
+                           <label for="type" style="" >Tournament Level</label> </div>
+                          <div class="col-xs-9">
+                          <select name="type" id="type" data-mini="true" data-inline="true">
+                           <option value="Pot_poker">Pot poker Tournaments</option> 
+		           <option value="Multi_Level">Multi Player Tournaments</option>
+                           <option value="One_player_level">One Player game</option>
+                           </select>
+                          </div>
+                      </div>                                      
+                      <div class="row">
+                          <div class="col-xs-3">
+                              <label for="number_of_MaxPlayers" style="" >No: of Max Players</label> </div>
+                          <div class="col-xs-9">
+                              <input id="number_of_MaxPlayers" name="number_of_MaxPlayers" type="number"  />
+                          </div>
+                      </div>
+                      <br/>
+                                                         <small>
+                                                             <button onclick="create()" class="btn-primary btn"> Create </button>
+                                                         </small>
+                      
+                   </div>
+               </div>
+               <div class="row" id="edit_users_details" style="">
+                   <div class="col-xs"></div>
+                   <div class="col-xs-12">
+                       <div class="row">
+                           <br/>
+                       </div>
+                       <div id="show_user" class="row" style="color:white">
+                           <div class="col-xs-1"></div>
+                           <div class="col-xs-11">
+                               <label for="user_id"  > Enter user email address</label>
+                               <input id="user_id" name="user_id" type="text" />
+                               &nbsp;
+                               <button id="user_show_button" class="btn-primary btn"> Show</button>
+                           </div>
+                       </div>
+                       
+                       <div id="user_list" class="row" >
+                           
+                           <div class="cols-xs-12">
+                               <div class="row">
+                                   <br/>
+                               </div>
+                               <div   class="row">
+                                   <div class="col-xs-1"></div>
+                                   <div class="col-xs-10">
+                                                        <table id="users_table" style="" >
+                                                         <thead style="background:#333333;color:white;" >
+                                                         <th style="border: white 1px solid; text-align: center"> S.no: &nbsp;</th>
+                                                         <th style="border: white 1px solid; text-align: center">Email Address &nbsp;</th>
+                                                         <th style="border: white 1px solid; text-align: center">Last Login &nbsp;</th>		
+                                                         <th style="border: white 1px solid; text-align: center">Status &nbsp;</th>
+                                                         <th style="border: white 1px solid; text-align: center">Joined Date &nbsp;</th>
+                                                         </thead>
+                                                         <tbody style="font-size:12px;font-family: sans-serif; border: white 2px solid;">                                        
+                                                         </tbody>
+                                                               
+                                                        </table>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                               <div id="user_desc" class="row" style="display:none">                                  
+                                   <div id="user_upto" class="col-xs-12">
+                                        <div id="message"> </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                              <label for="email_id"  > &nbsp; &nbsp; Email address:</label>  
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="email_id" name="email_id" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="fname"  > &nbsp; &nbsp; First Name:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="fname" name="fname" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="lname"  > &nbsp; &nbsp; Last Name:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                 <input id="lname" name="lname" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="nname"  > &nbsp; &nbsp; Nick Name:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                               <input id="nname" name="nname" type="text"  />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="credits"  > &nbsp; &nbsp; Credits:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="credits" name="credits" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="bitlets"  > &nbsp; &nbsp; Bitlets Won:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="bitlets" name="bitlets" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="player_level"  > &nbsp; &nbsp; Player Level:</label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                               <input id="player_level" name="player_level" type="text"  /> 
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="no_tournaments"  > &nbsp; &nbsp; No: of tournaments </label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="no_tournaments" name="no_of_tournaments" type="text"  />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-3">
+                                                <label for="no_bonuses"  > &nbsp; &nbsp; No: of bonuses </label>
+                                           </div>
+                                           <div class="col-xs-9">
+                                                <input id="no_bonuses" name="no_of_bonuses" type="text" />
+                                           </div>
+                                       </div>
+                                       <br/>
+                                      &nbsp; &nbsp;   <button onclick="save_changes()" class="btn btn-primary"> Save changes </button>
+                                       <button  onclick="go_back()" class="btn btn-danger"> Go back </button>    
+                                   </div>
+                                   
+                               </div>
+                        
+                           </div>
+                       </div>
+                      
+               <div id="bot_create" class="row">
+                   <div class="col-xs-12">
+                       
+                        <div class="row">
+                       <div class="col-xs-4">
+                        <label for="email_register"> &nbsp; &nbsp; Email:</label> </div>
+                       <div class="col-xs-8">
+                           <input  type="email" name="email_register" id="email_register" placeholder="Email" value="">
+                       </div>
+                           <br>
+                       </div>
+                        <div class="row">
+                       <div class="col-xs-4">
+                           <label for="firstname" > &nbsp; &nbsp; First Name:</label> </div>
+                             <div class="col-xs-8">    
+                                 <input  type="text" name="firstname" id="firstname" placeholder="First name" value=""> </div>
+                          
+                           <br>
+                            </div>
+                       
+                             <div class="row">
+                                 <div class="col-xs-4">
+                          
+                                     <label for="lastname" > &nbsp; &nbsp; Last Name:</label> </div>
+                                 <div class="col-xs-8"> 
+                                     <input  type="text" name="lastname" id="lastname" placeholder="Last name" value=""> </div>
+                           <br>
+                             </div>
+                           
+                            <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="nickname" > &nbsp; &nbsp; Nick Name:</label> </div>
+                            <div class="col-xs-8">    
+                                <input  type="text" name="nickname" id="nickname" placeholder="Nick name" value=""> </div>
+                           <br>
+                            </div>
+                       
+                           <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="gender"> &nbsp; &nbsp; Gender:</label> </diV>
+                            <div class="col-xs-8">  
+	                   <select name="gender" id="gender" data-mini="true" data-inline="true">
+		           <option value="Male">Male</option> 
+		           <option value="Female">Female</option>
+                           </select></div>
+                           
+                           <br>     
+                           </div>
+                       
+                             <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="level"> &nbsp; &nbsp; Level:</label> </diV>
+                            <div class="col-xs-8">  
+	                   <select  id="level">
+		           <option value="Level1">Level1</option> 
+		           <option value="Level2">Level2</option>
+                           <option value="Level3">Level3</option>
+                           </select></div>
+                           
+                           <br/>     
+                           <br/>
+                           </div>
+                       
+                          <small>
+                               &nbsp; &nbsp;  <button type="button" id="register" onclick="register()" class="btn btn-success"> Register </button>
+                              
+                           </small>
+                           <br/>
+                           <br/>
+                       
+                   </div>
+                   
+               </div>
+               <div class="row" id="bots_list">
+                   
+                     
+                           <div class="cols-xs-12">
+                               <div class="row">
+                                   <br/>
+                               </div>
+                               <div   class="row">
+                                   <div class="col-xs-1"></div>
+                                   <div class="col-xs-10">
+                                                        <table id="bots_table" style="" >
+                                                         <thead style="background:#333333;color:white;" >
+                                                         <th style="border: white 1px solid; text-align: center"> S.no: &nbsp;</th>
+                                                         <th style="border: white 1px solid; text-align: center">Email Address &nbsp;</th>
+                                                         <th style="border: white 1px solid; text-align: center">Nickname &nbsp;</th>		
+                                                         <th style="border: white 1px solid; text-align: center">Firstname &nbsp;</th>
+                                                          <th style="border: white 1px solid; text-align: center">Level &nbsp;</th>
+                                                           <th style="border: white 1px solid; text-align: center">Player Level &nbsp;</th>
+                                                         </thead>
+                                                         <tbody id="bots_tbody"  style="font-size:12px;font-family: sans-serif; border: white 2px solid;">                                        
+                                                         </tbody>
+                                                               
+                                                        </table>
+                                       <div id="image_load">
+                                           <img src="images/loading_bet.gif" class="img-responsive" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                   
+               </div>
+               <div id="bot_edit" class="row">
+                   <div class="row">
+                       <div class="col-xs-4">
+                        <label for="email_bot"> &nbsp; &nbsp; Email:</label> </div>
+                       <div class="col-xs-8">
+                           <input  type="email" name="email_bot" id="email_bot" placeholder="Email" value="">
+                       </div>
+                           <br>
+                       </div>
+                        <div class="row">
+                       <div class="col-xs-4">
+                           <label for="firstname_bot" > &nbsp; &nbsp; First Name:</label> </div>
+                             <div class="col-xs-8">    
+                                 <input  type="text" name="firstname_bot" id="firstname_bot" placeholder="First name" value=""> </div>
+                          
+                           <br>
+                            </div>
+                       
+                             <div class="row">
+                                 <div class="col-xs-4">
+                          
+                                     <label for="lastname_bot" > &nbsp; &nbsp; Last Name:</label> </div>
+                                 <div class="col-xs-8"> 
+                                     <input  type="text" name="lastname_bot" id="lastname_bot" placeholder="Last name" value=""> </div>
+                           <br>
+                             </div>
+                           
+                            <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="nickname_bot" > &nbsp; &nbsp; Nick Name:</label> </div>
+                            <div class="col-xs-8">    
+                                <input  type="text" name="nickname_bot" id="nickname_bot" placeholder="Nick name" value=""> </div>
+                           <br>
+                            </div>
+                   
+                            <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="credits_bot" > &nbsp; &nbsp; Credits:</label> </div>
+                            <div class="col-xs-8">    
+                                <input  type="text" name="credits_bot" id="credits_bot" placeholder="Nick name" value=""> </div>
+                           <br>
+                            </div>
+                       
+                           <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="gender"> &nbsp; &nbsp; Gender:</label> </diV>
+                            <div class="col-xs-8">  
+	                   <select name="gender" id="gender_bot" data-mini="true" data-inline="true">
+		           <option value="Male">Male</option> 
+		           <option value="Female">Female</option>
+                           </select></div>
+                           
+                           <br>     
+                           </div>
+                       
+                             <div class="row">
+                                 <div class="col-xs-4">
+                                     <label for="level_bot"> &nbsp; &nbsp; Level:</label> </diV>
+                            <div class="col-xs-8">  
+	                   <select name="level_bot" id="level_bot" data-mini="true" data-inline="true">
+		           <option value="Level1">Level1</option> 
+		           <option value="Level2">Level2</option>
+                           <option value="Level3">Level3</option>
+                           </select></div>
+                           
+                           <br/>     
+                           <br/>
+                           </div>
+                        
+                            <div class="row">
+                                           <div class="col-xs-4">
+                                                <label for="player_level_bot"  > &nbsp; &nbsp; Player Level</label>
+                                           </div>
+                                           <div class="col-xs-8">
+                                               <input id="player_level_bot" name="player_level_bot" type="text"  /> 
+                                           </div>
+                                       </div>
+                                         <div class="row">
+                                           <div class="col-xs-4">
+                                                <label for="no_bitlets_bot"  > &nbsp; &nbsp; Bitlets won </label>
+                                           </div>
+                                           <div class="col-xs-8">
+                                                <input id="no_bitlets_bot" name="no_of_bitlets_bot" type="text" />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-4">
+                                                <label for="no_tournaments_bot"  > &nbsp; &nbsp; No: of tournaments </label>
+                                           </div>
+                                           <div class="col-xs-8">
+                                                <input id="no_tournaments_bot" name="no_of_tournaments_bot" type="text"  />
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xs-4">
+                                                <label for="no_bonuses_bot"  > &nbsp; &nbsp; No: of bonuses </label>
+                                           </div>
+                                           <div class="col-xs-8">
+                                                <input id="no_bonuses_bot" name="no_of_bonuses_bot" type="text" />
+                                           </div>
+                                       </div>
+                           <br/>
+                           <br/>
+                          <small>
+                               &nbsp; &nbsp;  <button type="button" id="save_bot" onclick="save_bot()" class="btn btn-primary"> Save changes </button>
+                                               <button type="button" id="save_bot" onclick="delete_bot()" class="btn btn-danger"> Delete bot </button>
+                                               <button type="button" id="goback" onclick="go_back_bot()" class="btn btn-danger"> Go back </button>
+                           </small>
+                           <br/>
+                           <br/>
+                       
+                   
+               </div>
+                   
+           </div>
+               
+           </div>
+          
+       </div>   
+           
+    
+    
+  
+    <div class="row">
+        <br/>
+        
+    </div>
+    <div class="row">
+        <div class="container">
+        <div style="background:grey !important;" class="jumbotron">
+       
+            <div class="container">
+                <div class="col-md-4" >
+                    <h3>Online Poker Game </h3>
+                    <p style="font-size:14;text-align: justify;"> Racing Poker® is a game based on most of the rules of poker and played using a 52 card deck.This game is only for amusement purposes and not for real money<br/>
+                    <button type="button" class="btn btn-default" >Read more...</button>
+                    </p>
+                </div>
+                
+                <div class="col-md-4">
+                    <h3>Tournaments </h3>
+                    <p style="font-size:14px;text-align: justify">  Racing Poker® Tournament runs for the pre defined number of games in a tournament. Wide range of tournaments , varying from High level to Entry level tournaments.<br/>
+                        <button type="button" class="btn btn-default" >Read more...</button> </p>
+                </div>
+                <div class="col-md-4">
+                    <h3> Bonuses </h3>
+                     <p style="font-size:14px;text-align: justify">  The winners receive acolades, level increases, Pokerace® Tournament Credits and or Pokerace Bitlet Coins. You can have chance for winning 21 Pokerace  Bitlet Coins.<br/>
+                        <button type="button" class="btn btn-default" >Read more...</button> </p>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> 
+ </div> 
+</body>
+ </html>
